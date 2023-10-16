@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Log In | Sign Up</title>
+    <link href="images/favicon.png" type="image/png" rel="icon">
+    <link href="css/login.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet">
+</head>
+    <body>
+        <canvas></canvas>
+        <div id="Tab Button" class="tab">
+            <button class="tab-button" onclick="displayLogin()" id="tab">Existing Users</button>
+            <script>
+                document.getElementById("tab").click();
+            </script>
+            <button class="tab-button" onclick="displaySignup()">New Users</button>
+        </div>
+        <div id="Log In" class="tab-login">
+            <div class="wrapper">
+                <h1>Welcome back.</h1>
+                <div class="input">
+                    <input id="loginEmail" type="email" placeholder="Email" name="email" required>
+                </div>
+                <div class="input">
+                    <input id="loginPassword" type="password" placeholder="Password" name="pw" required>
+                </div>
+                <button type="submit" class="submit-button" onclick="validateLogin()">Log In</button>
+                <div class="message"><br></div>
+                <div id="Login Message" class="message"></div>
+            </div>
+        </div>
+        <div id="Sign Up" class="tab-signup">
+            <form id="registrationForm">
+                <div class="wrapper">
+                    <h1>Create an account.</h1>
+                    <div class="input">
+                        <input id="signupEmail" type="email" placeholder="Email" name="email" required>
+                    </div>
+                    <div class="input">
+                        <input id="signupPassword" type="password" placeholder="Password" name="pw1" required>
+                    </div>
+                    <div class="input">
+                        <input id="signupPasswordConfirm" type="password" placeholder="Confirm Password" name="pw2" required>
+                    </div>
+                    <button type="submit" class="submit-button" onclick="validateSignup()">Sign Up</button>
+                    <div class="mt">
+                        <p class="error" id="message"></p>
+                    </div>
+                    
+                    <div class="message"><br></div>
+                    <div id="Email Message" class="message"></div>
+                    <div id="Password Message" class="message"></div>
+                </div>
+            </form>
+        </div>
+        <script src="js/login.js"></script>
+    </body>
+</html>
