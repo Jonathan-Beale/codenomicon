@@ -26,6 +26,10 @@ function displaySignup() {
     }
 }
 
+// "#007245", "#0065bd", "#5ea700", "#ff0000", "#009b94", "#540075", "#a10049"
+color_schemes = ["#09b800"]
+
+
 var canvas = document.querySelector('canvas'),
     ctx = canvas.getContext('2d');
 
@@ -53,7 +57,8 @@ function draw() {
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   for (var i = 0; i < drops.length; i++) {
     var text = letters[Math.floor(Math.random() * letters.length)];
-    ctx.fillStyle = 'rgb(0, 155, 101)';
+    var color = color_schemes[Math.floor(Math.random() * color_schemes.length)]
+    ctx.fillStyle = color;
     ctx.fillText(text, i * fontSize, drops[i] * fontSize);
     drops[i]++;
     if (drops[i] * fontSize > canvas.height && Math.random() > .95) {
