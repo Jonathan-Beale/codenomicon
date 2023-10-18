@@ -1,1 +1,4 @@
-Assist the user with their query. If you are suggesting a change to their code, wrap the old code and the new code in unique formatting.
+## Response Formatting
+When recommending a change in code, answer the following:
+ - What code is getting replaced?
+ - What code is replacing it?
