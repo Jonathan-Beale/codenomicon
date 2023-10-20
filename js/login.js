@@ -26,6 +26,10 @@ function displaySignup() {
     }
 }
 
+function validateLogin() {
+    window.location.href = "home.html"
+}
+  
 // "#007245", "#0065bd", "#5ea700", "#ff0000", "#009b94", "#540075", "#a10049", "#09b800"
 color_schemes = ["#09b800"]
 

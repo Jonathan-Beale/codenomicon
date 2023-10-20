@@ -1,0 +1,57 @@
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Courier New", sans-serif;
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+}
+
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+.error-title {
+    width: 100%;
+    background: linear-gradient(black, #ff1111 10% 90%, black);
+    border-bottom: solid 2px #000000;
+    float: left;
+}
+
+.error-message {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px 10px 10px 10px;
+}
+
+.message-box {
+    background: rgba(255, 255, 255, 0.60);
+    width: calc(100%-20px);
+    border: solid 1px #ff1111;
+}
+
+.msg {
+    border: solid 2px black;
+    padding: 10px 10px 10px 10px;
+}
+
+.error-box {
+    width: 450px;
+    border: solid 5px black;
+    display: flex;
+    flex-direction: column;
+}
