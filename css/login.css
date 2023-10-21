@@ -49,7 +49,7 @@ canvas {
     font-size: 20px;
     color: white;
     background: rgba(0, 0, 0, 0);
-    backdrop-filter: blur(4px);
+    backdrop-filter: blur(2px);
     border: solid 1px #7fffe5;
     box-shadow: 0px 0px 16px #00ffcc79;
     padding: 15px 30px;
@@ -59,12 +59,14 @@ canvas {
 }
 
 .tab-button:hover{
-    background: var(--highlight-color-1);
-    color: black;
+    color: var(--highlight-color-1);
+    border: solid 1px var(--highlight-color-1);
+    box-shadow: 0px 0px 16px var(--highlight-color-1);
 }
 
 .tab-button:active{
-    background-color: #00ffcc;
+    background-color: var(--highlight-color-1);
+    color: black;
 }
 
 .tab-login{
@@ -80,7 +82,7 @@ canvas {
 .wrapper{
     width: 450px;
     background: rgba(0, 0, 0, 0);
-    backdrop-filter: blur(4px);
+    backdrop-filter: blur(2px);
     border: solid 1px #7fffe5;
     box-shadow: 0px 0px 16px #00ffcc7c;
     color: #000000;
@@ -147,14 +149,15 @@ input{
 
 .submit-button:hover{
     transition: 0.3s;
-    background: rgba(0, 0, 0, 0);
+    color: var(--highlight-color-1);
+    border: solid 1px var(--highlight-color-1);
+    box-shadow: 0px 0px 16px var(--highlight-color-1);
     backdrop-filter: blur(4px);
-    box-shadow: 0px 0px 16px #00ffcc79;
 }
 
 .submit-button:active{
     transition: 0.3s;
-    background-color: #00ffcc;
+    background-color: var(--highlight-color-1);
     color: #000000
 }
 
