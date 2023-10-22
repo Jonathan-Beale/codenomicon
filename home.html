@@ -1,71 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
-    <script src="https://unpkg.com/@isomorphic-git/lightning-fs"></script>
-    <script src="https://unpkg.com/isomorphic-git@beta"></script>
-    <script type="module">
-        import http from 'https://unpkg.com/isomorphic-git@beta/http/web/index.js'
-        // Initialize isomorphic-git with a file system
-        window.fs = new LightningFS('fs')
-        // I prefer using the Promisified version honestly
-        window.pfs = window.fs.promises
-        window.dir = '/tutorial'
-        console.log(dir);
-        // // await pfs.mkdir(dir);
-        // // Behold - it is empty!
-        await pfs.readdir(dir);
-
-        console.log("working...")
-        // await git.clone({
-        //     fs: window.fs,
-        //     http: http,
-        //     dir: window.dir,
-        //     corsProxy: 'https://cors.isomorphic-git.org',
-        //     url: 'https://github.com/isomorphic-git/isomorphic-git',
-        //     ref: 'main',
-        //     singleBranch: true,
-        //     depth: 1,
-        // });
-        console.log("cloned.")
-        
-        let dir_contents = await pfs.readdir(dir) // the contents of the dir
-        console.log(dir_contents)
-
-        let git_log = await git.log({fs, dir}) // retrieves the commit  history
-        console.log(git_log)
-
-        // console.log("Status:")
-        // // Check status of a file
-        // await git.status({fs: window.fs, dir: window.dir, filepath: 'README.md'})
-
-        // console.log("Modify:")
-        // // Modify a file
-        // await window.pfs.writeFile(`${dir}/README.md`, 'Very short README', 'utf8')
-
-        // console.log("Que Changes:")
-        // // Add changes to git
-        // await git.add({fs: window.fs, dir: window.dir, filepath: 'README.md'})
-
-        
-        // console.log("Commit Changes:")
-        // // Commit changes
-        // let sha = await git.commit({
-        // fs: window.fs,
-        // dir: window.dir,
-        // message: 'Delete package.json and overwrite README.',
-        // author: {
-        //     name: 'Mr. Test',
-        //     email: 'mrtest@example.com'
-        // }
-        // })
-        // console.log("Done.")
-
-        // let commits = await git.log({fs: window.fs, dir: window.dir, depth: 1})
-        // console.log(commits[0])
-    </script>
-    <body>
-        <button>Create Repo</button>
-        <button>Delete Repo</button>
-        <button>Stage Changes</button>
-        <button>Commit Changes</button>
-    </body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Monaco Editor Example</title>
+  <script>
+    self.MonacoEnvironment = {
+      getWorkerUrl: function (moduleId, label) {
+        return `data:text/javascript;charset=utf-8,${encodeURIComponent(`
+          importScripts('https://unpkg.com/monaco-editor@0.23.0/min/vs/base/worker/workerMain.js');
+        `)}`;
+      }
+    };
+  </script>
+  
+  <script src="node_modules/monaco-editor/min/vs/loader.js"></script>
+  <script>
+    require.config({ paths: { 'vs': 'node_modules/monaco-editor/min/vs' }});
+    require(['vs/editor/editor.main'], function() {
+      var editor = monaco.editor.create(document.getElementById('editor-container'), {
+        value: [
+          'function x() {',
+          '\tconsole.log("Hello world!");',
+          '}'
+        ].join('\n'),
+        language: 'javascript'
+      });
+    });
+  </script>
+</head>
+<body>
+  <div id="editor-container" style="width:800px; height:600px;border:1px solid #ccc"></div>
+</body>
 </html>
