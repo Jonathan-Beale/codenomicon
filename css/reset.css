@@ -1,0 +1,104 @@
+:root {
+    --background-color-1: #044b4a;
+    --highlight-color-1: #09b800;
+    --background-color-2: #0065bd;
+    --highlight-color-2: #00f7ff;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Courier New", sans-serif;
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+}
+
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+.title {
+    width: 100%;
+    background: linear-gradient(black, #11ff00 10% 90%, black);
+    border-bottom: solid 2px #000000;
+    float: left;
+}
+
+.message {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px 10px 10px 10px;
+}
+
+.message-box {
+    background: rgba(255, 255, 255, 0.60);
+    width: calc(100%-20px);
+    border: solid 1px #11ff00;
+    padding: 10px;
+}
+
+.box {
+    width: 450px;
+    border: solid 5px black;
+    display: flex;
+    flex-direction: column;
+}
+
+.input{
+    width: 100%;
+    height: 50px;
+    background: white;
+    margin: 30px 0;
+}
+
+input{
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: 2px solid #000000;
+    color: black;
+    font-size: 20px;
+    padding: 10px 10px 10px 10px;
+    font-weight: bold;
+}
+
+.submit-button{
+    width: 100%;
+    height: 45px;
+    background: #000000;
+    border: solid 1px #7fffe5;
+    outline: none;
+    cursor: pointer;
+    font-size: 20px;
+    color: #ffffff;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.submit-button:hover{
+    transition: 0.3s;
+    color: var(--highlight-color-1);
+    border: solid 1px var(--highlight-color-1);
+    box-shadow: 0px 0px 16px var(--highlight-color-1);
+    backdrop-filter: blur(4px);
+}
+
+.submit-button:active{
+    transition: 0.3s;
+    background-color: var(--highlight-color-1);
+    color: #000000
+}
