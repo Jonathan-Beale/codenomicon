@@ -166,6 +166,18 @@ input{
     color: #007f5b;
 }
 
+a:link{
+    color:#0dff00;
+}
+
+a:visited{
+    color:#08a100;
+}
+
+a:hover{
+    color:#ffffff;
+}
+
 @media screen and (max-width: 500px){
     body{
         gap: 1px;
