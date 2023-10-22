@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Reset Password</title>
+    <link href="css/reset.css" rel="stylesheet">
+</head>
+<body>
+    <canvas></canvas>
+    <script src="js/login.js"></script>
+    <div class="box">
+        <div class="title">
+            <div class="message">Password Reset</div>
+        </div>
+        <div class="message-box">
+            <div class="input">
+                <input id="password" type="password" placeholder="New Password" name="pw1" required>
+            </div>
+            <div class="input">
+                <input id="passwordConfirm" type="password" placeholder="Confirm Password" name="pw2" required>
+            </div>
+            <button type="submit" class="submit-button" onclick="passwordReset()">Reset</button>
+            <div class="message"><br></div>
+            <div id="Password Message" class="message"></div>
+    </div>
+</body>
+</html>
