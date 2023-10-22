@@ -163,7 +163,7 @@ input{
 
 .message{
     font-size: 15px;
-    color: #007f5b;
+    color: #00a979;
 }
 
 a:link{
@@ -181,12 +181,6 @@ a:hover{
 @media screen and (max-width: 500px){
     body{
         gap: 1px;
-    }
-
-    .diagonal{
-        width: 270px;
-        padding: 10px 20px;
-        border-radius: 10px;
     }
     
     .title{
