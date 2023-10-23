@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@isomorphic-git/cors-proxy": "^2.7.1",
     "monaco-editor": "^0.44.0"
   }
 }
