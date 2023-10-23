@@ -1,39 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Git Operations with Isomorphic-Git</title>
+    <script src="https://unpkg.com/@isomorphic-git/lightning-fs"></script>
+    <script src="https://unpkg.com/isomorphic-git@beta"></script>
     <script type="module">
-        import * as git from 'https://unpkg.com/isomorphic-git@beta';
-        import http from 'https://unpkg.com/isomorphic-git@beta/http/web/index.js';
-        import { LightningFS } from 'https://unpkg.com/lightning-fs@latest';
+        import http from 'https://unpkg.com/isomorphic-git@beta/http/web/index.js'
+        // Initialize isomorphic-git with a file system
+        window.fs = new LightningFS('fs')
+        // I prefer using the Promisified version honestly
+        window.pfs = window.fs.promises
+        window.dir = '/tutorial'
+        console.log(dir);
+        // await pfs.mkdir(dir);
+        // // Behold - it is empty!
+        await pfs.readdir(dir);
 
-        // ... rest of your JavaScript code ...
-
-    </script>
-</head>
-<body>
-    <script type="module">
-        (async () => {
-            // Initialize isomorphic-git with a file system
-            window.fs = new LightningFS('fs');
-            // I prefer using the Promisified version honestly
-            window.pfs = window.fs.promises;
-            window.dir = '/tutorial';
-            console.log(dir);
-            // await pfs.mkdir(dir);
-            // Behold - it is empty!
-            await pfs.readdir(dir);
-
-            // ... rest of your JavaScript code ...
-
-        })();
-                
         console.log("working...")
         await git.clone({
             fs: window.fs,
-            http: new git.HttpClient(),
+            http: http,
             dir: window.dir,
             corsProxy: 'https://cors.isomorphic-git.org',
             url: 'https://github.com/isomorphic-git/isomorphic-git',
@@ -42,15 +26,16 @@
             depth: 1,
         });
         console.log("cloned.")
-        await pfs.readdir(dir)
-        await git.log({fs, dir})
-        console.log("done.")
+        
+        let dir_contents = await pfs.readdir(dir) // the contents of the dir
+        console.log(dir_contents)
+
+        let git_log = await git.log({fs, dir}) // retrieves the commit  history
+        console.log(git_log)
 
         console.log("Status:")
         // Check status of a file
         await git.status({fs: window.fs, dir: window.dir, filepath: 'README.md'})
-
-
 
         console.log("Modify:")
         // Modify a file
@@ -60,7 +45,7 @@
         // Add changes to git
         await git.add({fs: window.fs, dir: window.dir, filepath: 'README.md'})
 
-
+        
         console.log("Commit Changes:")
         // Commit changes
         let sha = await git.commit({
@@ -77,5 +62,6 @@
         let commits = await git.log({fs: window.fs, dir: window.dir, depth: 1})
         console.log(commits[0])
     </script>
-</body>
+    <body>
+    </body>
 </html>
