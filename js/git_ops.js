@@ -1,4 +1,6 @@
-import http from 'https://unpkg.com/isomorphic-git@beta/http/web/index.js'
+import git from 'isomorphic-git';
+
+import 'https://unpkg.com/isomorphic-git@beta/http/web/index.js';
 // Initialize isomorphic-git with a file system
 window.fs = new LightningFS('fs')
 // I prefer using the Promisified version honestly
