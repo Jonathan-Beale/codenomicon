@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
     <script src="https://unpkg.com/@isomorphic-git/lightning-fs"></script>
     <script src="https://unpkg.com/isomorphic-git@beta"></script>
     <script>
@@ -11,159 +12,14 @@
             }
         };
     </script>
-
     <script src="node_modules/monaco-editor/min/vs/loader.js"></script>
-    <script type="module">
-        import http from 'https://unpkg.com/isomorphic-git@beta/http/web/index.js';
-        let editor;
-        (async () => {
-            // Initialize isomorphic-git with a file system
-            window.fs = new LightningFS('fs');
-            // I prefer using the Promisified version honestly
-            window.pfs = window.fs.promises;
-            window.dir = '/tutorial';
-
-            console.log("working...");
-
-            await git.clone({
-                fs: window.fs,
-                http: http,
-                dir: window.dir,
-                corsProxy: 'https://cors.isomorphic-git.org',
-                url: 'https://github.com/isomorphic-git/isomorphic-git',
-                ref: 'main',
-                singleBranch: true,
-                depth: 1,
-            });
-            console.log("cloned.");
-
-            let dir_contents = await pfs.readdir(dir); // the contents of the dir
-            console.log(dir_contents);
-
-            let git_log = await git.log({ fs, dir }); // retrieves the commit history
-            console.log(git_log);
-
-            console.log("Status:");
-            // Check status of a file
-            await git.status({ fs: window.fs, dir: window.dir, filepath: 'README.md' });
-
-            console.log("Modify:");
-            // Modify a file
-            await window.pfs.writeFile(`${dir}/README.md`, 'Very short README', 'utf8');
-
-            console.log("Que Changes:");
-            // Add changes to git
-            await git.add({ fs: window.fs, dir: window.dir, filepath: 'README.md' });
-
-            console.log("Commit Changes:");
-            // Commit changes
-            let sha = await git.commit({
-                fs: window.fs,
-                dir: window.dir,
-                message: 'Delete package.json and overwrite README.',
-                author: {
-                    name: 'Mr. Test',
-                    email: 'mrtest@example.com'
-                }
-            });
-            console.log("Done.");
-
-            let commits = await git.log({ fs: window.fs, dir: window.dir, depth: 1 });
-            console.log(commits[0]);
-
-            // Now, read the README file
-            async function readReadmeFile() {
-                try {
-                    const readmeContent = await pfs.readFile(`${window.dir}/README.md`, 'utf8');
-                    return readmeContent;
-                } catch (error) {
-                    console.error('Error reading README.md:', error);
-                    return ''; // Return an empty string in case of an error
-                }
-            }
-
-            const readmeContent = await readReadmeFile();
-
-            require.config({ paths: { 'vs': 'https://unpkg.com/monaco-editor@0.23.0/min/vs' } });
-            require(['vs/editor/editor.main'], function () {
-                // Your existing code
-                editor = monaco.editor.create(document.getElementById('editor-container-content'), {
-                    value: readmeContent,
-                    language: 'markdown'
-                });
-            });
-
-        })();
-
-        window.saveFile = function() {
-            // Get the Monaco Editor instance
-            const editor = monaco.editor.getModels()[0];
-
-            // Get the content of the editor
-            const content = editor.getValue();
-
-            // Ensure there is content to save
-            if (!content) {
-                console.error('No content to save.');
-                return;
-            }
-
-            // Path to the file you want to save
-            const filePath = `${window.dir}/README.md`;
-
-            // Write the content to the file using fs.promises.writeFile
-            window.pfs.writeFile(filePath, content, 'utf8')
-                .then(() => {
-                    console.log('File saved successfully.');
-                })
-                .catch((error) => {
-                    console.error('Error saving file:', error);
-                });
-        }
-
-        window.commit = async function() {
-            console.log("Commit Changes:");
-            // Commit changes
-            let sha = await git.commit({
-                fs: window.fs,
-                dir: window.dir,
-                message: 'Delete package.json and overwrite README.',
-                author: {
-                    name: 'Mr. Test',
-                    email: 'mrtest@example.com'
-                }
-            });
-            console.log("Done.");
-
-            let commits = await git.log({ fs: window.fs, dir: window.dir, depth: 1 });
-            console.log(commits[0]);
-        }
-
-        window.refresh = async function() {
-            async function readReadmeFile() {
-                try {
-                    const readmeContent = await pfs.readFile(`${window.dir}/README.md`, 'utf8');
-                    return readmeContent;
-                } catch (error) {
-                    console.error('Error reading README.md:', error);
-                    return ''; // Return an empty string in case of an error
-                }
-            }
-
-            const readmeContent = await readReadmeFile();
-
-            if (editor) {
-                editor.setValue(readmeContent);  // Set the README content
-            } else {
-                console.error('No editor instance found.');
-            }
-        }
-
-    </script>
-    <script>
-    </script>
-<body class="body">
-    <div class="directory-container"></div>
+    <script type="module" src="js/git_ops.js"></script>
+</head>
+<body>
+    <div class="directory-container">
+        <p>Directory Structure</p>
+        <div class="directory-list"></div>
+    </div>
     <div class="editor-container">
         <div id="editor-container-content"></div>
         <div class="button-container">
@@ -178,107 +34,134 @@
     </div>
 </body>
 <style>
-    /* Overall page styling */
-    .body {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: stretch;
-        padding: 20px;
-        background-color: #2c3e50; /* Dark blue background */
-        color: #ecf0f1; /* Light gray text */
-        font-family: Arial, sans-serif;
-        height: 90vh; /* Full height of the viewport */
-    }
+body {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: stretch;
+    padding: 20px;
+    background-color: #2c3e50;
+    color: #ecf0f1;
+    font-family: Arial, sans-serif;
+    height: 90vh;
+}
 
-    .directory-container {
-        background-color: #044b4a; /* Blue container */
-        border: 1px solid #00f7ff; /* Slightly darker blue border */
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        width: 10vw;
-    }
+.directory-container {
+    background-color: #044b4a;
+    border: 1px solid #00f7ff;
+    padding: 4px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 10vw;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+}
 
-    /* Editor container styling */
-    .editor-container {
-        background-color: #044b4a; /* Blue container */
-        border: 1px solid #00f7ff; /* Slightly darker blue border */
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        width: 40vw;
-    }
+.editor-container {
+    background-color: #044b4a;
+    border: 1px solid #00f7ff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 40vw;
+}
 
-    #editor-container-content {
-        width: 100%;
-        height: 100%;
-    }
+#editor-container-content {
+    width: 100%;
+    height: 100%;
+}
 
-    /* Button container styling */
-    .button-container {
-        margin-top: 10px;
-    }
+.button-container {
+    margin-top: 10px;
+}
 
-    .button {
-        padding: 10px 20px;
-        border: 2px solid black;
-        border-radius: 4px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-    }
+.button {
+    padding: 10px 20px;
+    border: 2px solid black;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
 
-    .primary {
-        background-color: #0065bd; /* Red buttons */
-        color: #fff;
-    }
+.primary {
+    background-color: #0065bd;
+    color: #fff;
+}
 
-    .secondary {
-        background-color: #f39c12; /* Orange button */
-        color: #fff;
-    }
+.secondary {
+    background-color: #f39c12;
+    color: #fff;
+}
 
-    .button:hover {
-        border: 2px solid white;
-    }
+.button:hover {
+    border: 2px solid white;
+}
 
-    /* Chat container styling */
-    .chat-container {
-        padding: 0%;
-    }
+.chat-container {
+    padding: 0%;
+}
 
-    .history {
-        background-color: #0065bd; /* Red container */
-        border: 1px solid #09b800; /* Slightly darker red border */
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        width: 40vw;
-        height: 90%;
-        font-size: 18px;
-        font-weight: bold;
-        margin-bottom: 10px;
-        color: #fff; /* White text */
-    }
+.history {
+    background-color: #0065bd;
+    border: 1px solid #09b800;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 40vw;
+    height: 90%;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #fff;
+}
 
-    /* User input styling */
-    .user-input {
-        position: absolute;
-        padding: 15px;
-        border: none;
-        border-radius: 4px;
-        font-size: 16px;
-        margin-top: 10px;
-        background-color: #d1edff; /* Blue input box */
-        color: #000000;
-        width: 40vw;
-    }
+.user-input {
+    position: absolute;
+    padding: 15px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    margin-top: 10px;
+    background-color: #d1edff;
+    color: #000000;
+    width: 40vw;
+}
 
-    .user-input::placeholder {
-        color: #000000; /* Light gray placeholder text */
-    }
+.user-input::placeholder {
+    color: #000000;
+}
+
+.directory-name {
+    cursor: pointer;
+    list-style-type: none;
+    padding-left: 5px;
+}
+
+.directory-contents {
+    overflow: auto;
+}
+
+.directory-name:before {
+    content: '▸';
+    display: inline-block;
+    margin-right: 5px;
+    border: 1px solid black;
+    padding: 1px;
+}
+
+.directory-contents.collapsed {
+    display: none;
+}
+
+.directory-contents.expanded {
+    display: block;
+}
+
+.file {
+    border: 1px solid black;
+    padding: 1px;
+}
+
 </style>
-
-
-
 </html>
