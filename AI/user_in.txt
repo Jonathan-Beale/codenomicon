@@ -1,14 +1,1 @@
-
-
-When we run the code, we get the following error. How do we fix it? What do we replace?
-I believe the issue is that in the base case, the current node doesnt have a parent node.
-```
-Traceback (most recent call last):
-  File "C:\Users\Jonathan\codenomicon\ai\example.py", line 80, in <module>
-    path = astar_pathfinding(grid, start, target)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Jonathan\codenomicon\ai\example.py", line 38, in astar_pathfinding
-    current_node = current_node.parent
-                   ^^^^^^^^^^^^^^^^^^^
-AttributeError: 'Node' object has no attribute 'parent'
-```
+My function doesnt seem to be squaring the number correctly. How do I fix this?

@@ -63,12 +63,14 @@ code_path = "C:/Users/Jonathan/codenomicon/AI/example.py"
 user_path = "C:/Users/Jonathan/codenomicon/AI/user_in.txt"
 prompt_path = "C:/Users/Jonathan/codenomicon/AI/prompt.txt"
 
+
 while input("USER> ") == "run":
     solution = get_response(file_content=("```\n" + get_content(code_path) + "\n```"),
                  chat_history=[],
                  user_input=get_content(user_path),
                  system_prompt=get_content(prompt_path))
     print(solution)
+    print("Seen:: " + get_content(code_path))
     # print(replaced(solution))
 
 # print(get_content(code_path), get_content("C:\\Users\\Jonathan\\codenomicon\\AI\\user_in.txt"), get_content(prompt_path))
