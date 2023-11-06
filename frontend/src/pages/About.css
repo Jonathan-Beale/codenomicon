@@ -1,0 +1,107 @@
+:root {
+    --background-color-1: #044b4a;
+    --highlight-color-1: #09b800;
+    --background-color-2: #0065bd;
+    --highlight-color-2: #00f7ff;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Courier New", sans-serif;
+    cursor: url(../cursor.png), auto;
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    color: white;
+}
+
+.container{
+    animation: fadeIn 1s linear;
+    text-align: center;
+    width: 100%;
+    margin-top: 100px;
+}
+
+.container h1{
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: -10px;
+    padding: 50px;
+    font-size: calc(40px + 1vw);
+}
+
+.container p{
+    text-align: center;
+    width: 900px;
+    background: rgba(0, 0, 0, 0);
+    backdrop-filter: blur(2px);
+    border: solid 1px #7fffe5;
+    box-shadow: 0px 0px 16px #00ffcc7c;
+    color: #000000;
+    padding: 50px 50px;
+    font-size: 20px;
+    color:white;
+    margin: auto;
+}
+
+.credit{
+    font-size: 25px;
+    font-weight: 600;
+    margin: 40px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse{
+    0% {text-shadow: none}
+    25% {text-shadow: 3px -3px 5px #21ff11;
+        text-shadow: 3px 3px 10px #11ff90;}
+    50% {text-shadow: none}
+    75% {text-shadow: 3px 3px 5px #21ff11;
+        text-shadow: -3px 3px 10px #0ed200;}
+    100% {text-shadow: none}
+}
+
+.contributors{
+    display: flex;
+    width: 100%;
+    align-content: center;
+    text-align: center;
+}
+
+.contributors-image{
+    animation: fadeIn 1.8s linear;
+    width: 250px;
+    margin-left: 120px;
+    margin-right: 120px;
+    margin-bottom: 50px;
+    border: solid 1px #7fffe5;
+    border-radius: 50%;
+    box-shadow: rgba(0, 255, 149, 0.369) 0 10px 70px 5px;
+}
+
+.contributors-text{
+    animation: fadeIn 2.3s linear;
+    width: 250px;
+    margin-left: 120px;
+    margin-right: 120px;
+    margin-bottom: 40px;
+    background: rgba(0, 0, 0, 0);
+    backdrop-filter: blur(2px);
+    border: solid 1px #7fffe5;
+    box-shadow: 0px 0px 16px #00ffcc7c;
+    color: #ffffff;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}

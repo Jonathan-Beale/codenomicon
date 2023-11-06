@@ -1,0 +1,235 @@
+:root {
+    --background-color-1: #044b4a;
+    --highlight-color-1: #09b800;
+    --background-color-2: #0065bd;
+    --highlight-color-2: #00f7ff;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Courier New", sans-serif;
+    cursor: url(../cursor.png), auto;
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+}
+
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+.tab{
+    animation: fadeIn 1s linear;
+    background: transparent;
+    padding: 2vh;
+}
+
+@keyframes fadeIn {
+    0% {opacity: 0;
+        transform: translate(0, 20px);}
+    100% {opacity: 1;
+          transform: translate(0, 0px);}
+}
+
+.tab-button{
+    font-size: 18px;
+    color: white;
+    background: rgba(0, 0, 0, 0);
+    backdrop-filter: blur(2px);
+    border: solid 1px #7fffe5;
+    box-shadow: 0px 0px 16px #00ffcc79;
+    padding: 15px 30px;
+    cursor: url(../pointer.png), pointer;
+    font-weight: 600;
+    transition: 0.3s;
+    width: 219px;
+}
+
+.tab-button:hover{
+    color: var(--highlight-color-1);
+    border: solid 1px var(--highlight-color-1);
+    box-shadow: 0px 0px 16px var(--highlight-color-1);
+}
+
+.tab-button:active{
+    background-color: var(--highlight-color-1);
+    color: black;
+}
+
+.tab-visible{
+    display: flex;
+    padding: 6px 12px;
+}
+
+.tab-hidden{
+    display: none;
+    padding: 6px 12px;
+}
+
+.wrapper{
+    animation: fadeIn 1s linear;
+    width: 450px;
+    background: rgba(0, 0, 0, 0);
+    backdrop-filter: blur(2px);
+    border: solid 1px #7fffe5;
+    box-shadow: 0px 0px 16px #00ffcc7c;
+    color: #000000;
+    padding: 50px 50px;
+    float: left;
+}
+
+.error-bar {
+    width: 450px;
+    background: linear-gradient(black, #ff1111 10% 90%, black);;
+    border: solid 5px #000000;
+    float: left;
+}
+
+.wrapper h1{
+    font-size: 30px;
+    text-align: center;
+    color: white;
+}
+
+.input{
+    width: 100%;
+    height: 50px;
+    background: white;
+    margin: 30px 0;
+}
+
+input{
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: 2px solid #000000;
+    color: black;
+    font-size: 20px;
+    padding: 10px 10px 10px 10px;
+    font-weight: bold;
+}
+
+::placeholder {
+    color: black;
+    font-weight: bold;
+    opacity: 0.7;
+}
+
+.submit-button{
+    width: 100%;
+    height: 45px;
+    background: #000000;
+    border: solid 1px #7fffe5;
+    outline: none;
+    cursor: url(../pointer.png), pointer;
+    font-size: 20px;
+    color: #ffffff;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.submit-button:hover{
+    transition: 0.3s;
+    color: var(--highlight-color-1);
+    border: solid 1px var(--highlight-color-1);
+    box-shadow: 0px 0px 16px var(--highlight-color-1);
+    backdrop-filter: blur(4px);
+}
+
+.submit-button:active{
+    transition: 0.3s;
+    background-color: var(--highlight-color-1);
+    color: #000000
+}
+
+.message{
+    font-size: 15px;
+    color: #00a979;
+}
+
+.message-hidden{
+    display: none;
+}
+
+a{
+    cursor: url(../pointer.png), pointer;
+}
+
+a:link{
+    color:#0dff00;
+}
+
+a:visited{
+    color:#08a100;
+}
+
+a:hover{
+    color:#ffffff;
+}
+
+@media screen and (max-width: 500px){
+    body{
+        gap: 1px;
+    }
+    
+    .title{
+        font-size: 10px;
+        padding: 10px 20px;
+        border:solid 3px #000000;
+    }
+
+    .tab-button{
+        font-size: 12px;
+        padding: 8px 17px;
+        width: 145px;
+    }
+    
+    .wrapper{
+        width: 300px;
+        border: solid 3px #000000;
+        padding: 26px 26px;
+    }
+    
+    .wrapper h1{
+        font-size: 17px;
+    }
+    
+    .input{
+        width: 100%;
+        height: 30px;
+        margin: 15px 0;
+    }
+    
+    input{
+        border: 1.5px solid #000000;
+        padding: 10px 22.5px 10px 10px;
+        font-size:9px;
+    }
+
+    input::placeholder{
+        font-size:9px;
+    }
+    
+    .submit-button{
+        width: 100%;
+        height: 30px;
+        font-size: 11px;
+    }
+   
+    .message{
+        font-size: 10px;
+    }
+}
