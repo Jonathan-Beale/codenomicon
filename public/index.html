@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Git Clone Test</title>
+</head>
+<body>
+  <div id="file-explorer"></div>
+  <div class="middle" id="middle">
+    <input type="text" id="repoUrlInput" placeholder="Enter the repository URL" />
+    <button id="cloneBtn">Clone Repository</button>
+    <button id="deleteBtn" style="border: 2px solid red">Delete Repository</button>
+    <div id="monaco-editor" style="width: 60vw; height: 600px;"></div>
+  </div>
+  <div id="bot-chat" class="bot-chat">
+    <h1 class="chat-header">Bot Chat History</h1>
+    <div id="chat-history" class="chat-history">Chat history here</div>
+    <div id="input-wrapper" class="input-wrapper">
+      <input id="user-querry" class="user-querry">
+    </div>
+  </div>
+
+  <!-- Include RequireJS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
+
+  <script>
+    require.config({ paths: { 'vs': '/monaco-editor/vs' }});
+
+    require(['vs/editor/editor.main'], function() {
+        monaco.editor.create(document.getElementById('monaco-editor'), {
+            value: 'function x() {\nconsole.log("Hello world!");\n}',
+            language: 'javascript'
+        });
+    });
+  </script>    
+  <script src="script.js"></script>
+</body>
+<style>
+  body {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+}
+  .file {
+    border: 1px solid brown;
+    cursor: pointer;
+  }
+
+  .directory {
+    border: 2px solid black;
+    cursor: pointer;
+  }
+
+  .bot-chat {
+  display: flex;
+  flex-direction: column;
+  border: 2px solid black;
+  height: 600px;
+  width: 30vw;
+  justify-content: space-between;
+}
+
+  .chat-header {
+    text-align: center;
+    background-color: rgb(4, 4, 57);
+    color: white;
+    border: 2px solid white;
+    padding: 10px 10px 10px 10px;
+    width: 60%;
+    display: block;
+    margin: auto;
+  }
+
+  .chat-history {
+  overflow: auto;
+  padding: 10px;
+  border: 2px solid rgb(16, 165, 198);
+  height: calc(100% - 140px);
+  }
+
+  .input-wrapper {
+  background-color: rgb(4, 4, 57);
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  }
+
+  .user-query {
+  box-sizing: border-box;
+  background-color: rgb(16, 165, 198);
+  width: 400px;
+  margin: 0;
+  padding: 10px;
+  }
+</style>
+</html>
