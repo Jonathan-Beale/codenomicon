@@ -46,7 +46,7 @@ function fetchAndDisplayFiles(repoPath) {
       return response.json();
     })
     .then(files => {
-      buildFileExplorer("path", files);
+      buildFileExplorer('user_dir', files);
     })
     .catch(error => {
       console.error('Error fetching file list:', error);
@@ -57,6 +57,15 @@ function fetchAndDisplayFiles(repoPath) {
 function buildFileExplorer(folder, files) {
   const fileExplorer = document.getElementById('file-explorer');
   fileExplorer.innerHTML = ''; // Clear the previous contents
+  const root = document.createElement('div')
+  root.textContent = folder
+  fileExplorer.appendChild(root)
+  root.className = 'directory'
+  root.addEventListener('click', () => {
+    // Here you could then call fetchAndDisplayFiles for the new path
+    fetchAndDisplayFiles(folder);
+  });
+
 
   files.forEach(file => {
     const fileElement = document.createElement('div');
@@ -110,37 +119,6 @@ function fetchFileAndOpenInEditor(filePath) {
 }
 
 
-function populateFileExplorer(repoPath) {
-  fetch(`http://localhost:3000/list-files?repoPath=${encodeURIComponent(repoPath)}`)
-    .then(response => {
-      // Check if the Content-Type is JSON before attempting to parse it as JSON
-      const contentType = response.headers.get("Content-Type");
-      if (contentType && contentType.includes("application/json")) {
-        return response.json();
-      } else {
-        throw new TypeError("Oops, we haven't got JSON!");
-      }
-    })
-    .then(files => {
-      const fileExplorer = document.getElementById('file-explorer');
-      fileExplorer.innerHTML = ''; // Clear any existing items
-      files.forEach(file => {
-        const fileItem = document.createElement('div');
-        fileItem.textContent = file.name;
-        fileItem.onclick = () => {
-          openFileInEditor(file.path);
-        };
-        fileItem.style.border = "2px solid black"
-        fileExplorer.appendChild(fileItem);
-      });
-    })
-    .catch(error => {
-      console.error('Failed to populate file explorer', error);
-      // You might want to update the UI to reflect that the file explorer could not be loaded
-    });
-}
-
-
 // Function to open a file in the editor
 function openFileInEditor(filePath) {
   fetch(`http://localhost:3000/file?filePath=${encodeURIComponent(filePath)}`)
@@ -154,13 +132,12 @@ function openFileInEditor(filePath) {
   .catch(error => console.error('Failed to open file', error));
 }
 
-
 // Clone button event listener
 document.getElementById('cloneBtn').addEventListener('click', function() {
   const repoUrl = document.getElementById('repoUrlInput').value;
   const localPath = './user_dir'; // Replace with the path you want to clone to
 
-  populateFileExplorer(repoUrl)
+  fetchAndDisplayFiles(repoUrl)
 
   fetch('http://localhost:3000/clone', {
       method: 'POST',
