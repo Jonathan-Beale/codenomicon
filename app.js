@@ -100,3 +100,47 @@ app.delete('/delete', async (req, res) => {
     res.status(500).send('Failed to delete the repository');
   }
 });
+
+// Endpoint to fetch the content of a file
+app.get('/file-content', async (req, res) => {
+  const filePath = req.query.filePath;
+
+  // Basic input validation
+  if (typeof filePath !== 'string') {
+    return res.status(400).send('Invalid input');
+  }
+
+  try {
+    const content = await fs.readFile(filePath, 'utf8');
+    res.send(content);
+  } catch (error) {
+    if (error.code === 'ENOENT') {
+      res.status(404).send('File not found');
+    } else {
+      console.error('Error reading file:', error);
+      res.status(500).send('Error fetching file content');
+    }
+  }
+});
+
+// Endpoint to fetch a file
+app.get('/file', async (req, res) => {
+  const filePath = req.query.filePath;
+
+  // Basic input validation
+  if (typeof filePath !== 'string') {
+    return res.status(400).send('Invalid input');
+  }
+
+  try {
+    const content = await fs.readFile(filePath, 'utf8');
+    res.send(content);
+  } catch (error) {
+    if (error.code === 'ENOENT') {
+      res.status(404).send('File not found');
+    } else {
+      console.error('Error reading file:', error);
+      res.status(500).send('Error fetching file');
+    }
+  }
+});

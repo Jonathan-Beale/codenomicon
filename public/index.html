@@ -8,9 +8,11 @@
 <body>
   <div id="file-explorer"></div>
   <div class="middle" id="middle">
-    <input type="text" id="repoUrlInput" placeholder="Enter the repository URL" />
-    <button id="cloneBtn">Clone Repository</button>
-    <button id="deleteBtn" style="border: 2px solid red">Delete Repository</button>
+    <div class="go-box">
+      <input type="text" id="repoUrlInput" placeholder="Enter the repository URL" />
+      <button id="cloneBtn">Clone Repository</button>
+    </div>
+    <div id="editor-tabs"></div>
     <div id="monaco-editor" style="width: 60vw; height: 600px;"></div>
   </div>
   <div id="bot-chat" class="bot-chat">
@@ -23,33 +25,42 @@
 
   <!-- Include RequireJS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
-
-  <script>
-    require.config({ paths: { 'vs': '/monaco-editor/vs' }});
-
-    require(['vs/editor/editor.main'], function() {
-        monaco.editor.create(document.getElementById('monaco-editor'), {
-            value: 'function x() {\nconsole.log("Hello world!");\n}',
-            language: 'javascript'
-        });
-    });
-  </script>    
+    
   <script src="script.js"></script>
 </body>
 <style>
   body {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   height: 100vh;
 }
   .file {
-    border: 1px solid brown;
+    border-left: 1px solid brown;
+    background-color: white;
     cursor: pointer;
+    padding: 2px;
+    margin: 2px;
+    overflow: auto;
+  }
+
+  .editor-tabs {
+    display: flex;
+    flex-direction: row;
+    width: 60vw;
+  }
+
+  .go-box {
+    padding: 4px;
+    border: 2px solid black;
   }
 
   .directory {
-    border: 2px solid black;
+    border-left: 1px solid black;
+    background-color: blanchedalmond;
     cursor: pointer;
+    padding: 2px;
+    font: bold;
   }
 
   .bot-chat {
@@ -72,6 +83,13 @@
     margin: auto;
   }
 
+  .tab {
+    border: 1px solid black;
+    padding: 2px;
+    width: 20%;
+    background-color: aquamarine;
+  }
+
   .chat-history {
   overflow: auto;
   padding: 10px;
@@ -92,6 +110,11 @@
   width: 400px;
   margin: 0;
   padding: 10px;
+  }
+
+  .file-explorer {
+    width: 20vw;
+    background-color: black;
   }
 </style>
 </html>
