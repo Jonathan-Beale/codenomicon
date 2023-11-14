@@ -71,6 +71,7 @@ function buildFolder(parent, folder, files) {
   root.id = folder;
   parent.appendChild(root);
   root.className = 'directory';
+  
   root.addEventListener('click', (e) => {
     e.stopPropagation(); // This will prevent the event from reaching parent nodes.
     const toggleContents = root.querySelectorAll('.file, .directory');
@@ -99,6 +100,7 @@ function buildFolder(parent, folder, files) {
   });
 }
 
+
 function getFiles(repoPath) {
   return fetch(`http://localhost:3000/list-files?repoPath=${encodeURIComponent(repoPath)}`)
     .then((response) => {
@@ -123,7 +125,7 @@ function buildFileExplorer(folder, files) {
 
 // Function to fetch a file's content and open it in the Monaco editor
 function fetchFileAndOpenInEditor(filePath) {
-  fetch(`http://localhost:3000/file-content?filePath=${encodeURIComponent(filePath)}`)
+  fetch(`http://localhost:3000/file?filePath=${encodeURIComponent(filePath)}`)
     .then(response => {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -152,10 +154,48 @@ function openFileInEditor(filePath) {
   .catch(error => console.error('Failed to open file', error));
 }
 
+// Submit button event listener
+document.getElementById('chatBtn').addEventListener('click', function () {
+  const user_in = document.getElementById('userQuery');
+  const userQuery = encodeURIComponent(user_in.value);
+  
+  // Get the content of the Monaco editor
+  const editorContent = globalEditorInstance.getValue();
+
+  // Create a request body with userQuery and editorContent
+  const requestBody = {
+    userQuery,
+    editorContent
+  };
+
+  fetch(`http://localhost:3000/answer`, {
+    method: 'POST', // Use POST method to send JSON data
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(requestBody), // Send the JSON data
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((data) => {
+      // Handle the response data here
+      console.log(data);
+    })
+    .catch((error) => {
+      console.error('Error making the server call:', error);
+    });
+
+  user_in.value = '';
+});
+
 // Clone button event listener
 document.getElementById('cloneBtn').addEventListener('click', function() {
   const repoUrl = document.getElementById('repoUrlInput').value;
-  const localPath = './user_dir'; // Replace with the path you want to clone to
+  const localPath = '/user_dir';
   
   fetch('http://localhost:3000/delete', {
     method: 'DELETE',
@@ -199,6 +239,8 @@ document.getElementById('cloneBtn').addEventListener('click', function() {
     fetchAndDisplayFiles(localPath); // Adjust the path as needed
     if (data.readme) {
       initializeEditor(data.readme); // Initialize the Monaco Editor with the README content
+      target = document.getElementById("go-box")
+      toggleElementVisibility([target])
     } else {
       alert('Repository cloned, but no README found.');
     }

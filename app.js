@@ -1,10 +1,12 @@
 const express = require('express');
 const app = express();
-const port = 3000; // You can choose any port that's free on your system
+const port = 3000;
 const simpleGit = require('simple-git');
 const git = simpleGit();
-const fs = require('fs').promises; // Import the promises API of the fs module for reading files
+const fs = require('fs').promises;
 const path = require('path');
+const OpenAI = require("openai")
+const llm = new OpenAI({ apiKey: "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"});
 
 // Serve files from the public directory
 app.use(express.static('public'));
@@ -75,12 +77,6 @@ app.get('/clone-page', (req, res) => {
     res.sendFile('index.html'); // Make sure to put the correct path to your HTML file
 });
     
-
-// Start the Express server
-app.listen(port, () => {
-  console.log(`Server listening at http://localhost:${port}`);
-});
-
 app.delete('/delete', async (req, res) => {
   const { localPath } = req.body;
 
@@ -98,28 +94,6 @@ app.delete('/delete', async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).send('Failed to delete the repository');
-  }
-});
-
-// Endpoint to fetch the content of a file
-app.get('/file-content', async (req, res) => {
-  const filePath = req.query.filePath;
-
-  // Basic input validation
-  if (typeof filePath !== 'string') {
-    return res.status(400).send('Invalid input');
-  }
-
-  try {
-    const content = await fs.readFile(filePath, 'utf8');
-    res.send(content);
-  } catch (error) {
-    if (error.code === 'ENOENT') {
-      res.status(404).send('File not found');
-    } else {
-      console.error('Error reading file:', error);
-      res.status(500).send('Error fetching file content');
-    }
   }
 });
 
@@ -143,4 +117,35 @@ app.get('/file', async (req, res) => {
       res.status(500).send('Error fetching file');
     }
   }
+});
+
+app.post('/answer', async (req, res) => {
+  // Retrieve the user query and editor content from the request's body
+  const userQuery = decodeURIComponent(req.body.userQuery);
+  const editorContent = decodeURIComponent(req.body.editorContent);
+
+  try {
+    // Await the AI response
+    const response = await getAIResponce(userQuery, editorContent);
+
+    // Send the response as JSON
+    res.json(response);
+  } catch (error) {
+    console.error('Error generating AI response:', error);
+    res.status(500).send('Error generating AI response');
+  }
+});
+
+async function getAIResponce(userQuery, fileContent) {
+  const completion = await llm.chat.completions.create({
+    messages: [{ role: "system", content: "You will be given some code and a user's input. Assist the user." }, { role: "system", content: fileContent }, { role: "user", content: userQuery }],
+    model: "gpt-3.5-turbo",
+  });
+
+  return completion.choices[0]
+}
+
+// Start the Express server
+app.listen(port, () => {
+  console.log(`Server listening at http://localhost:${port}`);
 });
