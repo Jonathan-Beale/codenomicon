@@ -6,7 +6,7 @@ const git = simpleGit();
 const fs = require('fs').promises;
 const path = require('path');
 const OpenAI = require("openai")
-const llm = new OpenAI({ apiKey: "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"});
+const llm = new OpenAI({ apiKey: "your-key-here"});
 const redis = require('redis');
 
 const client = redis.createClient({
