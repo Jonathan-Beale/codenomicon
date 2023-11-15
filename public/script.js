@@ -192,6 +192,23 @@ document.getElementById('chatBtn').addEventListener('click', function () {
   user_in.value = '';
 });
 
+document.getElementById('testBtn').addEventListener('click', function() {
+  fetch('http://localhost:3000/test', {
+    method: 'POST',
+  }).then((response) => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`)
+    }
+    return response.json()
+  })
+  .then((data) => {
+    console.log(data)
+  })
+  .catch((error) => {
+    console.error('Error:', error)
+  })
+})
+
 // Clone button event listener
 document.getElementById('cloneBtn').addEventListener('click', function() {
   const repoUrl = document.getElementById('repoUrlInput').value;

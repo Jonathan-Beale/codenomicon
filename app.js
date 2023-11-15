@@ -7,6 +7,18 @@ const fs = require('fs').promises;
 const path = require('path');
 const OpenAI = require("openai")
 const llm = new OpenAI({ apiKey: "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"});
+const redis = require('redis');
+
+const client = redis.createClient({
+    password: 't23MLHAllrwCXnC9YjSoiewNjSdfOeJP',
+    socket: {
+        host: 'redis-16465.c267.us-east-1-4.ec2.cloud.redislabs.com',
+        port: 16465
+    }
+});
+
+
+client.on('error', err => console.log('Redis Client Error', err));
 
 // Serve files from the public directory
 app.use(express.static('public'));
@@ -128,6 +140,10 @@ app.post('/answer', async (req, res) => {
     // Await the AI response
     const response = await getAIResponce(userQuery, editorContent);
 
+    let chatHist = await client.get('user-session:123')
+    chatHist += "\n" + userQuery + "\n" + response
+    await client.set("user-session:123", chatHist)
+
     // Send the response as JSON
     res.json(response);
   } catch (error) {
@@ -135,6 +151,20 @@ app.post('/answer', async (req, res) => {
     res.status(500).send('Error generating AI response');
   }
 });
+
+app.post('/test', async (req, res) => {
+  const testKey = 'user-session:123'
+  const testValue = 'this is a hypothetical prototype of prototypical nature'
+
+  try {
+    await client.set(testKey, testValue)
+    const value = await client.get(testKey)
+
+    res.json(value)
+  } catch (error) {
+    console.error('Error setting/getting key:', error)
+  }
+})
 
 async function getAIResponce(userQuery, fileContent) {
   const completion = await llm.chat.completions.create({
@@ -146,6 +176,7 @@ async function getAIResponce(userQuery, fileContent) {
 }
 
 // Start the Express server
-app.listen(port, () => {
+app.listen(port, async () => {
   console.log(`Server listening at http://localhost:${port}`);
+  await client.connect()
 });
