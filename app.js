@@ -132,25 +132,34 @@ app.get('/file', async (req, res) => {
 });
 
 app.post('/answer', async (req, res) => {
-  // Retrieve the user query and editor content from the request's body
   const userQuery = decodeURIComponent(req.body.userQuery);
   const editorContent = decodeURIComponent(req.body.editorContent);
 
   try {
-    // Await the AI response
-    const response = await getAIResponce(userQuery, editorContent);
+    // const response = await getAIResponse(userQuery, editorContent);
+    const response = "example response"
 
-    let chatHist = await client.get('user-session:123')
-    chatHist += "\n" + userQuery + "\n" + response
-    await client.set("user-session:123", chatHist)
+    // Use a unique conversation ID, possibly passed from the client or generated server-side
+    const conversationId = req.body.conversationId || `conversation-${new Date().getTime()}`;
 
-    // Send the response as JSON
+    // Structure the current turn's data
+    const turnData = JSON.stringify({
+      query: userQuery,
+      response: response,
+      editorContent: editorContent,
+      timestamp: new Date()
+    });
+
+    // Push the current turn's data onto the conversation list
+    await client.rPush(conversationId, turnData);
+
     res.json(response);
   } catch (error) {
     console.error('Error generating AI response:', error);
     res.status(500).send('Error generating AI response');
   }
 });
+
 
 app.post('/test', async (req, res) => {
   const testKey = 'user-session:123'
@@ -166,13 +175,15 @@ app.post('/test', async (req, res) => {
   }
 })
 
-async function getAIResponce(userQuery, fileContent) {
-  const completion = await llm.chat.completions.create({
-    messages: [{ role: "system", content: "You will be given some code and a user's input. Assist the user." }, { role: "system", content: fileContent }, { role: "user", content: userQuery }],
-    model: "gpt-3.5-turbo",
-  });
+async function getAIResponse(userQuery, fileContent) {
+  // const completion = await llm.chat.completions.create({
+  //   messages: [{ role: "system", content: "You will be given some code and a user's input. Assist the user." }, { role: "system", content: fileContent }, { role: "user", content: userQuery }],
+  //   model: "gpt-3.5-turbo",
+  // });
 
-  return completion.choices[0]
+  // return completion.choices[0]
+
+  return "This is an example of an AI response"
 }
 
 // Start the Express server
