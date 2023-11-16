@@ -137,7 +137,7 @@ app.post('/answer', async (req, res) => {
 
   try {
     // const response = await getAIResponse(userQuery, editorContent);
-    const response = "example response"
+    const response = "#example response\nwith some spice..."
 
     // Use a unique conversation ID, possibly passed from the client or generated server-side
     const conversationId = req.body.conversationId || `conversation-${new Date().getTime()}`;
@@ -153,7 +153,7 @@ app.post('/answer', async (req, res) => {
     // Push the current turn's data onto the conversation list
     await client.rPush(conversationId, turnData);
 
-    res.json(response);
+    res.json({ response: response });
   } catch (error) {
     console.error('Error generating AI response:', error);
     res.status(500).send('Error generating AI response');

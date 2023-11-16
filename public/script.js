@@ -263,7 +263,7 @@ document.getElementById('cloneBtn').addEventListener('click', function() {
   });
 
   // Fetch and display files from the specified repository URL
-  fetchAndDisplayFiles(repoUrl)
+  // fetchAndDisplayFiles(repoUrl)
 
   // Send a POST request to clone a repository
   fetch('http://localhost:3000/clone', {
@@ -284,8 +284,6 @@ document.getElementById('cloneBtn').addEventListener('click', function() {
     fetchAndDisplayFiles(localPath); // Adjust the path as needed
     if (data.readme) {
       initializeEditor(data.readme); // Initialize the Monaco Editor with the README content
-      target = document.getElementById("go-box")
-      toggleElementVisibility([target])
     } else {
       alert('Repository cloned, but no README found.');
     }
