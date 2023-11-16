@@ -34,7 +34,7 @@ function LoginSignup() {
                 name="pw"
                 />
             </div>
-            <button type="submit" className="submit-button" onClick={event => window.location.href='demo.html'}>
+            <button type="submit" className="submit-button" onClick={event => window.location.href='repopage.html'}>
                 Log In
             </button>
             <div className="message">
@@ -73,7 +73,7 @@ function LoginSignup() {
                     name="pw2"
                 />
                 </div>
-                <button type="submit" className="submit-button" onClick={event => window.location.href='demo.html'}>
+                <button type="submit" className="submit-button" onClick={event => window.location.href='repopage.html'}>
                     Sign Up
                 </button>
                 <div className="message">

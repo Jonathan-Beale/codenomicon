@@ -5,7 +5,7 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Error from "./pages/Error";
 import ForgotPassword from "./pages/ForgotPassword";
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
   return (
@@ -27,4 +27,4 @@ function App() {
   );
 }
 
-export default App;
+export default App

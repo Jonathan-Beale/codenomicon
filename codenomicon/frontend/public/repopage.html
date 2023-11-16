@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="repopage.css">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Git Clone Test</title>
+</head>
+<body>
+  <div class="header">
+    <div class="text">
+        CODENOMICON
+    </div>
+    <div class="buttons">
+        <div class="button" type="button">
+            <a href="/home">HOME</a>
+        </div>
+        <div class="button" type="button">
+          <a href="/about">ABOUT</a>
+        </div>
+    </div>
+</div>
+  <script src="script.js"></script>
+  <canvas>
+    <script>
+      // Background animation
+      color_schemes = ["#09b800"]
+
+      var canvas = document.querySelector('canvas'),
+          ctx = canvas.getContext('2d');
+
+      // Setting the width and height of the canvas
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      // Setting up the letters
+      var letters = 'ッぇぉぬぶぢすまぱネゼヸ';
+      letters = letters.split('');
+
+      // Setting up the columns
+      var fontSize = 20,
+          columns = canvas.width / fontSize;
+
+      // Setting up the drops
+      var drops = [];
+      for (var i = 0; i < columns; i++) {
+        drops[i] = 1;
+      }
+
+      // Setting up the draw function
+      function draw() {
+        ctx.fillStyle = 'rgba(0, 0, 0, .1)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        for (var i = 0; i < drops.length; i++) {
+          var text = letters[Math.floor(Math.random() * letters.length)];
+          var color = color_schemes[Math.floor(Math.random() * color_schemes.length)]
+          ctx.fillStyle = color;
+          ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+          drops[i]++;
+          if (drops[i] * fontSize > canvas.height && Math.random() > .95) {
+            drops[i] = 0;
+          }
+        }
+      }
+
+      // Loop the animation
+      setInterval(draw, 33);
+    </script>
+  </canvas>
+  <div id="file-explorer"></div>
+  <div class="middle" id="middle">
+    <div class="go-box" id="go-box">
+      <input type="text" id="repoUrlInput" placeholder="Enter the repository URL" />
+      <button id="cloneBtn">Clone Repository</button>
+      <button id="testBtn">Test Button</button>
+    </div>
+    <div id="editor-tabs"></div>
+    <div id="monaco-editor" style="width: 60vw; height: 600px;"></div>
+  </div>
+  <div id="bot-chat" class="bot-chat">
+    <h1 class="chat-header">Bot Chat History</h1>
+    <div id="chat-history" class="chat-history">Chat history here</div>
+    <div id="input-wrapper" class="input-wrapper">
+      <input id="userQuery" class="user-querry">
+      <button id="chatBtn">></button>
+    </div>
+  </div>
+
+  <!-- Include RequireJS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
+</body>
+</html>

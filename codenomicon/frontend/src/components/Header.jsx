@@ -4,15 +4,15 @@ import { Link } from 'react-router-dom';
 
 const Header = () => {
     return (
-        <div class="header">
-            <div class="text">
+        <div className="header">
+            <div className="text">
                 CODENOMICON
             </div>
-            <div class="buttons">
-                <div class="button" type="button">
+            <div className="buttons">
+                <div className="button" type="button">
                     <Link to="/home" style={{ textDecoration:'none'}}>HOME</Link>
                 </div>
-                <div class="button" type="button">
+                <div className="button" type="button">
                     <Link to="/about" style={{ textDecoration:'none'}}>ABOUT</Link>
                 </div>
             </div>

@@ -9,7 +9,7 @@ function ForgotPassword() {
             <div className="password-message"><h2>Forgot Password?</h2></div>
         </div>
         <div className="input-box">
-            <div class="msg">
+            <div className="msg">
                 Enter your email.</div>
             <div className="input">
                 <input
@@ -22,7 +22,7 @@ function ForgotPassword() {
                 <button className="recover-button">
                     <Link to="/" style={{ textDecoration:'none', color:'white'}}>Recover Password</Link>
                 </button>
-                <div class="msg">
+                <div className="msg">
                     A recovery email will be sent to your account.</div>
             </div>
         </>

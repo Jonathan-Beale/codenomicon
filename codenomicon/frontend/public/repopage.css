@@ -1,0 +1,210 @@
+:root {
+  --background-color-1: #044b4a;
+  --highlight-color-1: #09b800;
+  --background-color-2: #0065bd;
+  --highlight-color-2: #00f7ff;
+}
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Courier New", sans-serif;
+  cursor: url(../cursor.png), auto;
+}
+
+body {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 100vh;
+  gap: 10px;
+  align-items: center;
+  background-size: cover;
+  background-position: center;
+}
+
+canvas{
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+.file {
+  border-left: 1px solid brown;
+  background-color: white;
+  cursor: url(../pointer.png), pointer;
+  padding: 2px;
+  margin: 2px;
+  overflow: auto;
+}
+
+button {
+  border: 2px solid black;
+  border-radius: 5px;
+  background-color: aqua;
+}
+
+button:hover {
+  background-color: rgb(119, 172, 179);
+}
+
+.file:hover {
+  background-color: aliceblue;
+}
+
+.editor-tabs {
+  display: flex;
+  flex-direction: row;
+  width: 60vw;
+}
+
+.go-box {
+  padding: 4px;
+  border: 2px solid black;
+}
+
+.directory {
+  border-left: 1px solid black;
+  background-color: blanchedalmond;
+  cursor: url(../pointer.png), pointer;
+  padding: 2px;
+  font: bold;
+}
+
+.directory:hover {
+  background-color: aliceblue;
+}
+
+.bot-chat {
+  display: flex;
+  flex-direction: column;
+  border: 2px solid black;
+  height: 600px;
+  width: 30vw;
+  justify-content: space-between;
+}
+
+.chat-header {
+  text-align: center;
+  background-color: rgb(4, 4, 57);
+  color: white;
+  border: 2px solid white;
+  padding: 10px 10px 10px 10px;
+  width: 60%;
+  display: block;
+  margin: auto;
+}
+
+.tab {
+  border: 1px solid black;
+  padding: 2px;
+  width: 20%;
+  background-color: aquamarine;
+  cursor: url(../pointer.png), pointer;
+}
+
+.tab:hover {
+  background-color: rgb(79, 245, 79);
+}
+
+.chat-history {
+  overflow: auto;
+  padding: 10px;
+  border: 2px solid rgb(16, 165, 198);
+  height: calc(100% - 140px);
+}
+
+.input-wrapper {
+  background-color: rgb(4, 4, 57);
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.user-query {
+  box-sizing: border-box;
+  background-color: rgb(16, 165, 198);
+  width: 400px;
+  margin: 0;
+  padding: 10px;
+}
+
+.file-explorer {
+    width: 20vw;
+    background-color: black;
+}
+
+.header{
+  position: absolute;
+  top:0%;
+  left:0%;
+  box-sizing: border-box;
+  width: 100%;
+  display: flex;
+  padding: .75em;
+  background-color: rgba(0, 0, 0, 0.386);
+  color: #09b800;
+  font-size: 40px;
+  text-shadow: .1vh .1vh 0 green, .1vh -.1vh 0 green, -.1vh -.1vh 0 green, -.1vh .1vh 0 green;
+  font-family: 'Courier New', sans-serif;
+  box-shadow: rgba(0, 255, 26, 0.25) 0px 54px 55px, rgba(115, 255, 0, 0.12) 0px -12px 30px, rgba(94, 255, 0, 0.12) 0px 4px 6px, rgba(43, 255, 0, 0.17) 0px 12px 13px, rgba(0, 255, 34, 0.09) 0px -3px 5px;
+  animation: color-shift 1s infinite;
+}
+
+@keyframes color-shift{
+  0% {color: #09b800}
+  25% {color: rgb(213, 244, 224)}
+  50% {color: #09b800}
+  75% {color: rgb(186, 255, 36)}
+  100% {color: #09b800}
+}
+
+.buttons{
+  position: absolute;
+  right: 3%;
+  top: 15px;
+}
+
+.button{
+  font-size: 17px;
+  color: white;
+  background: rgba(0, 255, 94, 0.176);
+  backdrop-filter: blur(2px);
+  border: solid 1px #7fffa1;
+  box-shadow: 0px 0px 16px #00ff3779;
+  padding: 5px;
+  margin: 5px;
+  cursor: url(../pointer.png), pointer;
+  font-weight: 400;
+  transition: 0.3s;
+  align-content: center;
+  text-shadow: .1vh .1vh 0 rgb(6, 68, 0), .1vh -.1vh 0 rgb(6, 68, 0), -.1vh -.1vh 0 rgb(6, 68, 0), -.1vh .1vh 0 rgb(6, 68, 0);
+  font-weight: 600;
+}
+
+.button:hover{
+  color: var(--highlight-color-1);
+  border: solid 1px var(--highlight-color-1);
+  box-shadow: 0px 0px 16px var(--highlight-color-1);
+}
+
+.button:active{
+  background-color: var(--highlight-color-1);
+  color: black;
+}
+
+a{
+  text-decoration: none; 
+  cursor: url(../pointer.png), pointer;
+  color:#09b800;
+}
+
+a:hover{
+  color:white;
+}
+
+a::selection{
+  color:white;
+}
