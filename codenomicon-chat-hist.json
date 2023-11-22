@@ -1,0 +1,20 @@
+[
+  {
+    "query": "test",
+    "response": "This is an example of an AI response",
+    "editorContent": "",
+    "timestamp": "2023-11-22T20:04:39.090Z"
+  },
+  {
+    "query": "test 2",
+    "response": "This is an example of an AI response",
+    "editorContent": "[\n  {\n    \"query\": \"test\",\n    \"response\": \"This is an example of an AI response\",\n    \"editorContent\": \"\",\n    \"timestamp\": \"2023-11-22T20:04:39.090Z\"\n  }\n]",
+    "timestamp": "2023-11-22T20:16:01.462Z"
+  },
+  {
+    "query": "test 3",
+    "response": "This is an example of an AI response",
+    "editorContent": "[\n  {\n    \"query\": \"test 2\",\n    \"response\": \"This is an example of an AI response\",\n    \"editorContent\": \"[\\n  {\\n    \\\"query\\\": \\\"test\\\",\\n    \\\"response\\\": \\\"This is an example of an AI response\\\",\\n    \\\"editorContent\\\": \\\"\\\",\\n    \\\"timestamp\\\": \\\"2023-11-22T20:04:39.090Z\\\"\\n  }\\n]\",\n    \"timestamp\": \"2023-11-22T20:16:01.462Z\"\n  },\n  {\n    \"query\": \"test\",\n    \"response\": \"This is an example of an AI response\",\n    \"editorContent\": \"\",\n    \"timestamp\": \"2023-11-22T20:04:39.090Z\"\n  }\n]",
+    "timestamp": "2023-11-22T20:16:08.745Z"
+  }
+]

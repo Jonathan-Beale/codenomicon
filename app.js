@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const port = 3000;
 const simpleGit = require('simple-git');
-const git = simpleGit();
+const git = simpleGit('./TEST_USER'); // FIX (for testing only, we need an actual path)
 const fs = require('fs').promises;
 const path = require('path');
 const OpenAI = require("openai")
@@ -86,10 +86,6 @@ app.post('/clone', async (req, res) => {
   }
 });
 
-
-app.get('/clone-page', (req, res) => {
-    res.sendFile('index.html'); // Make sure to put the correct path to your HTML file
-});
     
 app.delete('/delete', async (req, res) => {
   const { localPath } = req.body;
@@ -174,19 +170,25 @@ app.post('/stage', async (req, res) => {
 
 app.post('/stage-all', async (req, res) => {
   try {
-    const status = await git.status();
-    const changedFiles = status.files.map(file => file.path);
-    if (changedFiles.length > 0) {
-      await git.add(changedFiles);
-      res.status(200).send('All changed files staged successfully');
-    } else {
-      res.status(200).send('No changes to stage');
-    }
+      const status = await git.status();
+      const changedFiles = status.files
+          .map(file => file.path)
+          .filter(path => path.startsWith('TEST_USER/')); // Filter to include only TEST_USER directory files
+
+      console.log("Files to be staged:", changedFiles);
+
+      if (changedFiles.length > 0) {
+          await git.add(changedFiles);
+          res.status(200).send(`Staged files: ${changedFiles.join(', ')}`);
+      } else {
+          res.status(200).send('No changes to stage');
+      }
   } catch (error) {
-    console.error('Error in staging all files:', error);
-    res.status(500).send('Failed to stage all files');
+      console.error('Error in staging all files:', error);
+      res.status(500).send('Failed to stage all files');
   }
 });
+
 
 
 app.post('/commit', async (req, res) => {
@@ -213,11 +215,9 @@ app.post('/history', async (req, res) => {
     // Parsing each message back into JSON object
     const history = conversationHistory.map(message => JSON.parse(message));
 
-    const directoryName = `/TEST_USER/`;
     // Write the conversation history to a file
-    const fileName = `codenomicon-chat-hist.json`;
-    const filePath = path.join(directoryName, fileName);
-    await fs.writeFile(filePath, JSON.stringify(history, null, 2));
+    const fileName = `/TEST_USER/codenomicon-chat-hist.json`;
+    await fs.writeFile(fileName, JSON.stringify(history, null, 2));
 
     // Send the conversation history as a JSON response
     res.status(200).json(history);
