@@ -1,6 +1,7 @@
 // Global editor instance
 let globalEditorInstance = null;
 let tabBar = null;
+let userID = null;
 
 // Function to initialize the Monaco Editor
 function initializeEditor() {
@@ -17,26 +18,59 @@ function initializeEditor() {
     });
   });
   tabBar = document.getElementById('editor-tabs')
+
+  userID = '/TEST_USER'
+
+  // For testing only
+  sessionStorage.setItem('conversationId', 'testID');
 }
 
-// Function to open a file in a new editor tab
+
+
+
+
 function openFileInNewEditorTab(filePath, fileContent) {
   if (!globalEditorInstance) {
     console.error('Editor has not been initialized.');
     return;
   }
-  const model = monaco.editor.createModel(fileContent, 'markdown', monaco.Uri.file(filePath));
+
+  // Function to determine the language mode based on file extension
+  function getLanguageFromExtension(filePath) {
+    const extension = filePath.split('.').pop();
+    switch (extension) {
+      case 'js':
+        return 'javascript';
+      case 'json':
+        return 'json';
+      case 'html':
+        return 'html';
+      case 'md':
+        return 'markdown';
+      case 'py':
+        return 'python';
+      // Add more cases as needed for other file types
+      default:
+        return 'plaintext';  // Default language mode
+    }
+  }
+
+  const languageMode = getLanguageFromExtension(filePath);
+  const model = monaco.editor.createModel(fileContent, languageMode, monaco.Uri.file(filePath));
   globalEditorInstance.setModel(model);
+
   let tab = document.createElement('div');
   tab.className = 'tab';
   tab.textContent = filePath;
-  tab.model = model
+  tab.model = model;
   tab.addEventListener('click', (e) => {
     e.stopPropagation();
-    globalEditorInstance.setModel(tab.model)
+    globalEditorInstance.setModel(tab.model);
   });
-  tabBar.appendChild(tab)
+
+  tabBar.appendChild(tab);
 }
+
 
 // Function to fetch file list and display in the file explorer
 async function fetchAndDisplayFiles(repoPath) {
@@ -163,7 +197,7 @@ document.getElementById('chatBtn').addEventListener('click', function () {
   // Retrieve or generate a conversation ID
   let conversationId = sessionStorage.getItem('conversationId');
   if (!conversationId) {
-    conversationId = `conversation-${new Date().getTime()}`;
+    conversationId = `convoId`;
     sessionStorage.setItem('conversationId', conversationId);
   }
 
@@ -194,7 +228,7 @@ document.getElementById('chatBtn').addEventListener('click', function () {
 
     // Create and append the user's query
     const userQueryDiv = document.createElement('div');
-    userQueryDiv.textContent = `You: ${decodeURIComponent(userQuery)}`;
+    userQueryDiv.textContent = `${decodeURIComponent(userQuery)}`;
     userQueryDiv.className = 'user-query';
     history.appendChild(userQueryDiv);
 
@@ -214,6 +248,104 @@ document.getElementById('chatBtn').addEventListener('click', function () {
   // Clear the input field after sending the request
   user_in.value = '';
 });
+
+// Print button event listener
+document.getElementById('printBtn').addEventListener('click', function () {
+  let conversationId = sessionStorage.getItem('conversationId');
+  fetch(`http://localhost:3000/history`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({conversationId}),
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.json(); // Assuming the response will be the updated history
+  })
+  .then((updatedHistory) => {
+    // Refresh the directory display after the file is created
+    const repoPath = "/TEST_USER";
+    fetchAndDisplayFiles(repoPath);
+
+    // Check and update the chat history tab in the editor
+    updateChatHistoryTab(updatedHistory);
+  })
+  .catch((error) => {
+    console.error('Error:', error);
+  });
+});
+
+function updateChatHistoryTab(updatedHistory) {
+  const models = monaco.editor.getModels();
+  const historyFilePath = `/TEST_USER/codenomicon-chat-hist.json`;
+  const chatHistoryModel = models.find(model => model.uri.path === historyFilePath);
+
+  if (chatHistoryModel) {
+    chatHistoryModel.setValue(JSON.stringify(updatedHistory, null, 2));
+    globalEditorInstance.setModel(chatHistoryModel);
+  }
+}
+
+
+
+
+
+
+document.getElementById('loadHistoryButton').addEventListener('click', async () => {
+  try {
+      const editorContent = monaco.editor.getModels()[0].getValue();
+      let historyData = JSON.parse(editorContent); // This will throw an error if not valid JSON
+
+      const response = await fetch('/load-history', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ history: historyData })
+      });
+
+      if (response.ok) {
+          const chatHistoryElement = document.getElementById('chat-history');
+          chatHistoryElement.innerHTML = ''; // Clear existing content
+          historyData.forEach(turn => {
+            const turnData = (turn);
+
+            const aiResponseDiv = document.createElement('div');
+            aiResponseDiv.className = 'ai-response';
+            aiResponseDiv.innerText = turnData.response;
+            chatHistoryElement.insertBefore(aiResponseDiv, chatHistoryElement.firstChild);
+
+            const userQueryDiv = document.createElement('div');
+            userQueryDiv.className = 'user-query';
+            userQueryDiv.innerText = turnData.query;
+            chatHistoryElement.insertBefore(userQueryDiv, chatHistoryElement.firstChild);
+          });
+      } else {
+          console.error('Failed to load history');
+      }
+  } catch (error) {
+      console.error('Invalid JSON:', error);
+  }
+});
+
+document.getElementById('stageBtn').addEventListener('click', async function() {
+  try {
+    const response = await fetch('/stage-all', { method: 'POST' });
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const message = await response.text();
+    console.log(message);
+  } catch (error) {
+    console.error('Staging all files failed:', error);
+  }
+})
+
+
+
+
+
 
 
 // Event listener for the "Test" button
@@ -237,7 +369,7 @@ document.getElementById('testBtn').addEventListener('click', function() {
 // Event listener for the "Clone" button
 document.getElementById('cloneBtn').addEventListener('click', function() {
   const repoUrl = document.getElementById('repoUrlInput').value;
-  const localPath = '/user_dir';
+  const localPath = '/TEST_USER';
   
   // Send a DELETE request to delete a repository
   fetch('http://localhost:3000/delete', {

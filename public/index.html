@@ -68,6 +68,9 @@
   </canvas>
   <div class="left" id="left">
     <div id="file-explorer"></div>
+    <input type="text" id="commitMsg">
+    <button id="stageBtn">Stage All</button>
+    <button id="commitBtn">Commit</button>
   </div>
   <div class="middle" id="middle">
     <div class="go-box" id="go-box">
@@ -80,11 +83,15 @@
   </div>
   <div class="right" id="right">
     <div id="bot-chat" class="bot-chat">
-      <h1 class="chat-header">Bot Chat History</h1>
+      <div>
+        <h1 class="chat-header">Bot Chat History</h1>
+        <button id="loadHistoryButton">Load Hist</button>
+      </div>
       <div id="chat-history" class="chat-history">Chat history here</div>
       <div id="input-wrapper" class="input-wrapper">
         <input id="userQuery" class="user-querry">
         <div class="button" type="button" id="chatBtn">></div>
+        <div class="button" type="button" id="printBtn">Print</div>
       </div>
     </div>
   </div>
