@@ -72,9 +72,29 @@ canvas {
 }
 
 .buttons {
+    position: absolute;
+    right: 3%;
+    top: 21px;
     display: flex;
     flex-direction: row;
     padding: 10px;
+}
+
+.button{
+    font-size: 18px;
+    color: white;
+    background: rgba(0, 0, 0, 0.176);
+    backdrop-filter: blur(2px);
+    border: solid 1px #7fffa1;
+    box-shadow: 0px 0px 16px #00ff3779;
+    padding: 5px;
+    margin: 5px;
+    cursor: url(../pointer.png), pointer;
+    font-weight: 400;
+    transition: 0.3s;
+    align-content: center;
+    text-shadow: .1vh .1vh 0 rgb(6, 68, 0), .1vh -.1vh 0 rgb(6, 68, 0), -.1vh -.1vh 0 rgb(6, 68, 0), -.1vh .1vh 0 rgb(6, 68, 0);
+    font-weight: 600;
 }
 
 button{
@@ -299,40 +319,6 @@ input{
     50% {color: #09b800}
     75% {color: rgb(186, 255, 36)}
     100% {color: #09b800}
-}
-
-.buttons{
-    position: absolute;
-    right: 3%;
-    top: 21px;
-}
-
-.button{
-    font-size: 17px;
-    color: white;
-    background: rgba(0, 255, 94, 0.176);
-    backdrop-filter: blur(2px);
-    border: solid 1px #7fffa1;
-    box-shadow: 0px 0px 16px #00ff3779;
-    padding: 5px;
-    margin: 5px;
-    cursor: url(../pointer.png), pointer;
-    font-weight: 400;
-    transition: 0.3s;
-    align-content: center;
-    text-shadow: .1vh .1vh 0 rgb(6, 68, 0), .1vh -.1vh 0 rgb(6, 68, 0), -.1vh -.1vh 0 rgb(6, 68, 0), -.1vh .1vh 0 rgb(6, 68, 0);
-    font-weight: 600;
-}
-
-.button:hover{
-    color: var(--highlight-color-1);
-    border: solid 1px var(--highlight-color-1);
-    box-shadow: 0px 0px 16px var(--highlight-color-1);
-}
-
-.button:active{
-    background-color: var(--highlight-color-1);
-    color: black;
 }
 
 a{
