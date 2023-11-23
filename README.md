@@ -34,7 +34,7 @@ Codenomicon is a web-based code editor and collaboration tool designed to stream
 
 - **Editing Code**: Open files from the file explorer and edit them in the Monaco Editor. The editor supports various languages and themes.
 - **Version Control**: Use the clone, stage, and delete functionalities for basic version control operations.
-- **Chatting**: Utilize the chat interface to communicate with the AI. The chat history is stored and can be retrieved for reference.
+- **AI Chatting**: Utilize the chat interface to communicate with the AI. The chat history is stored and can be retrieved for reference.
 
 ## Technologies Used
 
