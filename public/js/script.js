@@ -405,36 +405,32 @@ document.getElementById('cloneBtn').addEventListener('click', function() {
   .catch(error => {
     console.error(error);
     alert('Failed to delete repository.'); // Show an error message
-  });
-
-  // Fetch and display files from the specified repository URL
-  // fetchAndDisplayFiles(repoUrl)
-
-  // Send a POST request to clone a repository
-  fetch('http://localhost:3000/clone', {
+  }).then(
+    fetch('http://localhost:3000/clone', {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json'
       },
       body: JSON.stringify({ repoUrl, localPath })
-  })
-  .then(response => {
-      if (!response.ok) {
-          throw new Error('Network response was not ok');
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json(); // Expecting a JSON response
+    })
+    .then(data => {
+      // Only populate the file explorer after the clone is successful
+      fetchAndDisplayFiles(localPath); // Adjust the path as needed
+      if (data.readme) {
+        initializeEditor(data.readme); // Initialize the Monaco Editor with the README content
+      } else {
+        alert('Repository cloned, but no README found.');
       }
-      return response.json(); // Expecting a JSON response
-  })
-  .then(data => {
-    // Only populate the file explorer after the clone is successful
-    fetchAndDisplayFiles(localPath); // Adjust the path as needed
-    if (data.readme) {
-      initializeEditor(data.readme); // Initialize the Monaco Editor with the README content
-    } else {
-      alert('Repository cloned, but no README found.');
-    }
-  })
-  .catch(error => {
-      console.error('There has been a problem with your fetch operation:', error);
-      alert('Failed to clone repository.'); // Show an error message
-  });
+    })
+    .catch(error => {
+        console.error('There has been a problem with your fetch operation:', error);
+        alert('Failed to clone repository.'); // Show an error message
+    })
+  );
 });

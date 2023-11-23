@@ -56,17 +56,18 @@ app.get('/list-files', async (req, res) => {
 // LOCAL DELETE
 app.delete('/delete', async (req, res) => {
   const { localPath } = req.body;
+  let dirPath = process.cwd() + "/TEST_USER"
 
   try {
     // Check if the directory exists
-    const directoryExists = await fs.access(localPath).then(() => true).catch(() => false);
-
-    if (directoryExists) {
+    try {
+      await fs.access(dirPath); // This will throw an error if the directory doesn't exist
+      // If no error is thrown, the directory exists
       // Recursively delete the directory
-      await fs.rm(localPath, { recursive: true });
+      await fs.rm(dirPath, { recursive: true });
       res.status(200).send('Repository deleted successfully');
-    } else {
-      res.status(400).send('Repository path does not exist');
+    } catch (error) {
+      res.status(400).send(`Repository path does not exist: ${dirPath}`);
     }
   } catch (error) {
     console.error(error);
@@ -157,12 +158,16 @@ app.post('/clone', async (req, res) => {
 
   try {
     // Create the directory if it does not exist
-    await fs.mkdir(localPath, { recursive: true }).then(
-      git = simpleGit()
-    )
+    try {
+      await fs.access(localPath);
+    } catch (error) {
+      await fs.mkdir(localPath, { recursive: true });
+    }
 
+    const dir_path = path.join(process.cwd(), "/TEST_USER")
+    git = simpleGit(dir_path)
     
-    await git.clone(repoUrl, localPath);
+    await git.clone(repoUrl, dir_path);
     const readmePath = path.join(localPath, 'README.md');
     
     // Check if the README exists before attempting to read it
@@ -190,16 +195,15 @@ app.post('/stage-all', async (req, res) => {
       const result = await git.raw(['ls-tree', '-r', 'HEAD', '--name-only']);
       console.log('Contents of the Git repository:', result);
       const status = await git.status();
-      const changedFiles = status.files
-          .map(file => file.path) // Filter to include only TEST_USER directory files
+      const changedFiles = status.files.map(file => file.path)
+      const untrackedFiles = status.not_added
 
-      console.log("Files to be staged:", changedFiles);
+      const stagingFiles = new Set([...changedFiles, ...untrackedFiles])
+      console.log("Files to be staged:", stagingFiles);
 
-      changedFiles.filter(path => path.startsWith('TEST_USER/'));
-
-      if (changedFiles.length > 0) {
-          await git.add(changedFiles);
-          res.status(200).send(`Staged files: ${changedFiles.join(', ')}`);
+      if (stagingFiles.length > 0) {
+          await git.add(stagingFiles);
+          res.status(200).send(`Staged files: ${stagingFiles.join(', ')}`);
       } else {
           res.status(200).send('No changes to stage');
       }
@@ -289,7 +293,7 @@ app.post('/history', async (req, res) => {
     const history = conversationHistory.map(message => JSON.parse(message));
 
     // Write the conversation history to a file
-    const fileName = `/TEST_USER/codenomicon-chat-hist.json`;
+    const fileName = `./TEST_USER/codenomicon-chat-hist.json`;
     await fs.writeFile(fileName, JSON.stringify(history, null, 2));
 
     // Send the conversation history as a JSON response
