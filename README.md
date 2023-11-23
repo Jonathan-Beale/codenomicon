@@ -48,4 +48,4 @@ Codenomicon is a web-based code editor and collaboration tool designed to stream
 
 Blake Baez,
 Jonathan Beale,
-Sydney ???
+Sydney Baldwin
