@@ -19,7 +19,7 @@ function initializeEditor() {
   });
   tabBar = document.getElementById('editor-tabs')
 
-  userID = '/TEST_USER'
+  userID = './TEST_USER'
 
   // For testing only
   sessionStorage.setItem('conversationId', 'testID');
@@ -342,6 +342,19 @@ document.getElementById('stageBtn').addEventListener('click', async function() {
   }
 })
 
+document.getElementById('commitBtn').addEventListener('click', async function() {
+  try {
+    commitMsg = document.getElementById('commitMsg').value
+    const response = await fetch('/commit', { method: 'POST', body: commitMsg });
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const message = await response.text();
+    console.log(message);
+  } catch (error) {
+    console.error('Staging all files failed:', error);
+  }
+})
 
 
 
@@ -369,7 +382,7 @@ document.getElementById('testBtn').addEventListener('click', function() {
 // Event listener for the "Clone" button
 document.getElementById('cloneBtn').addEventListener('click', function() {
   const repoUrl = document.getElementById('repoUrlInput').value;
-  const localPath = '/TEST_USER';
+  const localPath = './TEST_USER';
   
   // Send a DELETE request to delete a repository
   fetch('http://localhost:3000/delete', {
