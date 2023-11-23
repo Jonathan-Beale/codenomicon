@@ -66,6 +66,12 @@ canvas {
     background:#001a06;
 }
 
+.buttons {
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+}
+
 button{
     font-size: 18px;
     color: white;
