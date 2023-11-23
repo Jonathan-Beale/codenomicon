@@ -54,6 +54,14 @@ app.get('/list-files', async (req, res) => {
 });
 
 // LOCAL DELETE
+app.post('/delete-repo', (req, res) => {
+  // Implement folder deletion logic here
+  // Respond with success or failure
+});
+
+
+
+// LOCAL DELETE
 app.delete('/delete', async (req, res) => {
   const { localPath } = req.body;
   let dirPath = process.cwd() + "/TEST_USER"

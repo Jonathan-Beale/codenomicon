@@ -69,6 +69,17 @@ function openFileInNewEditorTab(filePath, fileContent) {
   });
 
   tabBar.appendChild(tab);
+  
+  let closeBtn = document.createElement('span');
+  closeBtn.textContent = 'x';
+  closeBtn.className = 'close-tab'
+  closeBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    tabBar.removeChild(tab);
+    model.dispose()
+  });
+
+  tab.appendChild(closeBtn);
 }
 
 
@@ -357,6 +368,16 @@ document.getElementById('commitBtn').addEventListener('click', async function() 
 })
 
 
+document.getElementById('exitRepoBtn').addEventListener('click', function() {
+  fetch('/delete-repo', { method: 'POST' })
+  .then(response => {
+      if (!response.ok) {
+          throw new Error('Failed to delete repo');
+      }
+      window.location.reload(); // Refresh the page
+  })
+  .catch(error => console.error('Error:', error));
+});
 
 
 
@@ -384,53 +405,32 @@ document.getElementById('cloneBtn').addEventListener('click', function() {
   const repoUrl = document.getElementById('repoUrlInput').value;
   const localPath = './TEST_USER';
   
-  // Send a DELETE request to delete a repository
-  fetch('http://localhost:3000/delete', {
-    method: 'DELETE',
+  // Send a CLONE request to clone a repository
+  fetch('http://localhost:3000/clone', {
+    method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+        'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ localPath })
+    body: JSON.stringify({ repoUrl, localPath })
   })
   .then(response => {
-    if (response.ok) {
-      return response.text();
-    } else {
-      throw new Error('There was an issue deleteing the files at the given path.');
-    }
+      if (!response.ok) {
+          throw new Error('Network response was not ok');
+      }
+      return response.json(); // Expecting a JSON response
   })
   .then(data => {
-    console.log(data);
+    // Only populate the file explorer after the clone is successful
+    fetchAndDisplayFiles(localPath); // Adjust the path as needed
+    document.getElementById('go-box').style.display = 'none';
+    if (data.readme) {
+      initializeEditor(data.readme); // Initialize the Monaco Editor with the README content
+    } else {
+      console.log('Repository cloned, but no README found.');
+    }
   })
   .catch(error => {
-    console.error(error);
-    console.log('Failed to delete repository.'); // Show an error message
-  }).then(
-    fetch('http://localhost:3000/clone', {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ repoUrl, localPath })
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json(); // Expecting a JSON response
-    })
-    .then(data => {
-      // Only populate the file explorer after the clone is successful
-      fetchAndDisplayFiles(localPath); // Adjust the path as needed
-      if (data.readme) {
-        initializeEditor(data.readme); // Initialize the Monaco Editor with the README content
-      } else {
-        console.log('Repository cloned, but no README found.');
-      }
-    })
-    .catch(error => {
-        console.error('There has been a problem with your fetch operation:', error);
-        console.log('Failed to clone repository.'); // Show an error message
-    })
-  );
+      console.error('There has been a problem with your fetch operation:', error);
+      console.log('Failed to clone repository.'); // Show an error message
+  })
 });
