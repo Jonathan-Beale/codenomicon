@@ -434,3 +434,8 @@ document.getElementById('cloneBtn').addEventListener('click', function() {
       console.log('Failed to clone repository.'); // Show an error message
   })
 });
+
+document.getElementById('settingsBtn').addEventListener('click', function() {
+  var popup = document.getElementById('settingsPopup');
+  popup.style.display = popup.style.display === 'none' ? 'block' : 'none';
+});
