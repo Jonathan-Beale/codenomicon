@@ -17,7 +17,7 @@ body {
     margin-top: 100px;
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     justify-content: space-between;
     gap: 10px;
     align-items: center;
@@ -38,7 +38,8 @@ canvas {
     overflow: auto;
     align-items: center;
     justify-content: center;
-    width: 300px;
+    max-width: 300px;
+    min-width: 200px;
     height: 770px;
 }
 
@@ -46,7 +47,8 @@ canvas {
     align-items: center;
     justify-content: center;
     justify-items: center;
-    width: 915px;
+    width: 55%;
+    min-width: 400px;
     height: 770px;
     overflow: auto;
 }
@@ -54,7 +56,8 @@ canvas {
 .right {
     align-items: center;
     justify-content: center;
-    width: 400px;
+    max-width: 400px;
+    min-width: 200px;
     height: 770px;
 }
 
@@ -64,6 +67,8 @@ canvas {
     justify-content: center;
     align-items: center;
     background:#001a06;
+    border: solid 1px #299245;
+    box-shadow: 0px 0px 16px #00ff3779;
 }
 
 .buttons {
@@ -119,13 +124,14 @@ input{
 }
 
 .file-explorer {
-    border-left: 1px solid rgb(0, 255, 94);
     background-color: blanchedalmond;
     cursor: url(../pointer.png), pointer;
     padding: 4px;
     font: bold;
     color:rgb(0, 255, 94);
     overflow: hidden;
+    border: solid 1px #299245;
+    box-shadow: 0px 0px 16px #00ff3779;
 }
 
 .file {
@@ -167,7 +173,7 @@ input{
 .editor-tabs {
     justify-content: center;
     align-items: center;
-    width: 900px;
+    width: 99%;
     overflow: auto;
 }
 
@@ -204,7 +210,8 @@ input{
     flex-direction: column;
     border: none;
     height: 770px;
-    width: 400px;
+    max-width: 400px;
+    min-width: 200px;
     justify-content: space-between;
 }
 
@@ -213,9 +220,10 @@ input{
     background: #001a06;
     color: white;
     padding: 10px 10px 10px 10px;
-    width: 80%;
+    width: 100%;
     display: block;
-    margin: auto;
+    border: solid 1px #299245;
+    box-shadow: 0px 0px 16px #00ff3779;
 }
 
 .chat-history {
@@ -227,6 +235,7 @@ input{
     margin-top: 10px;
     background:linear-gradient(#001a06, black);
     color: aquamarine;
+    font-weight: 600;
 }
 
 .input-wrapper {
@@ -240,7 +249,7 @@ input{
 
 .user-query {
     box-sizing: border-box;
-    background-color: rgb(16, 198, 113);
+    background-color: aquamarine;
     width: 95%;
     margin: 5%;
     padding: 10px;
@@ -254,6 +263,7 @@ input{
     left:0%;
     box-sizing: border-box;
     width: 100%;
+    min-width: 850px;
     display: flex;
     padding: .75em;
     background-color: rgba(0, 0, 0, 0.386);
@@ -261,7 +271,7 @@ input{
     font-size: 40px;
     text-shadow: .1vh .1vh 0 green, .1vh -.1vh 0 green, -.1vh -.1vh 0 green, -.1vh .1vh 0 green;
     font-family: 'Courier New', sans-serif;
-    box-shadow: rgba(0, 255, 26, 0.1) 0px 54px 55px, rgba(115, 255, 0, 0.05) 0px -12px 30px, rgba(94, 255, 0, 0.05) 0px 4px 6px, rgba(43, 255, 0, 0.05) 0px 12px 13px, rgba(0, 255, 34, 0.02) 0px -3px 5px;
+    border-bottom: solid 1px #09b800;
     animation: color-shift 1s infinite;
     transition: 0.3s;
 }
@@ -294,7 +304,7 @@ input{
 .buttons{
     position: absolute;
     right: 3%;
-    top: 15px;
+    top: 21px;
 }
 
 .button{
