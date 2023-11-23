@@ -396,7 +396,7 @@ document.getElementById('cloneBtn').addEventListener('click', function() {
     if (response.ok) {
       return response.text();
     } else {
-      throw new Error('Something went wrong');
+      throw new Error('There was an issue deleteing the files at the given path.');
     }
   })
   .then(data => {
@@ -404,7 +404,7 @@ document.getElementById('cloneBtn').addEventListener('click', function() {
   })
   .catch(error => {
     console.error(error);
-    alert('Failed to delete repository.'); // Show an error message
+    console.log('Failed to delete repository.'); // Show an error message
   }).then(
     fetch('http://localhost:3000/clone', {
       method: 'POST',
@@ -425,12 +425,12 @@ document.getElementById('cloneBtn').addEventListener('click', function() {
       if (data.readme) {
         initializeEditor(data.readme); // Initialize the Monaco Editor with the README content
       } else {
-        alert('Repository cloned, but no README found.');
+        console.log('Repository cloned, but no README found.');
       }
     })
     .catch(error => {
         console.error('There has been a problem with your fetch operation:', error);
-        alert('Failed to clone repository.'); // Show an error message
+        console.log('Failed to clone repository.'); // Show an error message
     })
   );
 });
