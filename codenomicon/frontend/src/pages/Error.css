@@ -42,10 +42,11 @@ canvas {
 }
 
 .message-box {
-    background: rgba(255, 255, 255, 0.60);
+    background: rgba(255, 255, 255, 0.80);
     width: calc(100%-20px);
     border: solid 1px #ff1111;
     box-shadow: rgba(255, 252, 252, 0.6) 0 -20px 70px 5px;
+    color: black;
 }
 
 .msg {

@@ -33,7 +33,7 @@ canvas {
 
 .tab{
     animation: fadeIn 1s linear;
-    background: transparent;
+    background: none;
     padding: 2vh;
 }
 
@@ -47,8 +47,7 @@ canvas {
 .tab-button{
     font-size: 18px;
     color: white;
-    background: rgba(0, 0, 0, 0);
-    backdrop-filter: blur(2px);
+    background: rgba(0, 0, 0, 0.80);
     border: solid 1px #7fffe5;
     box-shadow: 0px 0px 16px #00ffcc79;
     padding: 15px 30px;
@@ -82,8 +81,7 @@ canvas {
 .wrapper{
     animation: fadeIn 1s linear;
     width: 450px;
-    background: rgba(0, 0, 0, 0);
-    backdrop-filter: blur(2px);
+    background: rgba(0, 0, 0, 0.80);
     border: solid 1px #7fffe5;
     box-shadow: 0px 0px 16px #00ffcc7c;
     color: #000000;
@@ -178,58 +176,4 @@ a:visited{
 
 a:hover{
     color:#ffffff;
-}
-
-@media screen and (max-width: 500px){
-    body{
-        gap: 1px;
-    }
-    
-    .title{
-        font-size: 10px;
-        padding: 10px 20px;
-        border:solid 3px #000000;
-    }
-
-    .tab-button{
-        font-size: 12px;
-        padding: 8px 17px;
-        width: 145px;
-    }
-    
-    .wrapper{
-        width: 300px;
-        border: solid 3px #000000;
-        padding: 26px 26px;
-    }
-    
-    .wrapper h1{
-        font-size: 17px;
-    }
-    
-    .input{
-        width: 100%;
-        height: 30px;
-        margin: 15px 0;
-    }
-    
-    input{
-        border: 1.5px solid #000000;
-        padding: 10px 22.5px 10px 10px;
-        font-size:9px;
-    }
-
-    input::placeholder{
-        font-size:9px;
-    }
-    
-    .submit-button{
-        width: 100%;
-        height: 30px;
-        font-size: 11px;
-    }
-   
-    .message{
-        font-size: 10px;
-    }
 }

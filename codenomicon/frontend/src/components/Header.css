@@ -11,6 +11,24 @@
     font-size: 40px;
     text-shadow: .1vh .1vh 0 green, .1vh -.1vh 0 green, -.1vh -.1vh 0 green, -.1vh .1vh 0 green;
     font-family: 'Courier New', sans-serif;
+    border-bottom: solid 1px #09b800;
+    animation: color-shift 1s infinite;
+    transition: 0.3s;
+}
+
+.header:hover{
+    position: absolute;
+    top:0%;
+    left:0%;
+    box-sizing: border-box;
+    width: 100%;
+    display: flex;
+    padding: .75em;
+    background-color: rgba(0, 0, 0);
+    color: #09b800;
+    font-size: 40px;
+    text-shadow: .1vh .1vh 0 green, .1vh -.1vh 0 green, -.1vh -.1vh 0 green, -.1vh .1vh 0 green;
+    font-family: 'Courier New', sans-serif;
     box-shadow: rgba(0, 255, 26, 0.25) 0px 54px 55px, rgba(115, 255, 0, 0.12) 0px -12px 30px, rgba(94, 255, 0, 0.12) 0px 4px 6px, rgba(43, 255, 0, 0.17) 0px 12px 13px, rgba(0, 255, 34, 0.09) 0px -3px 5px;
     animation: color-shift 1s infinite;
 }
@@ -23,16 +41,19 @@
     100% {color: #09b800}
 }
 
-.buttons{
+.buttons {
     position: absolute;
     right: 3%;
-    top: 15px;
+    top: 21px;
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
 }
 
 .button{
-    font-size: 17px;
+    font-size: 18px;
     color: white;
-    background: rgba(0, 255, 94, 0.176);
+    background: rgba(0, 0, 0, 0.176);
     backdrop-filter: blur(2px);
     border: solid 1px #7fffa1;
     box-shadow: 0px 0px 16px #00ff3779;
@@ -46,13 +67,30 @@
     font-weight: 600;
 }
 
-.button:hover{
+.button{
+    font-size: 18px;
+    color: white;
+    background: rgba(0, 0, 0, 0.176);
+    backdrop-filter: blur(2px);
+    border: solid 1px #7fffa1;
+    box-shadow: 0px 0px 16px #00ff3779;
+    padding: 5px;
+    margin: 5px;
+    cursor: url(../pointer.png), pointer;
+    font-weight: 400;
+    transition: 0.3s;
+    align-content: center;
+    text-shadow: .1vh .1vh 0 rgb(6, 68, 0), .1vh -.1vh 0 rgb(6, 68, 0), -.1vh -.1vh 0 rgb(6, 68, 0), -.1vh .1vh 0 rgb(6, 68, 0);
+    font-weight: 600;
+}
+
+button:hover{
     color: var(--highlight-color-1);
     border: solid 1px var(--highlight-color-1);
     box-shadow: 0px 0px 16px var(--highlight-color-1);
 }
 
-.button:active{
+button:active{
     background-color: var(--highlight-color-1);
     color: black;
 }
