@@ -2,7 +2,7 @@
 # Project Codenomicon
 
 ## Overview
-Codenomicon is a web-based code editor and collaboration tool designed to streamline the process of coding, testing, and sharing code within a development team. It integrates a powerful code editor, version control functionalities, and a chat interface for real-time collaboration.
+Codenomicon is a web-based code editor and collaboration tool designed to streamline the process of coding, testing, and sharing code within a development team. It integrates a powerful code editor, version control functionalities, and an ai chat interface.
 
 ## Features
 
@@ -12,7 +12,7 @@ Codenomicon is a web-based code editor and collaboration tool designed to stream
    
 3. **Version Control**: Includes basic version control functionalities like cloning repositories, staging changes, and deleting repositories.
 
-4. **Real-time Chat Interface**: Facilitates communication between team members with an integrated chat interface, capable of interpreting and storing conversation histories.
+4. **AI Chat Assistant**: Facilitates communication with an AI. The AI can see the file currently open in the editor and can have custom conversation histories loaded into it.
 
 5. **Testing & Debugging**: Offers a test feature to execute code snippets, aiding in quick debugging and testing.
 
@@ -34,8 +34,7 @@ Codenomicon is a web-based code editor and collaboration tool designed to stream
 
 - **Editing Code**: Open files from the file explorer and edit them in the Monaco Editor. The editor supports various languages and themes.
 - **Version Control**: Use the clone, stage, and delete functionalities for basic version control operations.
-- **Chatting**: Utilize the chat interface to communicate with team members. The chat history is stored and can be retrieved for reference.
-- **Testing Code**: Test your code using the test feature to quickly execute and debug.
+- **Chatting**: Utilize the chat interface to communicate with the AI. The chat history is stored and can be retrieved for reference.
 
 ## Technologies Used
 
@@ -49,4 +48,4 @@ Codenomicon is a web-based code editor and collaboration tool designed to stream
 
 Blake Baez,
 Jonathan Beale,
-Sydney ???
+Sydney Baldwin

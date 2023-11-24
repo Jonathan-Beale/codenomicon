@@ -19,7 +19,7 @@ function initializeEditor() {
   });
   tabBar = document.getElementById('editor-tabs')
 
-  userID = '/TEST_USER'
+  userID = './TEST_USER'
 
   // For testing only
   sessionStorage.setItem('conversationId', 'testID');
@@ -69,6 +69,17 @@ function openFileInNewEditorTab(filePath, fileContent) {
   });
 
   tabBar.appendChild(tab);
+  
+  let closeBtn = document.createElement('span');
+  closeBtn.textContent = 'x';
+  closeBtn.className = 'close-tab'
+  closeBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    tabBar.removeChild(tab);
+    model.dispose()
+  });
+
+  tab.appendChild(closeBtn);
 }
 
 
@@ -342,8 +353,31 @@ document.getElementById('stageBtn').addEventListener('click', async function() {
   }
 })
 
+document.getElementById('commitBtn').addEventListener('click', async function() {
+  try {
+    commitMsg = document.getElementById('commitMsg').value
+    const response = await fetch('/commit', { method: 'POST', body: commitMsg });
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const message = await response.text();
+    console.log(message);
+  } catch (error) {
+    console.error('Staging all files failed:', error);
+  }
+})
 
 
+document.getElementById('exitRepoBtn').addEventListener('click', function() {
+  fetch('/delete-repo', { method: 'POST' })
+  .then(response => {
+      if (!response.ok) {
+          throw new Error('Failed to delete repo');
+      }
+      window.location.reload(); // Refresh the page
+  })
+  .catch(error => console.error('Error:', error));
+});
 
 
 
@@ -369,41 +403,15 @@ document.getElementById('testBtn').addEventListener('click', function() {
 // Event listener for the "Clone" button
 document.getElementById('cloneBtn').addEventListener('click', function() {
   const repoUrl = document.getElementById('repoUrlInput').value;
-  const localPath = '/TEST_USER';
+  const localPath = './TEST_USER';
   
-  // Send a DELETE request to delete a repository
-  fetch('http://localhost:3000/delete', {
-    method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ localPath })
-  })
-  .then(response => {
-    if (response.ok) {
-      return response.text();
-    } else {
-      throw new Error('Something went wrong');
-    }
-  })
-  .then(data => {
-    console.log(data);
-  })
-  .catch(error => {
-    console.error(error);
-    alert('Failed to delete repository.'); // Show an error message
-  });
-
-  // Fetch and display files from the specified repository URL
-  // fetchAndDisplayFiles(repoUrl)
-
-  // Send a POST request to clone a repository
+  // Send a CLONE request to clone a repository
   fetch('http://localhost:3000/clone', {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ repoUrl, localPath })
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ repoUrl, localPath })
   })
   .then(response => {
       if (!response.ok) {
@@ -414,14 +422,20 @@ document.getElementById('cloneBtn').addEventListener('click', function() {
   .then(data => {
     // Only populate the file explorer after the clone is successful
     fetchAndDisplayFiles(localPath); // Adjust the path as needed
+    document.getElementById('go-box').style.display = 'none';
     if (data.readme) {
       initializeEditor(data.readme); // Initialize the Monaco Editor with the README content
     } else {
-      alert('Repository cloned, but no README found.');
+      console.log('Repository cloned, but no README found.');
     }
   })
   .catch(error => {
       console.error('There has been a problem with your fetch operation:', error);
-      alert('Failed to clone repository.'); // Show an error message
-  });
+      console.log('Failed to clone repository.'); // Show an error message
+  })
+});
+
+document.getElementById('settingsBtn').addEventListener('click', function() {
+  var popup = document.getElementById('settingsPopup');
+  popup.style.display = popup.style.display === 'none' ? 'block' : 'none';
 });

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<link rel="stylesheet" href="/index.css">
+<link rel="stylesheet" href="./css/index.css">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,59 +18,106 @@
         <div class="button" type="button">
           <a href="/about">ABOUT</a>
         </div>
+        <div class="button" type="button">
+          <a href="/settings">LOG OUT</a>
+        </div>
+        <div class="button" type="button" id="settingsBtn">
+          <a>SETTINGS</a>
+        </div>
+        <label class="switch">
+            <p>Matrix Rain</p>
+            <div>
+              <input type="checkbox" id="rainToggle">
+              <span class="slider"></span>
+            </div>
+        </label>
     </div>
+  </div>
+  <div id="settingsPopup" style="display: none; z-index: 10;">
+    <!-- Add settings fields here -->
   </div>
   <canvas>
     <script>
       // Background animation
       color_schemes = ["#09b800"]
 
-      var canvas = document.querySelector('canvas'),
-          ctx = canvas.getContext('2d');
+      // Function to start the Matrix Rain animation
+      function startMatrixRain() {
+        // Canvas setup
+        var canvas = document.querySelector('canvas'),
+            ctx = canvas.getContext('2d');
 
-      // Setting the width and height of the canvas
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
 
-      // Setting up the letters
-      var letters = 'ッぇぉぬぶぢすまぱネゼヸ';
-      letters = letters.split('');
+        var letters = 'ッぇぉぬぶぢすまぱネゼヸ';
+        letters = letters.split('');
 
-      // Setting up the columns
-      var fontSize = 20,
-          columns = canvas.width / fontSize;
+        var fontSize = 20,
+            columns = canvas.width / fontSize;
 
-      // Setting up the drops
-      var drops = [];
-      for (var i = 0; i < columns; i++) {
-        drops[i] = 1;
-      }
+        var drops = [];
+        for (var i = 0; i < columns; i++) {
+          drops[i] = 1;
+        }
 
-      // Setting up the draw function
-      function draw() {
-        ctx.fillStyle = 'rgba(0, 0, 0, .1)';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        for (var i = 0; i < drops.length; i++) {
-          var text = letters[Math.floor(Math.random() * letters.length)];
-          var color = color_schemes[Math.floor(Math.random() * color_schemes.length)]
-          ctx.fillStyle = color;
-          ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-          drops[i]++;
-          if (drops[i] * fontSize > canvas.height && Math.random() > .95) {
-            drops[i] = 0;
+        function draw() {
+          ctx.fillStyle = 'rgba(0, 0, 0, .1)';
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          for (var i = 0; i < drops.length; i++) {
+            var text = letters[Math.floor(Math.random() * letters.length)];
+            var color = color_schemes[Math.floor(Math.random() * color_schemes.length)]
+            ctx.fillStyle = color;
+            ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+            drops[i]++;
+            if (drops[i] * fontSize > canvas.height && Math.random() > .95) {
+              drops[i] = 0;
+            }
           }
         }
+
+        // Store the interval ID to stop the animation later
+        var animationInterval = setInterval(draw, 33);
+
+        // Store the interval ID in a custom attribute of the canvas element
+        canvas.dataset.animationInterval = animationInterval;
       }
 
-      // Loop the animation
-      setInterval(draw, 33);
+      // Function to stop the Matrix Rain animation
+      function stopMatrixRain() {
+        // Retrieve the interval ID from the canvas element's custom attribute
+        var canvas = document.querySelector('canvas');
+        var animationInterval = canvas.dataset.animationInterval;
+
+        // Clear the animation interval to stop the animation
+        clearInterval(animationInterval);
+      }
+
+      // Add an event listener to the checkbox
+      const rainToggle = document.getElementById('rainToggle');
+      rainToggle.addEventListener('change', function() {
+        console.log(this.checked)
+        if (this.checked) {
+          // Start the animation when the checkbox is checked
+          stopMatrixRain();
+        } else {
+          // Stop the animation when the checkbox is unchecked
+          startMatrixRain();
+        }
+      });
+      startMatrixRain();
     </script>
   </canvas>
-  <div class="left" id="left">
-    <div id="file-explorer"></div>
+  <div>
+    <div class="left" id="left">
+      <div id="file-explorer"></div>
+    </div>
     <input type="text" id="commitMsg">
-    <button id="stageBtn">Stage All</button>
-    <button id="commitBtn">Commit</button>
+    <div class="newLine">
+      <button id="stageBtn">Stage All</button>
+      <button id="commitBtn">Commit</button>
+      <button id="exitRepoBtn">Exit Repo</button>
+    </div>
   </div>
   <div class="middle" id="middle">
     <div class="go-box" id="go-box">
@@ -93,7 +140,7 @@
       </div>
       <div id="chat-history" class="chat-history">Chat history here</div>
       <div id="input-wrapper" class="input-wrapper">
-        <input id="userQuery" class="user-querry">
+        <input id="userQuery" class="input">
         <div class="button" type="button" id="chatBtn">></div>
         <div class="button" type="button" id="printBtn">Print</div>
       </div>
@@ -104,6 +151,6 @@
   <!-- Include RequireJS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
   
-  <script src="script.js"></script>
+  <script src="./js/script.js"></script>
 </body>
 </html>
