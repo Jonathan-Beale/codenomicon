@@ -4,6 +4,7 @@ import LoginSignup from "./pages/LoginSignup";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Error from "./pages/Error";
+import RepoPage from "./RepoPage";
 import ForgotPassword from "./pages/ForgotPassword";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import React, { useState } from 'react';
@@ -26,6 +27,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/forgot" element={<ForgotPassword />} />
           <Route path="*" element={<Error />} />
+          <Route path="/repo-page" element={<RepoPage />} />
         </Routes>
       <div>
       <MatrixBackground show={showMatrixRain} />

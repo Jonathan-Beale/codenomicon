@@ -35,7 +35,7 @@ function LoginSignup() {
                 />
             </div>
             <button type="submit" className="submit-button">
-                <Link to="/home" style={{color:'white', textDecoration:'none', padding: "60px 0px"}}>Log In</Link>
+                <Link to="/repo-page" style={{color:'white', textDecoration:'none', padding: "60px 0px"}}>Log In</Link>
             </button>
             <div className="message">
                 <br />
