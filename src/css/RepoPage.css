@@ -5,14 +5,6 @@
     --highlight-color-2: #00f7ff;
 }
 
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Courier New", sans-serif;
-    cursor: url(../cursor.png), auto;
-}
-
 .repo-wrapper {
     margin-top: 100px;
     display: flex;
@@ -25,13 +17,6 @@
     background-position: center;
     padding: 20px;
     max-width: 100%;
-}
-
-canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: -1;
 }
 
 .left {
@@ -136,22 +121,6 @@ button:active{
     color: black;
 }
 
-input{
-    font-size: 18px;
-    color: white;
-    background: rgba(0, 255, 94, 0.176);
-    backdrop-filter: blur(2px);
-    border: solid 1px #7fffa1;
-    box-shadow: 0px 0px 16px #00ff3779;
-    padding: 5px;
-    margin: 5px;
-    cursor: url(../pointer.png), pointer;
-    font-weight: 400;
-    transition: 0.3s;
-    align-content: center;
-    text-shadow: .1vh .1vh 0 rgb(6, 68, 0), .1vh -.1vh 0 rgb(6, 68, 0), -.1vh -.1vh 0 rgb(6, 68, 0), -.1vh .1vh 0 rgb(6, 68, 0);
-    font-weight: 600;
-}
 
 .file-explorer {
     background-color: blanchedalmond;
@@ -205,35 +174,6 @@ input{
     align-items: center;
     width: 99%;
     overflow: auto;
-}
-
-.tab {
-    display: inline-block;
-    white-space: nowrap;
-    padding: 4px;
-    margin: 2px;
-    font-weight: 300;
-    max-height: 30px;
-    cursor: url(../pointer.png), pointer;
-    justify-content: space-between;
-    color: white;
-    background: rgba(0, 80, 29, 0.82);
-    backdrop-filter: blur(2px);
-    box-shadow: 0px 0px 5px #00ff3721;
-    transition: 0.3s;
-    border: solid 1px #001a0600;
-}
-
-.tab:hover {
-    background-color: aquamarine;
-    border: solid 1px var(--highlight-color-1);
-    box-shadow: 0px 0px 16px var(--highlight-color-1);
-    color: black;
-}
-
-.tab:active{
-    background-color: white;
-    color: black;
 }
 
 .bot-chat {
@@ -389,15 +329,6 @@ a::selection{
     transition: .4s; /* Smooth transition effect */
     height: 10px;
     width: 26px;
-  }
-
-  input:checked + .slider {
-    border: 2px solid red; /* Green background color when switch is on */
-  }
-  
-  /* Move the slider button to the right when the switch is on */
-  input:checked + .slider::before {
-    transform: translateX(90px);
   }
 
 

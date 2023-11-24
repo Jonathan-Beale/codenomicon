@@ -34,7 +34,7 @@ canvas {
 .tab{
     animation: fadeIn 1s linear;
     background: none;
-    padding: 20px 50px;
+    padding: 20px 40px;
 }
 
 @keyframes fadeIn {
