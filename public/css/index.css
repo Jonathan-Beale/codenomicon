@@ -151,7 +151,7 @@ input{
     align-content: center;
     text-shadow: .1vh .1vh 0 rgb(6, 68, 0), .1vh -.1vh 0 rgb(6, 68, 0), -.1vh -.1vh 0 rgb(6, 68, 0), -.1vh .1vh 0 rgb(6, 68, 0);
     font-weight: 600;
-    }
+}
 
 .file-explorer {
     background-color: blanchedalmond;
