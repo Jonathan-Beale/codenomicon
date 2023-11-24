@@ -4,17 +4,11 @@ const MatrixBackground = ({ show }) => {
 
     let color_schemes = ["#09b800"];
     let canvasRef = useRef(null);
-    let canvas = canvasRef.current;
         // existing code
       
         useEffect(() => {
-          if (!show) {
-            stopMatrixRain()
-          } else {
-            startMatrixRain()
-          }
-        }, [show]);
-        function startMatrixRain() {
+          let canvas = canvasRef.current;
+          function startMatrixRain() {
             // Canvas setup
             let ctx = canvas.getContext("2d");
     
@@ -63,6 +57,13 @@ const MatrixBackground = ({ show }) => {
             // Clear the animation interval to stop the animation
             clearInterval(animationInterval);
           }
+          if (!show) {
+            stopMatrixRain()
+          } else {
+            startMatrixRain()
+          }
+        }, [show]);
+        
     return <canvas ref={canvasRef}></canvas>;
 }
 
