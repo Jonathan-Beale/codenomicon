@@ -1,7 +1,7 @@
-import './About.css';
-import jonimage from '../components/jonimage.png';
-import blakeimage from '../components/blakeimage.png';
-import sydneyimage from '../components/sydneyimage.png';
+import '../css/About.css';
+import jonimage from '../assets/jonimage.png';
+import blakeimage from '../assets/blakeimage.png';
+import sydneyimage from '../assets/sydneyimage.png';
 
 function About() {
 

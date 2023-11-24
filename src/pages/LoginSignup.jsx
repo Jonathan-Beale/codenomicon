@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import "./LoginSignup.css";
+import "../css/LoginSignup.css";
 import {Link} from 'react-router-dom';
 
 function LoginSignup() {
@@ -34,8 +34,8 @@ function LoginSignup() {
                 name="pw"
                 />
             </div>
-            <button type="submit" className="submit-button" onClick={event => window.location.href='repopage.html'}>
-                Log In
+            <button type="submit" className="submit-button">
+                <Link to="/home" style={{color:'white', textDecoration:'none', padding: "60px 0px"}}>Log In</Link>
             </button>
             <div className="message">
                 <br />

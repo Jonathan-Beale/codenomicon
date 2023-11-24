@@ -1,5 +1,5 @@
-import './Home.css';
-import logo from '../components/logo.png';
+import '../css/Home.css';
+import logo from '../assets/logo.png';
 import {Link} from 'react-router-dom';
 
 function Home() {

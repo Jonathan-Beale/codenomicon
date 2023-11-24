@@ -1,4 +1,4 @@
-import './Error.css';
+import '../css/Error.css';
 
 function Error() {
 

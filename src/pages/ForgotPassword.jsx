@@ -1,4 +1,4 @@
-import './ForgotPassword.css';
+import '../css/ForgotPassword.css';
 import {Link} from 'react-router-dom';
 
 function ForgotPassword() {
