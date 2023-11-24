@@ -4,6 +4,7 @@
     left:0%;
     box-sizing: border-box;
     width: 100%;
+    min-width: 850px;
     display: flex;
     padding: .75em;
     background-color: rgba(0, 0, 0, 0.386);
@@ -115,6 +116,7 @@ button:active{
     transition: .4s; /* Smooth transition effect */
     height: 10px;
     width: 100px;
+    cursor: url(../pointer.png), pointer;
   }
 
   .slider::before {
@@ -134,5 +136,5 @@ button:active{
   
   /* Move the slider button to the right when the switch is on */
   input:checked + .slider::before {
-    transform: translateX(90px);
+    transform: translateX(61px);
   }
