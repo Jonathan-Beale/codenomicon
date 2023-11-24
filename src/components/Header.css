@@ -94,3 +94,45 @@ button:active{
     background-color: var(--highlight-color-1);
     color: black;
 }
+
+.switch{
+    margin-left: 30px;
+}
+
+.switch p {
+    font-size: 20px;
+    color: #7fffa1;
+}
+
+.switch input {
+    display: none;
+  }
+
+  .slider {
+    margin: 10px;
+    position: absolute;
+    border: 2px solid #4CAF50;
+    transition: .4s; /* Smooth transition effect */
+    height: 10px;
+    width: 100px;
+  }
+
+  .slider::before {
+    position: absolute;
+    content: "";
+    left: 4px;
+    bottom: 4px;
+    background-color: white; /* Slider color when switch is on */
+    transition: .4s; /* Smooth transition effect */
+    height: 10px;
+    width: 26px;
+  }
+
+  input:checked + .slider {
+    border: 2px solid red; /* Green background color when switch is on */
+  }
+  
+  /* Move the slider button to the right when the switch is on */
+  input:checked + .slider::before {
+    transform: translateX(90px);
+  }

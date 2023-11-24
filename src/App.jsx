@@ -6,12 +6,20 @@ import About from "./pages/About";
 import Error from "./pages/Error";
 import ForgotPassword from "./pages/ForgotPassword";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import React, { useState } from 'react';
 
 function App() {
+  const [showMatrixRain, setShowMatrixRain] = useState(true);
+
+  const toggleMatrixRain = () => {
+    setShowMatrixRain(prev => !prev);
+    console.log("click");
+  };
+
   return (
     <Router>
     <div>
-      <Header />
+      <Header toggleMatrixRain={toggleMatrixRain} />
         <Routes>
           <Route path="/" element={<LoginSignup />} />
           <Route path="/home" element={<Home />} />
@@ -20,7 +28,7 @@ function App() {
           <Route path="*" element={<Error />} />
         </Routes>
       <div>
-      <MatrixBackground />
+      <MatrixBackground show={showMatrixRain} />
       </div>
     </div>
     </Router>
