@@ -57,6 +57,7 @@ const MatrixBackground = ({ show }) => {
             // Clear the animation interval to stop the animation
             clearInterval(animationInterval);
           }
+          stopMatrixRain()
           if (!show) {
             stopMatrixRain()
           } else {
