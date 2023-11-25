@@ -17,6 +17,7 @@
     "react-dom": "^18.2.0",
     "react-router": "^6.18.0",
     "react-router-dom": "^6.18.0",
+    "reactjs-popup": "^2.0.6",
     "redis": "^4.6.10",
     "simple-git": "^3.20.0"
   },

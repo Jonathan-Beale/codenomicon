@@ -139,3 +139,170 @@ button:active{
   input:checked + .slider::before {
     transform: translateX(61px);
   }
+
+.overlay{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    animation: fadeIn 1.5s linear;
+}
+
+@keyframes fadeIn {
+    0% {opacity: 0;
+        transform: translate(0, 10px);}
+    100% {opacity: 1;
+          transform: translate(0, 0px);}
+}
+
+.wrapper{
+    animation: fadeIn 1s linear;
+    width: 400px;
+    background: rgba(0, 0, 0);
+    border: solid 1px #7fffe5;
+    box-shadow: 0px 0px 16px #00ffcc7c;
+    color: white;
+    padding: 20px 50px 40px 50px;
+    margin: auto;
+    margin-top: 15%;
+}
+
+.wrapper h1{
+    font-size: 30px;
+    text-align: center;
+    color: white;
+    margin: 10px;
+}
+
+.wrapper h3{
+    font-size: 17px;
+    text-align: center;
+    color: white;
+    margin: 10px;
+}
+
+.input{
+    width: 100%;
+    height: 50px;
+    background: white;
+    margin: 30px 0;
+}
+
+input{
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: 2px solid #000000;
+    color: black;
+    font-size: 10px;
+    padding: 10px 10px 10px 10px;
+    font-weight: bold;
+}
+
+::placeholder {
+    color: black;
+    font-weight: bold;
+    opacity: 0.7;
+}
+
+.submitButton{
+    width: 100%;
+    height: 45px;
+    background: #000000;
+    border: solid 1px #7fffe5;
+    outline: none;
+    cursor: url(../pointer.png), pointer;
+    font-size: 20px;
+    color: #ffffff;
+    font-weight: 600;
+    transition: 0.3s;
+    margin-top: 30px;
+    position: relative;
+    z-index: 0;
+}
+
+.submitButton:hover{
+    transition: 0.3s;
+    color: var(--highlight-color-1);
+    border: solid 1px var(--highlight-color-1);
+    box-shadow: 0px 0px 16px var(--highlight-color-1);
+    backdrop-filter: blur(4px);
+}
+
+.submitButton:active{
+    transition: 0.3s;
+    background-color: var(--highlight-color-1);
+    color: #000000
+}
+
+.x{
+    float: right;
+    background-color: rgb(47, 255, 123);
+    padding: 2px;
+    margin: 2px;
+    border-radius: 10px;
+    cursor: url(../pointer.png), pointer;
+    color: black;
+    font-weight: 600;
+    text-shadow: none;
+}
+
+.x:hover {
+    color: red;
+}
+
+.dropdown{
+    width: 100%;
+    display: inline-block;
+    cursor: url(../pointer.png), pointer;
+}
+
+.dropdown .dropdownButton{
+    width: 100%;
+    padding: 10px;
+    margin: 5px;
+    font-size: 15px;
+    color: black;
+    font-weight: 600;
+    background: white;
+    box-shadow: none;
+    text-shadow: none;
+}
+
+.dropdown .dropdownOptions{
+    display: none;
+    position: absolute;
+    background: white;
+    width: 310px;
+    position: relative;
+    z-index: 1;
+}
+
+.dropdown:hover .dropdownOptions{
+    display: block;
+}
+
+.dropdown .option{
+    display: block;
+    cursor: url(../pointer.png), pointer;
+    padding: 5px;
+    font-weight: 600;
+    color: black;
+    font-size: 15px;
+    background: none;
+    box-shadow: none;
+    border: none;
+    text-shadow: none;
+    width: 100%;
+    backdrop-filter: none;
+    margin: auto;
+}
+
+.dropdown .option:hover{
+    background: aquamarine;
+    width: 100%;
+    margin: auto;
+}

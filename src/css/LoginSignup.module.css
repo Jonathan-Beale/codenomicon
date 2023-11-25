@@ -85,13 +85,6 @@ canvas{
     float: left;
 }
 
-.errorBar {
-    width: 450px;
-    background: linear-gradient(black, #ff1111 10% 90%, black);;
-    border: solid 5px #000000;
-    float: left;
-}
-
 .wrapper h1{
     font-size: 30px;
     text-align: center;
