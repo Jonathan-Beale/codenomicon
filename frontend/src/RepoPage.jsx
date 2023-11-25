@@ -10,17 +10,17 @@ function RepoPage() {
   function initializeEditor() {
     let editorDiv = document.getElementById('monaco-editor');
 
-    globalEditorInstance = monaco.editor.create(editorDiv, {
-      theme: 'vs-dark',
-      language: 'markdown'
-    });
+    // globalEditorInstance = monaco.editor.create(editorDiv, {
+    //   theme: 'vs-dark',
+    //   language: 'markdown'
+    // });
 
-    tabBar = document.getElementById('editor-tabs')
+    // tabBar = document.getElementById('editor-tabs')
 
-    userID = './TEST_USER'
+    // userID = './TEST_USER'
 
-    // For testing only
-    sessionStorage.setItem('conversationId', 'testID');
+    // // For testing only
+    // sessionStorage.setItem('conversationId', 'testID');
   }
 
   return (
