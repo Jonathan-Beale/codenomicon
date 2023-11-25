@@ -1,0 +1,308 @@
+.header{
+    position: absolute;
+    top:0%;
+    left:0%;
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 880px;
+    display: flex;
+    padding: .75em;
+    background-color: rgba(0, 0, 0, 0.386);
+    color: #09b800;
+    font-size: 40px;
+    text-shadow: .1vh .1vh 0 green, .1vh -.1vh 0 green, -.1vh -.1vh 0 green, -.1vh .1vh 0 green;
+    font-family: 'Courier New', sans-serif;
+    border-bottom: solid 1px #09b800;
+    animation: color-shift 1s infinite;
+    transition: 0.3s;
+}
+
+.header:hover{
+    position: absolute;
+    top:0%;
+    left:0%;
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 880px;
+    display: flex;
+    padding: .75em;
+    background-color: rgba(0, 0, 0);
+    color: #09b800;
+    font-size: 40px;
+    text-shadow: .1vh .1vh 0 green, .1vh -.1vh 0 green, -.1vh -.1vh 0 green, -.1vh .1vh 0 green;
+    font-family: 'Courier New', sans-serif;
+    box-shadow: rgba(0, 255, 26, 0.25) 0px 54px 55px, rgba(115, 255, 0, 0.12) 0px -12px 30px, rgba(94, 255, 0, 0.12) 0px 4px 6px, rgba(43, 255, 0, 0.17) 0px 12px 13px, rgba(0, 255, 34, 0.09) 0px -3px 5px;
+    animation: color-shift 1s infinite;
+}
+
+@keyframes color-shift{
+    0% {color: #09b800}
+    25% {color: rgb(213, 244, 224)}
+    50% {color: #09b800}
+    75% {color: rgb(186, 255, 36)}
+    100% {color: #09b800}
+}
+
+.buttons {
+    position: absolute;
+    right: 3%;
+    top: 21px;
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+}
+
+.button{
+    font-size: 18px;
+    color: white;
+    background: rgba(0, 0, 0, 0.176);
+    backdrop-filter: blur(2px);
+    border: solid 1px #7fffa1;
+    box-shadow: 0px 0px 16px #00ff3779;
+    padding: 5px;
+    margin: 5px;
+    cursor: url(../pointer.png), pointer;
+    font-weight: 400;
+    transition: 0.3s;
+    align-content: center;
+    text-shadow: .1vh .1vh 0 rgb(6, 68, 0), .1vh -.1vh 0 rgb(6, 68, 0), -.1vh -.1vh 0 rgb(6, 68, 0), -.1vh .1vh 0 rgb(6, 68, 0);
+    font-weight: 600;
+}
+
+.button{
+    font-size: 18px;
+    color: white;
+    background: rgba(0, 0, 0, 0.176);
+    backdrop-filter: blur(2px);
+    border: solid 1px #7fffa1;
+    box-shadow: 0px 0px 16px #00ff3779;
+    padding: 5px;
+    margin: 5px;
+    cursor: url(../pointer.png), pointer;
+    font-weight: 400;
+    transition: 0.3s;
+    align-content: center;
+    text-shadow: .1vh .1vh 0 rgb(6, 68, 0), .1vh -.1vh 0 rgb(6, 68, 0), -.1vh -.1vh 0 rgb(6, 68, 0), -.1vh .1vh 0 rgb(6, 68, 0);
+    font-weight: 600;
+}
+
+button:hover{
+    color: var(--highlight-color-1);
+    border: solid 1px var(--highlight-color-1);
+    box-shadow: 0px 0px 16px var(--highlight-color-1);
+}
+
+button:active{
+    background-color: var(--highlight-color-1);
+    color: black;
+}
+
+.switch{
+    margin-left: 30px;
+}
+
+.switch p {
+    font-size: 20px;
+    color: #7fffa1;
+}
+
+.switch input {
+    display: none;
+  }
+
+  .slider {
+    margin: 10px;
+    position: absolute;
+    border: 2px solid #4CAF50;
+    transition: .4s; /* Smooth transition effect */
+    height: 10px;
+    width: 100px;
+    cursor: url(../pointer.png), pointer;
+  }
+
+  .slider::before {
+    position: absolute;
+    content: "";
+    left: 4px;
+    bottom: 4px;
+    background-color: white; /* Slider color when switch is on */
+    transition: .4s; /* Smooth transition effect */
+    height: 10px;
+    width: 26px;
+  }
+
+  input:checked + .slider {
+    border: 2px solid red; /* Green background color when switch is on */
+  }
+  
+  /* Move the slider button to the right when the switch is on */
+  input:checked + .slider::before {
+    transform: translateX(61px);
+  }
+
+.overlay{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    animation: fadeIn 1.5s linear;
+}
+
+@keyframes fadeIn {
+    0% {opacity: 0;
+        transform: translate(0, 10px);}
+    100% {opacity: 1;
+          transform: translate(0, 0px);}
+}
+
+.wrapper{
+    animation: fadeIn 1s linear;
+    width: 400px;
+    background: rgba(0, 0, 0);
+    border: solid 1px #7fffe5;
+    box-shadow: 0px 0px 16px #00ffcc7c;
+    color: white;
+    padding: 20px 50px 40px 50px;
+    margin: auto;
+    margin-top: 15%;
+}
+
+.wrapper h1{
+    font-size: 30px;
+    text-align: center;
+    color: white;
+    margin: 10px;
+}
+
+.wrapper h3{
+    font-size: 17px;
+    text-align: center;
+    color: white;
+    margin: 10px;
+}
+
+.input{
+    width: 100%;
+    height: 50px;
+    background: white;
+    margin: 15px 0;
+}
+
+input{
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: 2px solid #000000;
+    color: black;
+    font-size: 10px;
+    padding: 10px 10px 10px 10px;
+    font-weight: bold;
+}
+
+::placeholder {
+    color: black;
+    font-weight: bold;
+    opacity: 0.7;
+}
+
+.submitButton{
+    width: 100%;
+    height: 45px;
+    background: #000000;
+    border: solid 1px #7fffe5;
+    outline: none;
+    cursor: url(../pointer.png), pointer;
+    font-size: 20px;
+    color: #ffffff;
+    font-weight: 600;
+    transition: 0.3s;
+    margin-top: 30px;
+    position: relative;
+    z-index: 0;
+}
+
+.submitButton:hover{
+    transition: 0.3s;
+    color: var(--highlight-color-1);
+    border: solid 1px var(--highlight-color-1);
+    box-shadow: 0px 0px 16px var(--highlight-color-1);
+    backdrop-filter: blur(4px);
+}
+
+.submitButton:active{
+    transition: 0.3s;
+    background-color: var(--highlight-color-1);
+    color: #000000
+}
+
+.x{
+    float: right;
+    background-color: rgb(47, 255, 123);
+    padding: 2px;
+    margin: 2px;
+    border-radius: 10px;
+    cursor: url(../pointer.png), pointer;
+    color: black;
+    font-weight: 600;
+    text-shadow: none;
+}
+
+.x:hover {
+    color: red;
+}
+
+.dropdown{
+    width: 100%;
+    display: inline-block;
+    cursor: url(../pointer.png), pointer;
+}
+
+.dropdown .dropdownButton{
+    width: 100%;
+    padding: 10px;
+    margin: 5px;
+    font-size: 15px;
+    color: black;
+    font-weight: 600;
+    background: white;
+    box-shadow: none;
+    text-shadow: none;
+}
+
+.dropdown .dropdownOptions{
+    display: none;
+    position: absolute;
+    background: white;
+    width: 310px;
+    position: relative;
+    z-index: 1;
+}
+
+.dropdown:hover .dropdownOptions{
+    display: block;
+}
+
+.dropdown .option{
+    display: block;
+    cursor: url(../pointer.png), pointer;
+    padding: 5px;
+    font-weight: 600;
+    color: black;
+    font-size: 15px;
+    background: none;
+    box-shadow: none;
+    border: none;
+    text-shadow: none;
+    width: 100%;
+    backdrop-filter: none;
+    margin: auto;
+}
+
+.dropdown .option:hover{
+    background: aquamarine;
+    width: 100%;
+    margin: auto;
+}
