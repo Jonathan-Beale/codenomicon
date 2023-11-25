@@ -73,7 +73,59 @@ function App() {
 
 
       // AI SHIT!!!
+
+      const getAIAnswer = async (sessionID, userQuery, editorContent, model, OaiKey, systemPrompt) => {
+        try {
+          const response = await axios.get('/answer', {
+            params: {
+              sessionID: sessionID,
+              userQuery: userQuery,
+              editorContent: editorContent,
+              model: model,
+              OaiKey: OaiKey,
+              systemPrompt: systemPrompt,
+            },
+          });
       
+          // Check the response for success or failure
+          if (response.status === 200) {
+            const { query, response: aiResponse, editorContent: decodedEditorContent, timestamp } = response.data;
+            console.log('User Query:', decodeURIComponent(query));
+            console.log('AI Response:', aiResponse);
+            console.log('Editor Content:', decodeURIComponent(decodedEditorContent));
+            console.log('Timestamp:', new Date(timestamp));
+          } else {
+            console.error('Failed to get AI response:', response.data);
+          }
+        } catch (error) {
+          console.error('Error getting AI response:', error);
+        }
+      };
+
+
+      const fetchHistory = async (sessionID, localPath) => {
+        try {
+          const response = await axios.post('/history', {
+            sessionID: sessionID,
+            localPath: localPath,
+          });
+      
+          // Check the response for success or failure
+          if (response.status === 200) {
+            const history = response.data;
+            console.log('Fetched Conversation History:', history);
+      
+            // Optionally, you can save the history to a local file or process it as needed.
+          } else {
+            console.error('Failed to fetch conversation history:', response.data);
+          }
+        } catch (error) {
+          console.error('Error fetching conversation history:', error);
+        }
+      };
+
+
+
 
   return (
     <div className="App">

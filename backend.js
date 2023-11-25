@@ -367,18 +367,17 @@ app.get('/list-files', async (req, res) => {
 // AI ANSWER -> {response: response}
 app.get('/answer', async (req, res) => {
   const { sessionID, userQuery, editorContent, model, OaiKey, systemPrompt } = req.body;
+  // 
   const conversationKey = `conversation:${sessionID}`;
 
   try {
     // Retrieve the conversation from Redis
     const conversation = await client.lRange(conversationKey, 0, -1);
 
-    // Extract previous queries from the conversation
-    const previousQueries = conversation.map((turn) => JSON.parse(turn).query);
-
     // Include the system prompt and previous queries when calling getAIResponse
     const response = await getAIResponse(
-      [...previousQueries, systemPrompt, userQuery].join('\n'), // Combine previous queries, system prompt, and user query
+      systemPrompt,
+      conversation,
       editorContent,
       model,
       OaiKey
