@@ -23,10 +23,6 @@ function About() {
                     <br></br>
                     <p>4. <span>AI Chat Assistant:</span> Facilitates communication with an AI. The AI can see the file currently open in the editor and can have custom conversation histories loaded into it.</p>
                     <br></br>
-                    <p>5. <span>Testing & Debugging:</span> Offers a test feature to execute code snippets, aiding in quick debugging and testing.</p>
-                    <br></br>
-                    <p>6. <span>User and Session Management:</span> Manages user sessions and provides a test user environment for demonstration purposes.</p>
-                    <br></br>
                     <h3>Usage</h3>
                     <br></br>
                     <p><span>Editing Code:</span> Open files from the file explorer and edit them in the Monaco Editor. The editor supports various languages and themes.</p>

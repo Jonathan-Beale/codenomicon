@@ -45,6 +45,7 @@ const Header = ({ toggleMatrixRain }) => {
                                     <br/>
                                     <h1>SETTINGS:</h1>
                                     <input type="text" className={styles.input} placeholder="Enter your OpenAI key"/>
+                                    <input type="text" className={styles.input} placeholder="Enter your GitHub token"/>
                                     <h3>Select a model:</h3>
                                     <div className={styles.dropdown}>
                                         <button id="dropdownButton" className={styles.dropdownButton}></button>
