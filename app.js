@@ -18,6 +18,13 @@ const client = redis.createClient({
 });
 
 
+// For testing
+app.get('/ping', async (req, res) => {
+  console.log('Pong')
+  res.json({"ping": "Pong!"})
+})
+
+
 client.on('error', err => console.log('Redis Client Error', err));
 
 // Serve files from the public directory
@@ -64,7 +71,7 @@ app.post('/delete-repo', (req, res) => {
 // LOCAL DELETE
 app.delete('/delete', async (req, res) => {
   const { localPath } = req.body;
-  let dirPath = process.cwd() + "/TEST_USER"
+  let dirPath = path.join(process.cwd(), localPath)
 
   try {
     // Check if the directory exists
@@ -85,7 +92,7 @@ app.delete('/delete', async (req, res) => {
 
 // LOCAL FILE -> file content
 app.get('/file', async (req, res) => {
-  const filePath = req.query.filePath;
+  const { filePath } = req.body;
 
   // Basic input validation
   if (typeof filePath !== 'string') {
@@ -165,14 +172,14 @@ app.post('/clone', async (req, res) => {
   }
 
   try {
-    // Create the directory if it does not exist
-    try {
-      await fs.access(localPath);
-    } catch (error) {
-      await fs.mkdir(localPath, { recursive: true });
-    }
+    await fs.access(localPath);
+  } catch (error) {
+    await fs.mkdir(localPath, { recursive: true });
+  }
 
-    const dir_path = path.join(process.cwd(), "/TEST_USER")
+  const dir_path = path.join(process.cwd(), localPath)
+  try {
+    // Create the directory if it does not exist
     git = simpleGit(dir_path)
     
     await git.clone(repoUrl, dir_path);
@@ -194,10 +201,17 @@ app.post('/clone', async (req, res) => {
     console.error('Error:', error);
     return res.status(500).send('Failed to clone the repository');
   }
+
 });
 
 // GIT STAGE ALL
 app.post('/stage-all', async (req, res) => {
+  const { localPath } = req.body;
+
+  if(git === null) {
+    git = simpleGit(path.join(process.cwd(), localPath))
+  }
+
   try {
       console.log(process.cwd())
       const result = await git.raw(['ls-tree', '-r', 'HEAD', '--name-only']);
