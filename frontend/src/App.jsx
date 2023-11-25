@@ -28,7 +28,6 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/forgot" element={<ForgotPassword />} />
-          <Route path="*" element={<Error />} />
           <Route path="/repo-page" element={<RepoPage />} />
         </Routes>
       <div>
