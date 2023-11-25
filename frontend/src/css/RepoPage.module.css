@@ -40,6 +40,17 @@ body{
     width: 100%;
 }
 
+
+.editorContent {
+    border: 1px solid gray;
+    padding: 10px;
+    min-width: 50vw;
+    min-height: 40vh;
+    color:rgb(0, 255, 94);
+    background-color: rgb(18, 0, 34);
+  }
+
+
 .left {
     overflow: auto;
     align-items: center;

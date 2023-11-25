@@ -3,7 +3,7 @@ import styles from "../css/RepoPage.module.css"
 import axios from 'axios';
 const backendUrl = 'http://localhost:4000';
 
-function FileExplorer({ initializeEditor }) {
+function FileExplorer({ onRepoCloned }) {
 
   const [showRepoBox, setShowRepoBox] = useState(true);
   const [showCommitBox, setShowCommitBox] = useState(false);
@@ -29,11 +29,11 @@ function FileExplorer({ initializeEditor }) {
         console.log(message);
         if (readme) {
           console.log('README Content:', readme);
+          onRepoCloned(readme)
         }
       } else {
         console.error('Failed to clone repository:', response.data);
       }
-      initializeEditor()
     } catch (error) {
       console.error('Error cloning repository:', error);
     }
