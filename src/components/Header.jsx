@@ -36,7 +36,7 @@ const Header = ({ toggleMatrixRain }) => {
                     <Link to="/log-out" style={{ textDecoration:'none'}}>LOG OUT</Link>
                 </div>
                 <Popup trigger={<div className={styles.button} type="button" id="settingsBtn">
-                    <Link to="" style={{ textDecoration:'none'}}>SETTINGS</Link></div>}>
+                    <Link to="" style={{ textDecoration:'none'}} onClick={(event) => event.preventDefault()}>SETTINGS</Link></div>}>
                         {
                             close => (
                             <div className={styles.overlay}>
