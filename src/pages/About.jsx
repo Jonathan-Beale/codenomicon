@@ -1,4 +1,4 @@
-import '../css/About.css';
+import styles from '../css/About.module.css';
 import jonimage from '../assets/jonimage.png';
 import blakeimage from '../assets/blakeimage.png';
 import sydneyimage from '../assets/sydneyimage.png';
@@ -7,9 +7,9 @@ function About() {
 
     return (
         <>
-            <div className="container">
+            <div className={styles.container}>
                 <div><h1>ABOUT CODENOMICON</h1></div>
-                <div className="paragraph"><h3>Overview</h3>
+                <div className={styles.paragraph}><h3>Overview</h3>
                     <br></br>
                     <p>Codenomicon is a web-based code editor and collaboration tool designed to streamline the process of coding, testing, and sharing code within a development team. It integrates a powerful code editor, version control functionalities, and an AI chat interface.</p>
                     <br></br>
@@ -42,26 +42,26 @@ function About() {
                     <p>- Express.js</p>
                     <p>- Monaco Editor</p>
                     <p>- React/HTML/CSS</p></div>
-                <div className="credit">Created By:</div>
+                <div className={styles.credit}>Created By:</div>
             </div>
-            <div className="contributors-container">
-                <div className="contributors">
-                    <img src={jonimage} alt="Logo" className="contributors-image"/>
-                    <div className="contributors-text">
+            <div className={styles.contributorsContainer}>
+                <div className={styles.contributors}>
+                    <img src={jonimage} alt="Logo" className={styles.contributorsImage}/>
+                    <div className={styles.contributorsText}>
                         <h3>Jon Beale</h3>
                         <h5>Project Manager, Back End</h5>
                     </div>
                 </div>
-                <div className="contributors">
-                    <img src={blakeimage} alt="Logo" className="contributors-image"/>
-                    <div className="contributors-text">
+                <div className={styles.contributors}>
+                    <img src={blakeimage} alt="Logo" className={styles.contributorsImage}/>
+                    <div className={styles.contributorsText}>
                         <h3>Blake Baez</h3>
                         <h5>Dev Ops</h5>
                     </div>
                 </div>
-                <div className="contributors">
-                    <img src={sydneyimage} alt="Logo" className="contributors-image"/>
-                    <div className="contributors-text">
+                <div className={styles.contributors}>
+                    <img src={sydneyimage} alt="Logo" className={styles.contributorsImage}/>
+                    <div className={styles.contributorsText}>
                         <h3>Sydney Baldwin</h3>
                         <h5>Front End</h5>
                     </div>

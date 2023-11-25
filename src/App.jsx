@@ -1,6 +1,7 @@
 import MatrixBackground from "./components/MatrixBackground";
 import Header from "./components/Header";
-import LoginSignup from "./pages/LoginSignup";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Error from "./pages/Error";
@@ -22,7 +23,8 @@ function App() {
     <div>
       <Header toggleMatrixRain={toggleMatrixRain} />
         <Routes>
-          <Route path="/" element={<LoginSignup />} />
+          <Route path="/" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
           <Route path="/home" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/forgot" element={<ForgotPassword />} />

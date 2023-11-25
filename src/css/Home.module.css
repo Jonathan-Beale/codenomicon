@@ -1,0 +1,127 @@
+:root {
+    --background-color-1: #044b4a;
+    --highlight-color-1: #09b800;
+    --background-color-2: #0065bd;
+    --highlight-color-2: #00f7ff;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Courier New", sans-serif;
+    cursor: url(../cursor.png), auto;
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+}
+
+.image{
+    margin-left: auto;
+    margin-right: auto;
+    animation: fadeIn 3s linear;
+    width: 50%;
+    min-width: 390px;
+    margin-top: 20px;
+    margin-bottom: 0px;
+}
+
+@keyframes fadeIn {
+    0% {opacity: 0;
+        transform: translate(0, 10px);}
+    100% {opacity: 1;
+          transform: translate(0, 0px);}
+}
+
+.slogan{
+    animation: fadeIn 2s linear;
+    width: 100%;
+    background: transparent;
+    color: #ffffff;
+    padding: 50px 50px;
+    float: left;
+    font-size: 30px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.sloganText{
+    animation: pulse 5s infinite;
+}
+
+@keyframes pulse{
+    0% {text-shadow: none}
+    16% {text-shadow: 3px -3px 5px #21ff11;
+        text-shadow: 3px 3px 10px #bcff11;}
+    32% {text-shadow: none}
+    48% {text-shadow: 3px 3px 5px #21ff11;
+        text-shadow: -3px 3px 10px #0ed200;}
+    64% {text-shadow: none}
+    80% {text-shadow: -3px 3px 5px #21ff11;
+        text-shadow: 3px -3px 10px #00e893;}
+    100% {text-shadow: none}
+}
+
+.homeWrapper{
+    width: 100%;
+    background: none;
+    padding: 50px 50px;
+    float: left;
+    font-size: 18px;
+    text-align: center;
+    color:white;
+}
+
+.info{
+    animation: fadeIn 4s linear;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.80);
+    backdrop-filter: blur(2px);
+    border: solid 1px #7fffe5;
+    box-shadow: 0px 0px 16px #00ffcc7c;
+    color: #000000;
+    padding: 50px 50px;
+    float: left;
+    font-size: 18px;
+    text-align: center;
+    box-shadow: rgba(255, 252, 252, 0.162) 0 -20px 70px 5px;
+    color:white;
+}
+
+.homeButton{
+    animation: fadeIn 5s linear;
+    width: 200px;
+    height: 45px;
+    background: rgba(0, 139, 76, 0.70);
+    border: solid 1px #7fffe5;
+    outline: none;
+    cursor: url(../pointer.png), pointer;
+    font-size: 20px;
+    color: white;
+    font-weight: 600;
+    transition: 0.3s;
+    box-shadow: rgba(255, 252, 252, 0.162) 0 10px 70px 5px;
+    margin-top: 30px;
+}
+
+.homeButton:hover{
+    transition: 0.3s;
+    color: white;
+    border: solid 1px var(--highlight-color-1);
+    box-shadow: 0px 0px 16px var(--highlight-color-1);
+    backdrop-filter: blur(4px);
+}
+
+.homeButton:active{
+    transition: 0.3s;
+    background-color: var(--highlight-color-1);
+    color: #000000;
+}

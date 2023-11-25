@@ -1,17 +1,17 @@
-import '../css/ForgotPassword.css';
+import styles from '../css/ForgotPassword.module.css';
 import {Link} from 'react-router-dom';
 
 function ForgotPassword() {
 
     return (
         <>
-        <div className="password-title">
-            <div className="password-message"><h2>Forgot Password?</h2></div>
+        <div className={styles.passwordTitle}>
+            <div className={styles.passwordMessage}><h2>Forgot Password?</h2></div>
         </div>
-        <div className="input-box">
-            <div className="msg">
+        <div className={styles.inputBox}>
+            <div className={styles.msg}>
                 Enter your email.</div>
-            <div className="input">
+            <div className={styles.input}>
                 <input
                     id="Email"
                     type="email"
@@ -19,10 +19,10 @@ function ForgotPassword() {
                     name="email"
                     />
                 </div>
-                <button className="recover-button">
+                <button className={styles.recoverButton}>
                     <Link to="/" style={{ textDecoration:'none', color:'white'}}>Recover Password</Link>
                 </button>
-                <div className="msg">
+                <div className={styles.msg}>
                     A recovery email will be sent to your account.</div>
             </div>
         </>

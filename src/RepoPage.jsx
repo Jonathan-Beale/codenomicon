@@ -1,17 +1,17 @@
 import ChatHistory from "./repo-page/ChatHistory";
 import FileEditor from "./repo-page/FileEditor";
 import FileExplorer from "./repo-page/FileExplorer";
-import "./css/RepoPage.css"
+import styles from "./css/RepoPage.module.css";
 
 function RepoPage() {
 
   return (
     <>
-        <div className="repo-wrapper">
+      <div className={styles.repoWrapper}>
           <FileExplorer/>
           <FileEditor/>
           <ChatHistory/>
-        </div>
+      </div>
     </>
   );
 }

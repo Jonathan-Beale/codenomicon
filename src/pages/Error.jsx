@@ -1,15 +1,15 @@
-import '../css/Error.css';
+import styles from '../css/Error.module.css';
 
 function Error() {
 
     return (
         <>
-        <div className="error-box">
-            <div className="error-title">
-                <div className="error-message"><h2>ERROR</h2></div>
+        <div className={styles.errorBox}>
+            <div className={styles.errorTitle}>
+                <div className={styles.errorMessage}><h2>ERROR</h2></div>
             </div>
-            <div className="message-box">
-                <div className="msg">
+            <div className={styles.messageBox}>
+                <div className={styles.msg}>
                     This page does not exist!</div>
             </div>
         </div>
