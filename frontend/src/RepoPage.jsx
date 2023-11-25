@@ -1,7 +1,7 @@
 import ChatHistory from "./repo-page/ChatHistory";
 import FileExplorer from "./repo-page/FileExplorer";
 import styles from "./css/RepoPage.module.css";
-import * as monaco from 'monaco-editor';
+// import * as monaco from 'monaco-editor';
 
 function RepoPage() {
 
