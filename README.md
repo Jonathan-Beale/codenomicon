@@ -14,10 +14,6 @@ Codenomicon is a web-based code editor and collaboration tool designed to stream
 
 4. **AI Chat Assistant**: Facilitates communication with an AI. The AI can see the file currently open in the editor and can have custom conversation histories loaded into it.
 
-5. **Testing & Debugging**: Offers a test feature to execute code snippets, aiding in quick debugging and testing.
-
-6. **User and Session Management**: Manages user sessions and provides a test user environment for demonstration purposes.
-
 ## Installation
 
 1. **Prerequisites**: Ensure Node.js is installed on your system.
