@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 const backendUrl = 'http://localhost:4000';
 
-const FileEditor = ({ openFile, openTabs, onFileSelect }) => {
+const FileEditor = ({ openFile, closeFile, openTabs, onFileSelect }) => {
     const [content, setContent] = useState('');
 
     useEffect(() => {
@@ -30,12 +30,23 @@ const FileEditor = ({ openFile, openTabs, onFileSelect }) => {
         setContent(e.target.value);
     };
 
+    const handleCloseTab = (file, event) => {
+        event.stopPropagation();
+        closeFile(file);
+    };
+
     return (
-        <div>
+        <div className={styles.editor}>
             <ul className={styles.editorTabs}>
                 {openTabs.map(file => (
                     <li key={file} onClick={() => onFileSelect(file)} className={styles.tab}>
                         {file}
+                        <button 
+                            className={styles.closeTab} 
+                            onClick={(event) => handleCloseTab(file, event)}
+                        >
+                            X
+                        </button>
                     </li>
                 ))}
             </ul>

@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from "../css/RepoPage.module.css"
 import axios from 'axios';
 const backendUrl = 'http://localhost:4000';
-const testPath = "Test/"
+const testPath = "Test"
 
 
-const FileExplorer = ({ files, onFileSelect, onRepoCloned }) => {
+const FileExplorer = ({ onFileSelect }) => {
+  const [fileStructure, setFileStructure] = useState([]);
+  const [showGoBox, setShowGoBox] = useState(true);
+
 
   const cloneRepo = async () => {
     const repoUrlInput = document.getElementById("repoUrlInput");
@@ -24,10 +27,11 @@ const FileExplorer = ({ files, onFileSelect, onRepoCloned }) => {
         console.log(message);
         if (readme) {
           console.log('README Content:', readme);
-          onRepoCloned(readme)
+          // onRepoCloned(readme)
         }
-        const structure = await fetchFileStructure(repoUrl);
+        const structure = await fetchFileStructure(localPath);
         setFileStructure(structure);
+        setShowGoBox(false);
       } else {
         console.error('Failed to clone repository:', response.data);
       }
@@ -36,24 +40,115 @@ const FileExplorer = ({ files, onFileSelect, onRepoCloned }) => {
     }
   };
 
+  
+  const fetchFileStructure = async (localPath) => {
+    try {
+      const response = await axios.post(`${backendUrl}/list-files`, {
+        folderPath: localPath,
+      });
+
+      // Check the response for success or failure
+      if (response.status === 200) {
+        const message = response.data;
+        console.log(message);
+        return message
+      } else {
+        console.error('Failed to stage all files:', response.data);
+      }
+    } catch (error) {
+      console.error('Error staging all files:', error);
+    }
+  };
+
+
+  const toggleFolder = async (folder, event) => {
+    event.stopPropagation();
+  
+    // Function to recursively update the file structure
+    const updateFileStructure = (files, path, folderContent) => {
+      return files.map(file => {
+        if (file.path === path) {
+          const isCurrentlyVisible = file.isVisible || false;
+          // Check if we have new content to load, if so, set it and make visible
+          if (folderContent) {
+            return { ...file, children: folderContent, isVisible: true };
+          } else {
+            // If no new content, just toggle the visibility
+            return { ...file, isVisible: !isCurrentlyVisible };
+          }
+        } else if (file.isDirectory && file.children) {
+          return { ...file, children: updateFileStructure(file.children, path, folderContent) };
+        } else {
+          return file;
+        }
+      });
+    };
+
+    // Determine if the folder's contents need to be loaded
+  const needToLoadContent = !folder.children || folder.children.length === 0;
+  let folderContent = null;
+  if (needToLoadContent) {
+    folderContent = await fetchFileStructure(folder.path);
+  }
+  
+    // Update the file structure state
+    setFileStructure(prevStructure =>
+      updateFileStructure(prevStructure, folder.path, folderContent)
+    );
+  };
+  
+  // Recursive component to display files and folders
+  const FileTree = ({ files }) => {
+
+    if (!files || files.length === 0) {
+      return <p className={styles.file}>No files to display.</p>;
+    }
+
+  
+    
+
+    return (
+      <div className={styles.fileExplorer}>
+        {files.map(file => (
+          <div key={file.path}>
+            {file.isDirectory ? (
+              <div className={styles.directory} onClick={(event) => {
+                toggleFolder(file, event)
+              }}>
+                <b>{file.name}</b>
+                {file.isVisible && <FileTree  files={file.children || []} />}
+              </div>
+            ) : (
+              <p className={styles.file} onMouseUp={(event) => {
+                event.stopPropagation()
+                onFileSelect(file.path)
+              }}>{file.name}</p>
+            )}
+          </div>
+        ))}
+      </div>
+    );
+  };
+
 
     return (
         <div className={styles.middle}>
             <h2>File Explorer</h2>
             <ul className={styles.left}>
-               <div className={styles.goBox} id="go-box">
-               <input className={styles.input} type="text" id="repoUrlInput" placeholder="Enter the repository URL" />
-               <button onMouseUp={cloneRepo}>Clone Repository</button>
-           </div>
-                {files.map(file => (
-                    <li key={file} onClick={() => onFileSelect(file)}>
-                        {file}
-                    </li>
-                ))}
+            {showGoBox && ( // Conditional rendering of go-box
+              <div className={styles.goBox} id="go-box">
+                <input className={styles.input} type="text" id="repoUrlInput" placeholder="Enter the repository URL" />
+                <button onMouseUp={cloneRepo}>Clone Repository</button>
+              </div>
+            )}
+            <FileTree files={fileStructure} />
             </ul>
         </div>
     );
 };
+
+
+
 //   return (
 //     <>
 //       <div>
