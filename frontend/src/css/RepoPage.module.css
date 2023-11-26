@@ -28,7 +28,7 @@ body{
 .repoWrapper {
     position: absolute;
     left: 0;
-    top: 120px;
+    top: 20vh;
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -68,9 +68,7 @@ body{
     align-items: center;
     justify-content: center;
     justify-items: center;
-    width: 55%;
     min-width: 400px;
-    height: 770px;
     overflow: auto;
     margin-left: 10px;
     margin-right: 10px;
@@ -91,6 +89,8 @@ body{
     margin: 2px;
     justify-content: center;
     align-items: center;
+    display: flex;
+    flex-direction: wrap;
     background:#001a06;
     border: solid 1px #299245;
     box-shadow: 0px 0px 16px #00ff3779;

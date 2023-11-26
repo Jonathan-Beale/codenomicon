@@ -309,7 +309,7 @@ app.delete('/delete-file', async (req, res) => {
 
 
 // LOCAL FILE -> file content
-app.get('/file-contents', async (req, res) => {
+app.post('/file-contents', async (req, res) => {
   const { filePath } = req.body;
 
   // Basic input validation
@@ -332,7 +332,7 @@ app.get('/file-contents', async (req, res) => {
 
 
 // LOCAL LIST FILES
-app.get('/list-files', async (req, res) => {
+app.post('/list-files', async (req, res) => {
   const { folderPath } = req.body
 
   
