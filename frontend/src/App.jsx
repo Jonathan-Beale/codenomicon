@@ -29,6 +29,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/forgot" element={<ForgotPassword />} />
           <Route path="/repo-page" element={<RepoPage />} />
+          <Route path="*" element={<Error />} />
         </Routes>
       <div>
       <MatrixBackground show={showMatrixRain} />
