@@ -378,6 +378,7 @@ app.get('/answer', async (req, res) => {
 
     // Include the system prompt and previous queries when calling getAIResponse
     const response = await getAIResponse(
+      conversation,
       systemPrompt,
       userQuery,
       editorContent,
@@ -385,7 +386,7 @@ app.get('/answer', async (req, res) => {
       OaiKey
     );
 
-    console.log(sessionID);
+    // console.log(sessionID);
 
     // Structure the current turn's data
     const turnData = JSON.stringify({
@@ -413,20 +414,47 @@ app.get('/answer', async (req, res) => {
 
 
 
-async function getAIResponse(systemPrompt, userQuery, fileContent, model, OaiKey) {
-  console.log(userQuery)
-  const llm = new OpenAI({ apiKey: OaiKey});
+async function getAIResponse(conversation, systemPrompt, userQuery, fileContent, model, OaiKey) {
+  // console.log(userQuery);
+
+  // Extract and parse the first two elements of the conversation
+  console.log("\n\nCONVERSATION: \n", conversation)
+  const firstElement = JSON.parse(conversation[0] || '{}');
+  const secondElement = JSON.parse(conversation[1] || '{}');
+
+  const messages = [
+    { role: "system", content: systemPrompt },
+    // Add the first two conversation elements if they exist
+  ...(firstElement.query && firstElement.response
+    ? [
+        { role: "user", content: firstElement.query },
+        { role: "assistant", content: firstElement.response.content },
+      ]
+    : []),
+  ...(secondElement.query && secondElement.response
+    ? [
+        { role: "user", content: secondElement.query },
+        { role: "assistant", content: secondElement.response.content },
+      ]
+    : []),
+    { role: "system", content: "editorContents:\n```" + fileContent + "```" },
+    { role: "user", content: userQuery }
+  ]
+
+  console.log("\n\nMESSAGES:\n", messages)
+
+  const llm = new OpenAI({ apiKey: OaiKey });
   const completion = await llm.chat.completions.create({
-    messages: [
-      { role: "system", content: "You will be given some code and a user's input. Assist the user." },
-      { role: "system", content: systemPrompt },
-      { role: "user", content: "Here is the code I have so far:"},
-      { role: "user", content: fileContent },
-      { role: "user", content: userQuery }],
+    messages: messages,
     model: model,
   });
 
-  return completion.choices[0].message
+  return completion.choices[0].message;
+
+  // return     {
+  //   "role": "assistant",
+  //   "content": "Of course! I'd be happy to assist you with that. To fix your function, you need to change the multiplication operation from `x*2` to `x**2`. This will calculate the square of the given number.\n\nHere's the updated code for your squared function:\n\n```python\ndef squared(x):\n    return x**2\n```\n\nNow, whenever you call this function with a number as an argument, it will return the square of that number. Let me know if there's anything else I can help you with!"
+  // }
 }
 
 
@@ -469,7 +497,7 @@ app.post('/load-history', async (req, res) => {
   try {
     // Read the JSON file at the specified path
     const fileContent = await fs.readFile(filePath, 'utf-8');
-    console.log(fileContent)
+    // console.log(fileContent)
 
     // Parse the JSON content into an array
     const history = JSON.parse(fileContent);

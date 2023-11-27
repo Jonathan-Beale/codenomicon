@@ -18,7 +18,7 @@ function ChatHistory() {
   };
 
   function getEditorContent() {
-    return "def squared(x):\n    return x*2"
+    return "def square(x):\n  return x**2"
   }
   function getSessionID() {
     return "test"
@@ -48,9 +48,9 @@ function ChatHistory() {
   const getAIAnswer = async () => {
     const sessionID = getSessionID()
     const editorContent = getEditorContent()
-    const userQuery = document.getElementById("userQuery").value
+    const userQuery = document.getElementById("userQuery").textContent
     // Clear input and update chat history
-    document.getElementById("userQuery").value = '';
+    document.getElementById("userQuery").textContent = '';
     updateChatHistory(userQuery, 'user');
     try {
       const response = await axios.get(`${backendUrl}/answer`, {
@@ -111,7 +111,8 @@ function ChatHistory() {
   const loadHistory = async () => {
     try {
       const response = await axios.post(`${backendUrl}/file-contents`, {  filePath: 'Test/codenomicon-chat-hist.json' });
-      
+      await axios.post(`${backendUrl}/load-history`, { session: "test", filePath: 'Test/codenomicon-chat-hist.json' })
+
       // Check the response for success or failure
       if (response.status === 200) {
         const historyData = response.data;
