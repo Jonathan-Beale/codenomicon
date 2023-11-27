@@ -257,7 +257,6 @@ button:active{
     padding: 4px;
     margin: 2px;
     font-weight: 300;
-    max-height: 40px;
     cursor: url(../pointer.png), pointer;
     justify-content: space-between;
     color: white;
