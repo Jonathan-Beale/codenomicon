@@ -45,7 +45,7 @@ function About() {
                     <img src={jonimage} alt="Logo" className={styles.contributorsImage}/>
                     <div className={styles.contributorsText}>
                         <h3>Jon Beale</h3>
-                        <h5>Project Manager, Back End</h5>
+                        <h5>Project Manager, Main Back End</h5>
                     </div>
                 </div>
                 <div className={styles.contributors}>
@@ -59,7 +59,7 @@ function About() {
                     <img src={sydneyimage} alt="Logo" className={styles.contributorsImage}/>
                     <div className={styles.contributorsText}>
                         <h3>Sydney Baldwin</h3>
-                        <h5>Front End</h5>
+                        <h5>Front End, Secondary Back End</h5>
                     </div>
                 </div>
             </div>

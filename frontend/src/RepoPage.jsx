@@ -3,8 +3,18 @@ import FileExplorer from './repo-page/FileExplorer';
 import FileEditor from './repo-page/FileEditor';
 import ChatHistory from "./repo-page/ChatHistory";
 import styles from "./css/RepoPage.module.css";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
+import axios from 'axios';
 
+// import * as monaco from 'monaco-editor';
+
+// Protecting repo page
 const RepoPage = () => {
+    const navigate = useNavigate();
+    const cookies = useCookies();
+
     const [fileTabs, setFileTabs] = useState([]);
     const [selectedFile, setSelectedFile] = useState(null);
     
@@ -28,7 +38,22 @@ const RepoPage = () => {
             // Otherwise, select the first file in the updated fileTabs array
             return initialTabs.length > 0 ? initialTabs[0] : null;
         });
-    }, []);
+        const verifyCookie = async () => {
+          if (!cookies.token){
+            navigate("/login");
+          }
+          try {
+          const response = await axios.post(
+              `http://localhost:4000/`,
+            {}
+          );
+          } catch (error){
+            console.log(error);
+          };
+          console.log(response.data);
+        };
+        verifyCookie();
+      }, [cookies, navigate]);
 
 
     const handleFileSelect = (file) => {
