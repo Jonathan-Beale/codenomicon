@@ -1,6 +1,6 @@
 import styles from '../css/Error.module.css';
 
-function Error() {
+const Error = () => {
 
     return (
         <>

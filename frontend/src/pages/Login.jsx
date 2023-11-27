@@ -1,8 +1,52 @@
 import React, {useState} from "react";
 import styles from "../css/LoginSignup.module.css";
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
+import axios from 'axios';
 
-function Login() {
+const Login = () => {
+    // Accessing backend
+    const navigate = useNavigate();
+    const [inputValue, setInputValue] = useState({
+        email: "",
+        password: "",
+    });
+    const {email, password} = inputValue;
+    const handleOnChange = (e) => {
+        const {name, value} = e.target;
+        setInputValue({
+            ...inputValue,
+            [name]: value,
+        });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post(
+                `http://localhost:4000/login`,
+                {
+                    ...inputValue,
+                },
+            );
+        console.log(response.data);
+        const {success, message} = response.data;
+        if (success){
+            handleSuccess(message);
+            setTimeout(() => {
+            navigate("/");
+            }, 1000);
+        } else {
+            handleError(message);
+        }
+        } catch (error){
+            console.log(error);
+        }
+        setInputValue({
+            ...inputValue,
+            email: "",
+            password: "",
+        });
+    };
 
     return (
         <>
@@ -14,36 +58,42 @@ function Login() {
                 <Link to="/signup" style={{color:'white', textDecoration:'none', padding: "60px 0px"}}>New Users</Link>
             </button>
         </div>
-        <div id="Log In" className={styles.tabVisible}>
-            <div className={styles.wrapper}>
-                <h1>Welcome back!</h1>
-            <div className={styles.input}>
-                <input
-                id="loginEmail"
-                type="email"
-                placeholder="Email"
-                name="email"
-                />
+        <form onSubmit={handleSubmit}>
+            <div id="Log In" className={styles.tabVisible}>
+                <div className={styles.wrapper}>
+                    <h1>Welcome back!</h1>
+                <div className={styles.input}>
+                    <input
+                    id="loginEmail"
+                    type="email"
+                    value={email}
+                    placeholder="Email"
+                    name="email"
+                    onChange={handleOnChange}
+                    />
+                </div>
+                <div className={styles.input}>
+                    <input
+                    id="loginPassword"
+                    type="password"
+                    value={password}
+                    placeholder="Password"
+                    name="password"
+                    onChange={handleOnChange}
+                    />
+                </div>
+                <button type="submit" className={styles.submitButton}>
+                    Log In
+                </button>
+                <div className={styles.message}>
+                    <br />
+                </div>
+                <div className={styles.message}>
+                    Forgot password? <Link to="/forgot" style={{textDecoration:'underline'}}>Recover</Link>
+                </div>
+                </div>
             </div>
-            <div className={styles.input}>
-                <input
-                id="loginPassword"
-                type="password"
-                placeholder="Password"
-                name="pw"
-                />
-            </div>
-            <button type="submit" className={styles.submitButton}>
-                <Link to="/repo-page" style={{color:'white', textDecoration:'none', padding: "0px 60px"}}>Log In</Link>
-            </button>
-            <div className={styles.message}>
-                <br />
-            </div>
-            <div className={styles.message}>
-                Forgot password? <Link to="/forgot" style={{textDecoration:'underline'}}>Recover</Link>
-            </div>
-            </div>
-        </div>
+        </form>
         </>
     );
   }

@@ -3,7 +3,7 @@ import jonimage from '../assets/jonimage.png';
 import blakeimage from '../assets/blakeimage.png';
 import sydneyimage from '../assets/sydneyimage.png';
 
-function About() {
+const About = () => {
 
     return (
         <>
@@ -59,7 +59,7 @@ function About() {
                     <img src={sydneyimage} alt="Logo" className={styles.contributorsImage}/>
                     <div className={styles.contributorsText}>
                         <h3>Sydney Baldwin</h3>
-                        <h5>Front End</h5>
+                        <h5>Front End, Secondary Back End</h5>
                     </div>
                 </div>
             </div>

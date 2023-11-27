@@ -1,9 +1,34 @@
 import ChatHistory from "./repo-page/ChatHistory";
 import FileExplorer from "./repo-page/FileExplorer";
 import styles from "./css/RepoPage.module.css";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
+import axios from 'axios';
+
 // import * as monaco from 'monaco-editor';
 
-function RepoPage() {
+// Protecting repo page
+const RepoPage = () => {
+    const navigate = useNavigate();
+    const cookies = useCookies();
+    useEffect(() => {
+      const verifyCookie = async () => {
+        if (!cookies.token){
+          navigate("/login");
+        }
+        try {
+        const response = await axios.post(
+            `http://localhost:4000/`,
+          {}
+        );
+        } catch (error){
+          console.log(error);
+        };
+        console.log(response.data);
+      };
+      verifyCookie();
+    }, [cookies, navigate]);
 
   let editorInstance = null
 

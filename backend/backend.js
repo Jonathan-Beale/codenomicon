@@ -1,5 +1,12 @@
 const express = require('express');
+const mongoose = require("mongoose");
+const cors = require('cors');
 const app = express();
+require("dotenv").config();
+const cookieParser = require("cookie-parser");
+const authRoute = require("./routes/AuthRoute");
+const { MONGO_URL, PORT } = process.env;
+
 const port = 4000;
 const simpleGit = require('simple-git');
 let git = null;
@@ -7,7 +14,15 @@ const fs = require('fs').promises;
 const path = require('path');
 const OpenAI = require("openai")
 const redis = require('redis');
-const cors = require('cors');
+
+// MongoDB setup
+mongoose
+  .connect(MONGO_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("MongoDB is connected."))
+  .catch((err) => console.error(err));
 
 const client = redis.createClient({
   password: 't23MLHAllrwCXnC9YjSoiewNjSdfOeJP',
@@ -17,13 +32,17 @@ const client = redis.createClient({
   }
 });
 
-// Serve files from the public directory
-app.use(express.static('public'));
 app.use(cors());
+
+app.use(cookieParser());
 
 // Middleware to parse JSON bodies
 app.use(express.json());
+  
+app.use("/", authRoute);
 
+// Serve files from the public directory
+app.use(express.static('public'));
 
 //        -----Git Endpoints-----        //
 

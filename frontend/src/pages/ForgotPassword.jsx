@@ -1,7 +1,7 @@
 import styles from '../css/ForgotPassword.module.css';
 import {Link} from 'react-router-dom';
 
-function ForgotPassword() {
+const ForgotPassword = () => {
 
     return (
         <>
@@ -20,7 +20,7 @@ function ForgotPassword() {
                     />
                 </div>
                 <button className={styles.recoverButton}>
-                    <Link to="/" style={{ textDecoration:'none', color:'white'}}>Recover Password</Link>
+                    <Link to="/login" style={{ textDecoration:'none', color:'white'}}>Recover Password</Link>
                 </button>
                 <div className={styles.msg}>
                     A recovery email will be sent to your account.</div>

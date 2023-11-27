@@ -2,6 +2,8 @@ import React from "react";
 import Popup from 'reactjs-popup';
 import styles from './Header.module.css';
 import { Link } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 const Header = ({ toggleMatrixRain }) => {
     // Show selection in custom dropdown
@@ -20,6 +22,16 @@ const Header = ({ toggleMatrixRain }) => {
         }
     }
 
+    // Logout button functionality
+    const navigate = useNavigate();
+    const [cookies, removeCookie] = useCookies([]);
+    const Logout = () => {
+        if (cookies.token){
+            removeCookie("token");
+            navigate("/login");
+        }
+    };
+
     return (
         <div className={styles.header}>
             <div className={styles.text}>
@@ -32,8 +44,8 @@ const Header = ({ toggleMatrixRain }) => {
                 <div className={styles.button} type="button">
                     <Link to="/about" style={{ textDecoration:'none'}}>ABOUT</Link>
                 </div>
-                <div className={styles.button} type="button">
-                    <Link to="/log-out" style={{ textDecoration:'none'}}>LOG OUT</Link>
+                <div className={styles.button} onClick={Logout} type="button">
+                    <Link to="/login" style={{ textDecoration:'none'}}>LOG IN/OUT</Link>
                 </div>
                 <Popup trigger={<div className={styles.button} type="button" id="settingsBtn">
                     <Link to="" style={{ textDecoration:'none'}} onClick={(event) => event.preventDefault()}>SETTINGS</Link></div>}>

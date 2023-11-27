@@ -2,7 +2,7 @@ import styles from '../css/Home.module.css';
 import logo from '../assets/logo.png';
 import {Link} from 'react-router-dom';
 
-function Home() {
+const Home = () => {
 
     return (
         <>
@@ -16,7 +16,7 @@ function Home() {
             A free tool that allows you to quickly access your GitHub repos and complete projects more efficiently, with the help of an AI assistant.
             </div>
             <button className={styles.homeButton}>
-                <Link to="/" style={{color:'white', textDecoration:'none'}}>Get Started</Link>
+                <Link to="/login" style={{color:'white', textDecoration:'none'}}>Get Started</Link>
             </button>
         </div>
         </>

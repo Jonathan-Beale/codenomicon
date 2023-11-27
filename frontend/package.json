@@ -16,9 +16,10 @@
     "monaco-editor": "^0.44.0",
     "openai": "^4.19.0",
     "react": "^18.2.0",
+    "react-cookie": "^6.1.1",
     "react-dom": "^18.2.0",
     "react-router": "^6.18.0",
-    "react-router-dom": "^6.18.0",
+    "react-router-dom": "^6.20.0",
     "reactjs-popup": "^2.0.6",
     "redis": "^4.6.10",
     "simple-git": "^3.20.0"

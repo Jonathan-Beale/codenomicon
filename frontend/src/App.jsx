@@ -7,8 +7,8 @@ import About from "./pages/About";
 import Error from "./pages/Error";
 import RepoPage from "./RepoPage";
 import ForgotPassword from "./pages/ForgotPassword";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
   const [showMatrixRain, setShowMatrixRain] = useState(true);
@@ -23,12 +23,12 @@ function App() {
     <div>
       <Header toggleMatrixRain={toggleMatrixRain} />
         <Routes>
-          <Route path="/" element={<Login />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/home" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/forgot" element={<ForgotPassword />} />
-          <Route path="/repo-page" element={<RepoPage />} />
+          <Route path="/" element={<RepoPage />} />
           <Route path="*" element={<Error />} />
         </Routes>
       <div>
