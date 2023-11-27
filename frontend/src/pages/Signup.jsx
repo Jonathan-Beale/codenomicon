@@ -28,15 +28,11 @@ const Signup = () => {
                     ...inputValue,
                 },
             );
-            console.log(response.data);
             const { success, message } = response.data;
             if (success){
-                handleSuccess(message);
                 setTimeout(() => {
                     navigate("/");
                 }, 1000);
-            } else {
-                handleError(message);
             }
         } catch (error){
             console.log(error);

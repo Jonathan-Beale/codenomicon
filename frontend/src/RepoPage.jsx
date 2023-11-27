@@ -15,7 +15,7 @@ const RepoPage = () => {
     useEffect(() => {
       const verifyCookie = async () => {
         if (!cookies.token){
-          navigate("/login");
+          // navigate("/login");
         }
         try {
         const response = await axios.post(
@@ -25,7 +25,6 @@ const RepoPage = () => {
         } catch (error){
           console.log(error);
         };
-        console.log(response.data);
       };
       verifyCookie();
     }, [cookies, navigate]);
