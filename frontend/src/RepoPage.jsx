@@ -3,7 +3,6 @@ import FileExplorer from './repo-page/FileExplorer';
 import FileEditor from './repo-page/FileEditor';
 import ChatHistory from "./repo-page/ChatHistory";
 import styles from "./css/RepoPage.module.css";
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import axios from 'axios';
@@ -50,7 +49,6 @@ const RepoPage = () => {
           } catch (error){
             console.log(error);
           };
-          console.log(response.data);
         };
         verifyCookie();
       }, [cookies, navigate]);
