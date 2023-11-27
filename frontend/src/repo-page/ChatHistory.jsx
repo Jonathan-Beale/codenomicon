@@ -92,7 +92,9 @@ function ChatHistory() {
       const response = await axios.post(`${backendUrl}/history`, {
         sessionID: sessionID,
         localPath: localPath,
-      });
+      },
+      { withCredentials: true }
+      );
   
       // Check the response for success or failure
       if (response.status === 200) {

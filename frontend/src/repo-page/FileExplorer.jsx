@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styles from "../css/RepoPage.module.css"
 import axios from 'axios';
 const backendUrl = 'http://localhost:4000';
-const testPath = "Test"
+const testPath = ""
 
 
 const FileExplorer = ({ onFileSelect, refresh }) => {
@@ -16,9 +16,20 @@ const FileExplorer = ({ onFileSelect, refresh }) => {
     console.log(repoUrl)
     const localPath = testPath
     try {
-      const response = await axios.post(`${backendUrl}/clone`, {
-        repoUrl: repoUrl,
-        localPath: localPath,
+      // const verify = await axios.post(`${backendUrl}/`, 
+      // {
+      //   repoUrl: repoUrl
+      // },
+      // {
+      //   withCredentials: true
+      // })
+      
+      const response = await axios.post(`${backendUrl}/clone`, 
+      {
+        repoUrl: repoUrl
+      },
+      {
+        withCredentials: true
       })
   
       // Check the response for success or failure
@@ -48,10 +59,14 @@ const FileExplorer = ({ onFileSelect, refresh }) => {
   
   const fetchFileStructure = async (localPath) => {
     try {
-      const response = await axios.post(`${backendUrl}/list-files`, {
-        folderPath: localPath,
+      const response = await axios.post(`${backendUrl}/list-files`,
+      {
+        folderName: localPath
+      },
+      {
+        withCredentials: true,
       });
-
+      console.log(response)
       // Check the response for success or failure
       if (response.status === 200) {
         const message = response.data;
@@ -142,11 +157,8 @@ const FileExplorer = ({ onFileSelect, refresh }) => {
   };
 
   const stageAllFiles = async () => {
-    const localPath = testPath
     try {
-      const response = await axios.post(`${backendUrl}/stage-all`, {
-        localPath: localPath,
-      });
+      const response = await axios.post(`${backendUrl}/stage-all`, {}, { withCredentials: true });
   
       // Check the response for success or failure
       if (response.status === 200) {
@@ -188,11 +200,8 @@ const FileExplorer = ({ onFileSelect, refresh }) => {
     }
 
     try {
-      let localPath = testPath;
-      const response = await axios.post(`${backendUrl}/commit`, {
-        localPath: localPath,
-        commitMessage: commitMsg,
-      });
+      const response = await axios.post(`${backendUrl}/commit`, { commitMessage: commitMsg },
+      { withCredentials: true });
 
       // Check the response for success or failure
       if (response.status === 200) {
@@ -210,17 +219,16 @@ const FileExplorer = ({ onFileSelect, refresh }) => {
   };
 
   const publishRepository = async () => {
-    let localPath = testPath
     let remoteName = "origin"
     let branchName = "main"
     let githubToken = "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"
     try {
       const response = await axios.post(`${backendUrl}/publish-repo`, {
-        localPath: localPath,
         remoteName: remoteName,
         branchName: branchName,
         githubToken: githubToken,
-      });
+      },
+      { withCredentials: true });
   
       // Check the response for success or failure
       if (response.status === 200) {

@@ -15,6 +15,92 @@ const path = require('path');
 const OpenAI = require("openai")
 const redis = require('redis');
 
+const User = require("./models/UserModel");
+const {createToken} = require("./util/SecretToken");
+const bcrypt = require("bcryptjs");
+require("dotenv").config();
+const jwt = require("jsonwebtoken");
+
+
+// Serve files from the public directory
+app.use(express.static('public'));
+
+const corsOptions = {
+  origin: 'http://localhost:3000', // This should match the origin of your frontend
+  credentials: true, // This allows the server to accept requests with credentials (cookies, sessions)
+};
+
+app.use(cors(corsOptions));
+
+app.use(cookieParser());
+
+// Middleware to parse JSON bodies
+app.use(express.json());
+
+app.post("/signup", async (req, res) => {
+    try {
+        const {email, password} = req.body;
+        // const existingUser = await User.findOne({email});
+        // if (existingUser){
+        //     return res.json({message: "User already exists."});
+        // }
+        const user = await User.create({email, password});
+        const token = createToken(user._id);
+        res.cookie("token", token, {
+            withCredentials: true,
+            httpOnly: false,
+        });
+        res.status(201).json({message: "User is signed in.", success: true, user});
+    } catch (error) {
+        console.error(error);
+    }
+});
+
+app.post("/login", async (req, res) => {
+    try {
+        const {email, password} = req.body;
+        if (!email || !password){
+            return res.json({message:"Email and Password Required."})
+        }
+        const user = await User.findOne({email});
+        if (!user){
+            return res.json({message:"Incorrect Email."}) 
+        }
+        const auth = await bcrypt.compare(password,user.password)
+        if (!auth){
+            return res.json({message:"Incorrect Password."}) 
+        }
+        const token = createToken(user._id);
+        res.cookie("token", token, {
+            withCredentials: true,
+            httpOnly: false,
+        });
+        res.status(201).json({message: "User is logged in.", success: true});
+    } catch (error) {
+        console.error(error);
+    }
+});
+
+app.post("/", (req, res) => {
+    const token = req.cookies.token;
+    if (!token){
+        return res.json({status: false});
+    }
+    jwt.verify(token, process.env.TOKEN_KEY, async (err, data) => {
+        if (err){
+            return res.json({status: false});
+        } else {
+            const user = await User.findById(data.id);
+            if (user){
+                return res.json({status: true});
+            }
+            else {
+                return res.json({status: false});
+            }
+        }
+    });
+});
+
 // MongoDB setup
 mongoose
   .connect(MONGO_URL, {
@@ -32,42 +118,57 @@ const client = redis.createClient({
   }
 });
 
-// Serve files from the public directory
-app.use(express.static('public'));
-app.use(cors());
-
-app.use(cookieParser());
-
-// Middleware to parse JSON bodies
-app.use(express.json());
+const requireAuth = (req, res, next) => {
+  const { token } = req.cookies;
+  if (!token) {
+      return res.status(401).json({ message: 'Unauthorized' });
+  }
+  jwt.verify(token, process.env.TOKEN_KEY, async (err, decodedToken) => {
+      if (err) {
+          return res.status(401).json({ message: 'Unauthorized' });
+      }
+      try {
+          req.user = await User.findById(decodedToken.id);
+          next();
+      } catch (err) {
+          console.error(err);
+          res.status(401).json({ message: 'Unauthorized' });
+      }
+  });
+};
 
 
 //        -----Git Endpoints-----        //
 
 // GIT CLONE
-app.post('/clone', async (req, res) => {
-  const { repoUrl, localPath } = req.body;
+app.post('/clone', requireAuth, async (req, res) => {
+  const userId = req.user.id;
+  const { repoUrl } = req.body;
 
   // Basic input validation
-  if (typeof repoUrl !== 'string' || typeof localPath !== 'string') {
+  if (typeof repoUrl !== 'string') {
     const urlType = typeof repoUrl
-    const pathType = typeof localPath
-    return res.status(400).send(`Invalid input. Expected strings, got: ${urlType} ${pathType}`);
+    return res.status(400).send(`Invalid input. Expected string, got: ${urlType}`);
   }
+
+  const folderName = `USER_${userId}`;
+  let folderPath = path.join(__dirname, folderName);
+
 
   try {
-    await fs.access(localPath);
+    // Check if the folder exists before creating it
+    await fs.access(folderPath);
   } catch (error) {
-    await fs.mkdir(localPath, { recursive: true });
+    // If the folder does not exist, create it
+    await fs.mkdir(folderPath, { recursive: true });
   }
 
-  const dir_path = path.join(process.cwd(), localPath)
   try {
     // Create the directory if it does not exist
-    git = simpleGit(dir_path)
+    git = simpleGit(folderPath)
     
-    await git.clone(repoUrl, dir_path);
-    const readmePath = path.join(localPath, 'README.md');
+    await git.clone(repoUrl, folderPath);
+    const readmePath = path.join(folderPath, 'README.md');
     
     // Check if the README exists before attempting to read it
     try {
@@ -89,15 +190,15 @@ app.post('/clone', async (req, res) => {
 });
 
 // GIT STAGE ALL
-app.post('/stage-all', async (req, res) => {
-  const { localPath } = req.body;
+app.post('/stage-all', requireAuth, async (req, res) => {
+  const userId = req.user.id;
+  const localPath = `./USER_${userId}`
 
   if(git === null) {
-    git = simpleGit(path.join(process.cwd(), localPath))
+    git = simpleGit(localPath)
   }
 
   try {
-      console.log(process.cwd())
       const result = await git.raw(['ls-tree', '-r', 'HEAD', '--name-only']);
       console.log('Contents of the Git repository:', result);
       const status = await git.status();
@@ -120,11 +221,12 @@ app.post('/stage-all', async (req, res) => {
 });
 
 
-app.post('/stage', async (req, res) => {
-  const { localPath, targetFiles } = req.body;
+app.post('/stage', requireAuth, async (req, res) => {
+  const { targetFiles } = req.body;
+  const userId = req.user.id;
 
   if (git === null) {
-    git = simpleGit(path.join(process.cwd(), localPath));
+    git = simpleGit(`./USER_${userId}`);
   }
 
   try {
@@ -143,11 +245,12 @@ app.post('/stage', async (req, res) => {
 });
 
 // Git Unstage endpoint
-app.post('/unstage', async (req, res) => {
-  const { localPath, targetFiles } = req.body;
+app.post('/unstage', requireAuth, async (req, res) => {
+  const { targetFiles } = req.body;
+  const userId = req.user.id;
 
   if (git === null) {
-    git = simpleGit(path.join(process.cwd(), localPath));
+    git = simpleGit(`./USER_${userId}`);
   }
 
   try {
@@ -168,11 +271,12 @@ app.post('/unstage', async (req, res) => {
 
 
 // GIT COMMIT
-app.post('/commit', async (req, res) => {
-  const { localPath, commitMessage } = req.body;
+app.post('/commit', requireAuth, async (req, res) => {
+  const { commitMessage } = req.body;
+  const userId = req.user.id;
 
   if(git === null) {
-    git = simpleGit(path.join(process.cwd(), localPath))
+    git = simpleGit(`./USER_${userId}`)
   }
 
   try {
@@ -186,8 +290,10 @@ app.post('/commit', async (req, res) => {
 
 
 // Define the route for checking out a repository
-app.post('/checkout', async (req, res) => {
-  const { localPath, repoUrl, branch } = req.body;
+app.post('/checkout', requireAuth, async (req, res) => {
+  const { repoUrl, branch } = req.body;
+  const userId = req.user.id;
+  const localPath = `./USER_${userId}`
 
   try {
     // Check if the local repository already exists, if not, clone it
@@ -206,8 +312,10 @@ app.post('/checkout', async (req, res) => {
 });
 
 // Define the route for publishing the repository
-app.post('/publish-repo', async (req, res) => {
-  const { localPath, remoteName, branchName, githubToken } = req.body;
+app.post('/publish-repo', requireAuth, async (req, res) => {
+  const { remoteName, branchName, githubToken } = req.body;
+  const userId = req.user.id;
+  const localPath = `./USER_${userId}`
 
   // Basic input validation
   if (!localPath || !remoteName || !branchName || !githubToken) {
@@ -217,7 +325,7 @@ app.post('/publish-repo', async (req, res) => {
   try {
     // Initialize the Git instance if it's not already initialized
     if (git === null) {
-      git = simpleGit(path.join(process.cwd(), localPath));
+      git = simpleGit(localPath);
     }
 
     // Ensure that the specified remote exists
@@ -246,21 +354,23 @@ app.post('/publish-repo', async (req, res) => {
 
 //        -----File Endpoints-----        //
 
+
+
 // LOCAL DELETE
-app.delete('/delete-directory', async (req, res) => {
-  const { localPath } = req.body;
-  let dirPath = path.join(process.cwd(), localPath)
+app.delete('/delete-directory', requireAuth, async (req, res) => {
+  const userId = req.user.id;
+  let folderPath = `./USER_${userId}`
 
   try {
     // Check if the directory exists
     try {
-      await fs.access(dirPath); // This will throw an error if the directory doesn't exist
+      await fs.access(folderPath); // This will throw an error if the directory doesn't exist
       // If no error is thrown, the directory exists
       // Recursively delete the directory
-      await fs.rm(dirPath, { recursive: true });
+      await fs.rm(folderPath, { recursive: true });
       res.status(200).send('Repository deleted successfully');
     } catch (error) {
-      res.status(400).send(`Repository path does not exist: ${dirPath}`);
+      res.status(400).send(`Repository path does not exist: ${folderPath}`);
     }
   } catch (error) {
     console.error(error);
@@ -268,13 +378,16 @@ app.delete('/delete-directory', async (req, res) => {
   }
 });
 
-app.post('/create-file', async (req, res) => {
-  const { filePath, content } = req.body;
+app.post('/create-file', requireAuth, async (req, res) => {
+  const { fileName, content } = req.body;
+  const userId = req.user.id;
 
   // Basic input validation
-  if (typeof filePath !== 'string' || typeof content !== 'string') {
+  if (typeof fileName !== 'string' || typeof content !== 'string') {
       return res.status(400).send('Invalid input');
   }
+
+  let filePath = path.join(`./USER_${userId}/`, fileName)
 
   try {
       await fs.writeFile(filePath, content, 'utf8');
@@ -285,12 +398,21 @@ app.post('/create-file', async (req, res) => {
   }
 });
 
-app.post('/update-file', async (req, res) => {
-  const { filePath, newContent } = req.body;
+app.post('/update-file', requireAuth, async (req, res) => {
+  const { fileName, newContent } = req.body;
+  const userId = req.user.id;
 
   // Basic input validation
-  if (typeof filePath !== 'string' || typeof newContent !== 'string') {
+  if (typeof fileName !== 'string' || typeof newContent !== 'string') {
     return res.status(400).send('Invalid input');
+  }
+
+  
+  let filePath = fileName;
+
+  const userDir = `USER_${userId}`;
+  if (!fileName.includes(userDir)) {
+    filePath = path.join(userDir, fileName);
   }
 
   try {
@@ -306,12 +428,21 @@ app.post('/update-file', async (req, res) => {
   }
 });
 
-app.delete('/delete-file', async (req, res) => {
-  const { filePath } = req.body;
+app.delete('/delete-file', requireAuth, async (req, res) => {
+  const { fileName } = req.body;
+  const userId = req.user.id;
 
   // Basic input validation
-  if (typeof filePath !== 'string') {
+  if (typeof fileName !== 'string') {
+    console.log(fileName)
       return res.status(400).send('Invalid input');
+  }
+
+  let filePath = fileName;
+
+  const userDir = `USER_${userId}`;
+  if (!fileName.includes(userDir)) {
+    filePath = path.join(userDir, fileName);
   }
 
   try {
@@ -326,14 +457,24 @@ app.delete('/delete-file', async (req, res) => {
 
 
 // LOCAL FILE -> file content
-app.post('/file-contents', async (req, res) => {
-  const { filePath } = req.body;
+app.post('/file-contents', requireAuth, async (req, res) => {
+  const { fileName } = req.body;
+  const userId = req.user.id;
 
   // Basic input validation
-  if (typeof filePath !== 'string') {
+  if (typeof fileName !== 'string') {
+    console.log(fileName)
     return res.status(400).send('Invalid input');
   }
 
+  let filePath = fileName;
+
+  let userDir = `USER_${userId}`
+  if(!fileName.includes(userDir)) {
+    filePath = path.join(`${userDir}/`, fileName);
+  }
+
+  console.log(filePath)
   try {
     const content = await fs.readFile(filePath, 'utf8');
     res.send(content);
@@ -349,14 +490,23 @@ app.post('/file-contents', async (req, res) => {
 
 
 // LOCAL LIST FILES
-app.post('/list-files', async (req, res) => {
-  const { folderPath } = req.body
-
+app.post('/list-files', requireAuth, async (req, res) => {
+  const { folderName } = req.body
+  const userId = req.user.id
   
+
   // Basic input validation
-  if (typeof folderPath !== 'string') {
+  if (typeof folderName !== 'string') {
     return res.status(400).send('Invalid input');
   }
+  let folderPath = folderName;
+
+  let userDir = `USER_${userId}`
+  if(!folderName.includes(userDir)) {
+    folderPath = path.join(`USER_${userId}/`, folderName)
+  }
+
+
 
   try {
     const files = await fs.readdir(folderPath);
@@ -371,7 +521,7 @@ app.post('/list-files', async (req, res) => {
       };
     }));
 
-    res.json(fileInfo);
+    res.status(200).send(fileInfo);
   } catch (error) {
     res.status(500).send('Error listing files');
   }
@@ -480,10 +630,10 @@ async function getAIResponse(conversation, systemPrompt, userQuery, fileContent,
 //        -----Redis Endpoints-----        //
 
 // REDIS HISTORY -> JSON FILE
-app.post('/history', async (req, res) => {
+app.post('/history', requireAuth, async (req, res) => {
   try {
-    const { sessionID, localPath } = req.body;
-    const conversationKey = `conversation:${sessionID}`;
+    const userId = req.user.id
+    const conversationKey = `conversation:${userId}`;
 
     // Retrieve the conversation history from Redis
     const conversationHistory = await client.lRange(conversationKey, 0, -1);
@@ -492,7 +642,8 @@ app.post('/history', async (req, res) => {
     const history = conversationHistory.map(message => JSON.parse(message));
 
     // Write the conversation history to a file
-    const fileName = `${localPath}codenomicon-chat-hist.json`;
+    const fileName = `./USER_${userId}/codenomicon-chat-hist.json`
+    // `${localPath}codenomicon-chat-hist.json`;
     await fs.writeFile(fileName, JSON.stringify(history, null, 2));
 
     // Send the conversation history as a JSON response
@@ -505,15 +656,15 @@ app.post('/history', async (req, res) => {
 
 
 // REDIS LOAD HISTORY
-app.post('/load-history', async (req, res) => {
-  const { sessionID, filePath } = req.body; // The specific path to the JSON file
+app.post('/load-history', requireAuth, async (req, res) => {
+  const userId = req.user.id;
 
   // Assuming you have a way to identify the user's session, like a session ID
-  const conversationKey = `conversation:${sessionID}`;
+  const conversationKey = `conversation:${userId}`;
 
   try {
-    // Read the JSON file at the specified path
-    const fileContent = await fs.readFile(filePath, 'utf-8');
+    // Read the JSON file at the local path
+    const fileContent = await fs.readFile(`./USER_${userId}/codenomicon-chat-hist.json`, 'utf-8');
     // console.log(fileContent)
 
     // Parse the JSON content into an array

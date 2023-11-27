@@ -3,16 +3,12 @@ import FileExplorer from './repo-page/FileExplorer';
 import FileEditor from './repo-page/FileEditor';
 import ChatHistory from "./repo-page/ChatHistory";
 import styles from "./css/RepoPage.module.css";
-import { useNavigate } from "react-router-dom";
-import { useCookies } from "react-cookie";
 import axios from 'axios';
 
 // import * as monaco from 'monaco-editor';
 
 // Protecting repo page
 const RepoPage = () => {
-    const navigate = useNavigate();
-    const cookies = useCookies();
 
     const [fileTabs, setFileTabs] = useState([]);
     const [selectedFile, setSelectedFile] = useState(null);

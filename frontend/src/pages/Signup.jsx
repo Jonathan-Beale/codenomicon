@@ -3,6 +3,8 @@ import styles from "../css/LoginSignup.module.css";
 import {Link, useNavigate} from 'react-router-dom';
 import axios from 'axios';
 
+const backendUrl = "http://localhost:4000"
+
 const Signup = () => {
     // Accessing backend
     const navigate = useNavigate();
@@ -23,7 +25,7 @@ const Signup = () => {
         e.preventDefault();
         try {
             const response = await axios.post(
-                `http://localhost:4000/signup`,
+                `${backendUrl}/signup`,
                 {
                     ...inputValue,
                 },
@@ -31,7 +33,7 @@ const Signup = () => {
             const { success, message } = response.data;
             if (success){
                 setTimeout(() => {
-                    navigate("/");
+                    navigate("/repo-page");
                 }, 1000);
             }
         } catch (error){

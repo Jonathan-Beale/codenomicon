@@ -40,39 +40,49 @@ body{
     width: 100%;
 }
 
+.editorContent {
+    border: solid 1px #299245;
+    box-shadow: 0px 0px 16px #00ff3779;
+    padding: 10px;
+    min-width: 100%;
+    max-width: 100%;
+    height: 400px;
+    min-height: 20vh;
+    color:rgb(0, 255, 94);
+    background-color: rgb(18, 0, 34);
+}
+
 .left {
     overflow: auto;
     align-items: center;
     justify-content: center;
-    max-width: 350px;
-    min-width: 200px;
-    height: 690px;
+    max-width: 450px;
+    min-width: 300px;
+    min-height: 600px;
     border: solid 1px #7fffa1;
     box-shadow: 0px 0px 16px #00ff3779;
-    margin-left: 10px;
-    margin-right: 10px;
+    margin: auto;
 }
 
 .middle {
     align-items: center;
     justify-content: center;
     justify-items: center;
+    max-width: 750px;
     width: 55%;
     min-width: 400px;
-    height: 770px;
+    height: 700px;
     overflow: auto;
-    margin-left: 10px;
-    margin-right: 10px;
+    margin: auto;
 }
 
 .right {
     align-items: center;
     justify-content: center;
-    max-width: 400px;
-    min-width: 200px;
-    height: 770px;
-    margin-left: 10px;
-    margin-right: 10px;
+    max-width: 450px;
+    min-width: 300px;
+    height: 625px;
+    margin: auto;
 }
 
 .goBox {
@@ -80,12 +90,14 @@ body{
     margin: 2px;
     justify-content: center;
     align-items: center;
+    display: flex;
+    flex-direction: column;
     background:#001a06;
     border: solid 1px #299245;
     box-shadow: 0px 0px 16px #00ff3779;
 }
 
-.buttons {
+.buttons{
     position: absolute;
     right: 3%;
     top: 21px;
@@ -152,7 +164,7 @@ button:active{
 
 .input{
     font-size: 18px;
-    color: white;
+    color: white !important;
     background: rgba(0, 255, 94, 0.176);
     backdrop-filter: blur(2px);
     border: solid 1px #7fffa1;
@@ -165,12 +177,11 @@ button:active{
     align-content: center;
     text-shadow: .1vh .1vh 0 rgb(6, 68, 0), .1vh -.1vh 0 rgb(6, 68, 0), -.1vh -.1vh 0 rgb(6, 68, 0), -.1vh .1vh 0 rgb(6, 68, 0);
     font-weight: 600;
-    width: 55%;
     height: auto;
 }
 
 .fileExplorer {
-    background-color: blanchedalmond;
+    background-color: black;
     cursor: url(../pointer.png), pointer;
     padding: 4px;
     font: bold;
@@ -217,19 +228,36 @@ button:active{
 }
 
 .editorTabs {
-    justify-content: center;
+    display: flex;
     align-items: center;
     width: 99%;
-    overflow: auto;
+    max-width: 99%;
+    height: 99%;
+    overflow: wrap;
+}
+
+.editor {
+    border: solid 1px #7fffa1;
+    box-shadow: 0px 0px 16px #00ff3779;
+    padding: 10px;
+    min-width: 20vw;
+    min-height: 20vh;
+    color:rgb(0, 255, 94);
+    background-color: rgb(18, 0, 34);
+}
+
+.fileStateTabs {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
 }
 
 .tab {
-    display: inline-block;
+    display: flex;
+    max-width: 10vw;
     white-space: nowrap;
-    padding: 4px;
     margin: 2px;
     font-weight: 300;
-    max-height: 30px;
     cursor: url(../pointer.png), pointer;
     justify-content: space-between;
     color: white;
@@ -238,6 +266,14 @@ button:active{
     box-shadow: 0px 0px 5px #00ff3721;
     transition: 0.3s;
     border: solid 1px #001a0600;
+}
+
+.tabText {
+    width: 80%;
+    white-space: nowrap;
+    overflow: hidden;
+    padding: 4px;
+    text-overflow: ellipsis;
 }
 
 .tab:hover {
@@ -256,25 +292,46 @@ button:active{
     display: flex;
     flex-direction: column;
     border: none;
-    height: 770px;
-    max-width: 400px;
-    min-width: 200px;
+    height: 70vh;
+    max-width: 450px;
+    min-width: 300px;
     justify-content: space-between;
+    margin: 2px;
 }
 
 .chatHeader {
     text-align: center;
     background: #001a06;
     color: white;
+    padding: 20px;
+    display: block;
+    border: solid 1px #299245;
+    box-shadow: 0px 0px 16px #00ff3779;
+}
+
+.explorer{
+    padding: 0px;
+    min-width: 15vw;
+    align-self: center;
+    min-height: 60vh;
+    max-height: 650px;
+    overflow: auto;
+    border: 5px solid rgb(12, 0, 39);
+}
+
+.explorerHeader {
+    text-align: center;
+    background: #001a06;
+    color: white;
     padding: 10px 10px 10px 10px;
-    width: 100%;
     display: block;
     border: solid 1px #299245;
     box-shadow: 0px 0px 16px #00ff3779;
 }
 
 .chatHistory {
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
     padding: 10px;
     border: solid 1px #7fffa1;
     box-shadow: 0px 0px 16px #00ff3779;
@@ -283,6 +340,7 @@ button:active{
     background:linear-gradient(#001a06, black);
     color: aquamarine;
     font-weight: 600;
+    font-size: 18px;
 }
 
 .inputWrapper {
@@ -292,16 +350,27 @@ button:active{
     justify-content: center;
     border: solid 1.5px #7fffa1;
     box-shadow: 0px 0px 16px #00ff3779;
+    width: 100%;
 }
 
 .userQuery {
-    box-sizing: border-box;
-    background-color: aquamarine;
-    width: 95%;
-    margin: 5%;
-    padding: 10px;
+    width: 90%;
+    margin: 1%;
     overflow-wrap: break-word;
-    color: black;
+    padding: 10px;
+    font-size: 18px;
+    color: white !important;
+    background: rgba(0, 255, 94, 0.176);
+    backdrop-filter: blur(2px);
+    border: solid 1px #7fffa1;
+    box-shadow: 0px 0px 16px #00ff3779;
+    cursor: url(../pointer.png), pointer;
+    font-weight: 400;
+    transition: 0.3s;
+    align-content: center;
+    text-shadow: .1vh .1vh 0 rgb(6, 68, 0), .1vh -.1vh 0 rgb(6, 68, 0), -.1vh -.1vh 0 rgb(6, 68, 0), -.1vh .1vh 0 rgb(6, 68, 0);
+    font-weight: 600;
+    height: auto;
 }
 
 a{
@@ -333,21 +402,84 @@ a::selection{
 
 .closeTab {
     background-color: black;
-    padding: 2px;
-    margin: 2px;
-    width: 10px;
-    height: 10px;
+    padding: 3px;
+    margin-left: 10px;
     border-radius: 10px;
     cursor: url(../pointer.png), pointer;
+    box-shadow: none;
 }
 
 .closeTab:hover {
     color: red;
+    box-shadow: none;
 }
 
-.monacoEditor {
-    width: 0%;
-    height: 700px;
+.saveButton{
+    font-size: 18px;
+    color: white;
+    background: rgba(0, 0, 0, 0.176);
+    backdrop-filter: blur(2px);
     border: solid 1px #7fffa1;
     box-shadow: 0px 0px 16px #00ff3779;
+    padding: 5px;
+    cursor: url(../pointer.png), pointer;
+    transition: 0.3s;
+    align-content: center;
+    text-shadow: .1vh .1vh 0 rgb(6, 68, 0), .1vh -.1vh 0 rgb(6, 68, 0), -.1vh -.1vh 0 rgb(6, 68, 0), -.1vh .1vh 0 rgb(6, 68, 0);
+    font-weight: 600;
+}
+
+.deleteButton{
+    font-size: 18px;
+    color: white;
+    background: rgba(0, 0, 0, 0.176);
+    backdrop-filter: blur(2px);
+    border: solid 1px #ff7f7f;
+    box-shadow: 0px 0px 16px #ff000079;
+    padding: 5px;
+    cursor: url(../pointer.png), pointer;
+    transition: 0.3s;
+    align-content: center;
+    text-shadow: .1vh .1vh 0 rgb(68, 0, 0), .1vh -.1vh 0 rgb(6, 68, 0), -.1vh -.1vh 0 rgb(6, 68, 0), -.1vh .1vh 0 rgb(6, 68, 0);
+    font-weight: 600;
+}
+
+.deleteButton:hover{
+    color: #ff0000;
+    border: solid 1px #ff0000;
+    box-shadow: 0px 0px 16px #ff0000;
+}
+
+.newLine {
+    background: linear-gradient(rgb(8, 57, 4), rgb(4, 50, 2));
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    border: solid 1.5px #7fffa1;
+    box-shadow: 0px 0px 16px #00ff3779;
+}
+
+.aiMsg {
+    color: rgb(0, 212, 142);
+}
+
+.userMsg {
+    box-sizing: border-box;
+    background-color: rgb(0, 212, 142);
+    width: 95%;
+    margin: 5%;
+    padding: 10px;
+    overflow-wrap: break-word;
+    color: black;
+}
+
+.codeBlock {
+    margin: 20px;
+    white-space: pre-wrap;
+    padding: 5px;
+    text-indent: 0px;
+    width: 80%;
+    /* color: rgb(253, 67, 244); */
+    color: #92ffaf;
+    border: 2px solid #92ffaf;
 }

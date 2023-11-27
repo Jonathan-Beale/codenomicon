@@ -11,7 +11,8 @@ const FileEditor = ({ openFile, closeFile, openTabs, onFileSelect, refreshFileSt
         const loadFileContent = async (file) => {
             
             try {
-                const response = await axios.post(`${backendUrl}/file-contents`, {  filePath: file });
+                const response = await axios.post(`${backendUrl}/file-contents`, {  fileName: file }, 
+                { withCredentials: true });
                 setContent(response.data);
             } catch (error) {
                 // Handle errors here
@@ -38,8 +39,9 @@ const FileEditor = ({ openFile, closeFile, openTabs, onFileSelect, refreshFileSt
 
         try {
             const response = await axios.post(`${backendUrl}/update-file`, {
-                filePath: openFile,
-                newContent: content
+                fileName: openFile,
+                newContent: content}, {
+                withCredentials: true,
             });
             console.log(response.data); // You can handle the response as needed
         } catch (error) {
@@ -58,7 +60,8 @@ const FileEditor = ({ openFile, closeFile, openTabs, onFileSelect, refreshFileSt
         if (window.confirm(`Are you sure you want to delete ${openFile}?`)) {
             try {
                 const response = await axios.delete(`${backendUrl}/delete-file`, {
-                    data: { filePath: openFile } // Note: Axios requires 'data' field for DELETE request body
+                    data: { fileName: openFile }, // Note: Axios requires 'data' field for DELETE request body
+                     withCredentials: true
                 });
                 console.log(response.data);
                 closeFile(openFile);
@@ -78,15 +81,17 @@ const FileEditor = ({ openFile, closeFile, openTabs, onFileSelect, refreshFileSt
         <div className={styles.editor}>
             <ul className={styles.editorTabs}>
                 {openTabs.map(file => (
-                    <li key={file} onClick={() => onFileSelect(file)} className={styles.tab}>
+                    <div className={styles.tab}>
+                        <li key={file} onClick={() => onFileSelect(file)} className={styles.tabText}>
                         {file}
-                        <button 
-                            className={styles.closeTab} 
-                            onClick={(event) => handleCloseTab(file, event)}
-                        >
-                            X
-                        </button>
                     </li>
+                    <button 
+                        className={styles.closeTab} 
+                        onClick={(event) => handleCloseTab(file, event)}
+                    >
+                        X
+                    </button>
+                    </div>
                 ))}
             </ul>
             <textarea className={styles.editorContent} value={content} onChange={handleContentChange} />
