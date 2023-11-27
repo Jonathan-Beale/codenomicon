@@ -368,7 +368,7 @@ app.post('/list-files', async (req, res) => {
 
 // AI ANSWER -> {response: response}
 app.get('/answer', async (req, res) => {
-  const { sessionID, userQuery, editorContent, model, OaiKey, systemPrompt } = req.body;
+  const { sessionID, userQuery, editorContent, model, OaiKey, systemPrompt } = req.query;
   // 
   const conversationKey = `conversation:${sessionID}`;
 
@@ -379,7 +379,7 @@ app.get('/answer', async (req, res) => {
     // Include the system prompt and previous queries when calling getAIResponse
     const response = await getAIResponse(
       systemPrompt,
-      conversation,
+      userQuery,
       editorContent,
       model,
       OaiKey
@@ -398,7 +398,12 @@ app.get('/answer', async (req, res) => {
     // Push the current turn's data onto the conversation list
     await client.lPush(conversationKey, turnData);
 
-    res.json(turnData);
+    res.json({
+      query: decodeURIComponent(userQuery),
+      response: response.content,
+      editorContent: decodeURIComponent(editorContent),
+      timestamp: new Date(),
+    });
   } catch (error) {
     console.error('Error generating AI response:', error);
     res.status(500).send('Error generating AI response');
@@ -408,10 +413,16 @@ app.get('/answer', async (req, res) => {
 
 
 
-async function getAIResponse(userQuery, fileContent, model, OaiKey) {
+async function getAIResponse(systemPrompt, userQuery, fileContent, model, OaiKey) {
+  console.log(userQuery)
   const llm = new OpenAI({ apiKey: OaiKey});
   const completion = await llm.chat.completions.create({
-    messages: [{ role: "system", content: "You will be given some code and a user's input. Assist the user." }, { role: "system", content: fileContent }, { role: "user", content: userQuery }],
+    messages: [
+      { role: "system", content: "You will be given some code and a user's input. Assist the user." },
+      { role: "system", content: systemPrompt },
+      { role: "user", content: "Here is the code I have so far:"},
+      { role: "user", content: fileContent },
+      { role: "user", content: userQuery }],
     model: model,
   });
 

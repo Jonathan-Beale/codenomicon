@@ -7,12 +7,27 @@ import styles from "./css/RepoPage.module.css";
 const RepoPage = () => {
     const [fileTabs, setFileTabs] = useState([]);
     const [selectedFile, setSelectedFile] = useState(null);
+    
+    const [refreshExplorer, setRefreshExplorer] = useState(() => () => {});
+    
+    const handleFileStructureChange = (clear, fetch) => {
+        setRefreshFileExplorer({ clear, fetch });
+    };
 
     useEffect(() => {
         // Fetch repository data here and update state
         // For demonstration, using static data
-        setFileTabs(["welcome.md"]);
-        setSelectedFile(fileTabs[0])
+        const initialTabs = ["welcome.md"];
+        setFileTabs(initialTabs);
+    
+        // Ensure the selected file is updated after fileTabs is updated
+        setSelectedFile((prevSelectedFile) => {
+            // If there's already a selected file, keep it
+            if (prevSelectedFile) return prevSelectedFile;
+    
+            // Otherwise, select the first file in the updated fileTabs array
+            return initialTabs.length > 0 ? initialTabs[0] : null;
+        });
     }, []);
 
 
@@ -50,8 +65,8 @@ const RepoPage = () => {
     // We want to give the fileExplorer all of the git files and the ability to add to the selected files
     return (
         <div className={styles.repoWrapper}>
-            <FileExplorer onFileSelect={handleFileSelect} />
-            {selectedFile && <FileEditor openFile={selectedFile} closeFile={closeFile} openTabs={fileTabs} onFileSelect={handleFileSelect} />}
+            <FileExplorer onFileSelect={handleFileSelect}  refresh={setRefreshExplorer}/>
+            {selectedFile && <FileEditor openFile={selectedFile} closeFile={closeFile} openTabs={fileTabs} onFileSelect={handleFileSelect} refreshFileStructure={refreshExplorer} />}
             <ChatHistory/>
         </div>
     );

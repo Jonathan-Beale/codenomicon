@@ -28,7 +28,7 @@ body{
 .repoWrapper {
     position: absolute;
     left: 0;
-    top: 20vh;
+    top: 10vh;
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -44,22 +44,16 @@ body{
 .editorContent {
     border: 1px solid gray;
     padding: 10px;
-    min-width: 50vw;
-    min-height: 40vh;
+    min-width: 10vw;
+    width: 400px;
+    height: 300px;
+    min-height: 20vh;
     color:rgb(0, 255, 94);
     background-color: rgb(18, 0, 34);
   }
 
 
 .left {
-    overflow: auto;
-    align-items: center;
-    justify-content: center;
-    max-width: 350px;
-    min-width: 200px;
-    height: 690px;
-    border: solid 1px #7fffa1;
-    box-shadow: 0px 0px 16px #00ff3779;
     margin-left: 10px;
     margin-right: 10px;
 }
@@ -68,7 +62,6 @@ body{
     align-items: center;
     justify-content: center;
     justify-items: center;
-    min-width: 400px;
     overflow: auto;
     margin-left: 10px;
     margin-right: 10px;
@@ -77,8 +70,8 @@ body{
 .right {
     align-items: center;
     justify-content: center;
-    max-width: 400px;
-    min-width: 200px;
+    max-width: 20vw;
+    min-width: 300px;
     height: 770px;
     margin-left: 10px;
     margin-right: 10px;
@@ -163,7 +156,7 @@ button:active{
 
 .input{
     font-size: 18px;
-    color: white;
+    color: white !important;
     background: rgba(0, 255, 94, 0.176);
     backdrop-filter: blur(2px);
     border: solid 1px #7fffa1;
@@ -227,7 +220,7 @@ button:active{
 }
 
 .editorTabs {
-    justify-content: center;
+    display: flex;
     align-items: center;
     width: 99%;
     overflow: auto;
@@ -237,11 +230,18 @@ button:active{
 .editor {
     border: 1px solid white;
     padding: 10px;
-    min-width: 50vw;
-    min-height: 40vh;
+    min-width: 10vw;
+    min-height: 20vh;
     color:rgb(0, 255, 94);
     background-color: rgb(18, 0, 34);
 }
+
+.fileStateTabs {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+}
+
 
 .tab {
     display: inline-block;
@@ -276,10 +276,11 @@ button:active{
     display: flex;
     flex-direction: column;
     border: none;
-    height: 770px;
-    max-width: 400px;
-    min-width: 200px;
+    height: 70vh;
+    max-width: 20vw;
+    min-width: 450px;
     justify-content: space-between;
+    margin: 20px;
 }
 
 .chatHeader {
@@ -287,14 +288,34 @@ button:active{
     background: #001a06;
     color: white;
     padding: 10px 10px 10px 10px;
-    width: 100%;
+    display: block;
+    border: solid 1px #299245;
+    box-shadow: 0px 0px 16px #00ff3779;
+}
+
+.explorer{
+    padding: 0px;
+    min-width: 15vw;
+    align-self: center;
+    min-height: 60vh;
+    max-height: 60vh;
+    overflow: auto;
+    border: 5px solid rgb(12, 0, 39);
+}
+
+.explorerHeader {
+    text-align: center;
+    background: #001a06;
+    color: white;
+    padding: 10px 10px 10px 10px;
     display: block;
     border: solid 1px #299245;
     box-shadow: 0px 0px 16px #00ff3779;
 }
 
 .chatHistory {
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
     padding: 10px;
     border: solid 1px #7fffa1;
     box-shadow: 0px 0px 16px #00ff3779;
@@ -303,6 +324,7 @@ button:active{
     background:linear-gradient(#001a06, black);
     color: aquamarine;
     font-weight: 600;
+    font-size: 18px;
 }
 
 .inputWrapper {
@@ -312,16 +334,27 @@ button:active{
     justify-content: center;
     border: solid 1.5px #7fffa1;
     box-shadow: 0px 0px 16px #00ff3779;
+    width: 100%;
 }
 
 .userQuery {
-    box-sizing: border-box;
-    background-color: aquamarine;
-    width: 95%;
-    margin: 5%;
-    padding: 10px;
+    width: 90%;
+    margin: 1%;
     overflow-wrap: break-word;
-    color: black;
+    padding: 10px;
+    font-size: 18px;
+    color: white !important;
+    background: rgba(0, 255, 94, 0.176);
+    backdrop-filter: blur(2px);
+    border: solid 1px #7fffa1;
+    box-shadow: 0px 0px 16px #00ff3779;
+    cursor: url(../pointer.png), pointer;
+    font-weight: 400;
+    transition: 0.3s;
+    align-content: center;
+    text-shadow: .1vh .1vh 0 rgb(6, 68, 0), .1vh -.1vh 0 rgb(6, 68, 0), -.1vh -.1vh 0 rgb(6, 68, 0), -.1vh .1vh 0 rgb(6, 68, 0);
+    font-weight: 600;
+    height: auto;
 }
 
 a{
@@ -368,4 +401,77 @@ a::selection{
     height: 700px;
     border: solid 1px #7fffa1;
     box-shadow: 0px 0px 16px #00ff3779;
+}
+
+
+.saveButton{
+    font-size: 18px;
+    color: white;
+    background: rgba(0, 0, 0, 0.176);
+    backdrop-filter: blur(2px);
+    border: solid 1px #7fffa1;
+    box-shadow: 0px 0px 16px #00ff3779;
+    padding: 5px;
+    cursor: url(../pointer.png), pointer;
+    transition: 0.3s;
+    align-content: center;
+    text-shadow: .1vh .1vh 0 rgb(6, 68, 0), .1vh -.1vh 0 rgb(6, 68, 0), -.1vh -.1vh 0 rgb(6, 68, 0), -.1vh .1vh 0 rgb(6, 68, 0);
+    font-weight: 600;
+}
+
+.deleteButton{
+    font-size: 18px;
+    color: white;
+    background: rgba(0, 0, 0, 0.176);
+    backdrop-filter: blur(2px);
+    border: solid 1px #ff7f7f;
+    box-shadow: 0px 0px 16px #ff000079;
+    padding: 5px;
+    cursor: url(../pointer.png), pointer;
+    transition: 0.3s;
+    align-content: center;
+    text-shadow: .1vh .1vh 0 rgb(68, 0, 0), .1vh -.1vh 0 rgb(6, 68, 0), -.1vh -.1vh 0 rgb(6, 68, 0), -.1vh .1vh 0 rgb(6, 68, 0);
+    font-weight: 600;
+}
+
+
+
+.deleteButton:hover{
+    color: #ff0000;
+    border: solid 1px #ff0000;
+    box-shadow: 0px 0px 16px #ff0000;
+}
+
+.newLine {
+    background: linear-gradient(rgb(8, 57, 4), rgb(4, 50, 2));
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    border: solid 1.5px #7fffa1;
+    box-shadow: 0px 0px 16px #00ff3779;
+}
+
+.aiMsg {
+    color: rgb(199, 135, 255);
+}
+
+.userMsg {
+    box-sizing: border-box;
+    background-color: rgb(0, 212, 142);
+    width: 95%;
+    margin: 5%;
+    padding: 10px;
+    overflow-wrap: break-word;
+    color: black;
+}
+
+.codeBlock {
+    margin: 20px;
+    white-space: pre-wrap;
+    padding: 5px;
+    text-indent: 0px;
+    width: 80%;
+    /* color: rgb(253, 67, 244); */
+    color: rgb(232, 205, 255);
+    border: 2px solid rgb(232, 205, 255);
 }

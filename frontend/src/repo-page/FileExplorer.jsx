@@ -5,7 +5,7 @@ const backendUrl = 'http://localhost:4000';
 const testPath = "Test"
 
 
-const FileExplorer = ({ onFileSelect }) => {
+const FileExplorer = ({ onFileSelect, refresh }) => {
   const [fileStructure, setFileStructure] = useState([]);
   const [showGoBox, setShowGoBox] = useState(true);
 
@@ -40,6 +40,11 @@ const FileExplorer = ({ onFileSelect }) => {
     }
   };
 
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      cloneRepo();
+    }
+  };
   
   const fetchFileStructure = async (localPath) => {
     try {
@@ -60,6 +65,12 @@ const FileExplorer = ({ onFileSelect }) => {
     }
   };
 
+  const refreshFileStructure = async () => {
+    const structure = await fetchFileStructure(testPath); // Assuming testPath is your root directory
+    console.log(structure)
+    setFileStructure(structure);
+  };
+  
 
   const toggleFolder = async (folder, event) => {
     event.stopPropagation();
@@ -130,19 +141,137 @@ const FileExplorer = ({ onFileSelect }) => {
     );
   };
 
+  const stageAllFiles = async () => {
+    const localPath = testPath
+    try {
+      const response = await axios.post(`${backendUrl}/stage-all`, {
+        localPath: localPath,
+      });
+  
+      // Check the response for success or failure
+      if (response.status === 200) {
+        const message = response.data;
+        console.log(message);
+      } else {
+        console.error('Failed to stage all files:', response.data);
+      }
+    } catch (error) {
+      console.error('Error staging all files:', error);
+    }
+  };
+
+  
+  const [commitMsg, setCommitMsg] = useState(""); // State for commit message
+  const [showCommitInput, setShowCommitInput] = useState(false); // State to toggle commit message input
+
+  // Function to handle commit message input change
+  const handleCommitMessageChange = (e) => {
+    setCommitMsg(e.target.value);
+  };
+
+  // Function to initiate the commit process
+  const initiateCommit = () => {
+    setShowCommitInput(true);
+  };
+  
+  // Function to cancel the commit process
+  const cancelCommit = () => {
+    setShowCommitInput(false);
+    setCommitMsg(""); // Reset commit message
+  };
+
+  // Function to actually commit changes
+  const commitChanges = async () => {
+    if (!commitMsg) {
+      alert("Please enter a commit message.");
+      return;
+    }
+
+    try {
+      let localPath = testPath;
+      const response = await axios.post(`${backendUrl}/commit`, {
+        localPath: localPath,
+        commitMessage: commitMsg,
+      });
+
+      // Check the response for success or failure
+      if (response.status === 200) {
+        const message = response.data;
+        console.log(message);
+      } else {
+        console.error('Failed to commit changes:', response.data);
+      }
+    } catch (error) {
+      console.error('Error committing changes:', error);
+    } finally {
+      setShowCommitInput(false);
+      setCommitMsg(""); // Reset commit message
+    }
+  };
+
+  const publishRepository = async () => {
+    let localPath = testPath
+    let remoteName = "origin"
+    let branchName = "main"
+    let githubToken = "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"
+    try {
+      const response = await axios.post(`${backendUrl}/publish-repo`, {
+        localPath: localPath,
+        remoteName: remoteName,
+        branchName: branchName,
+        githubToken: githubToken,
+      });
+  
+      // Check the response for success or failure
+      if (response.status === 200) {
+        const message = response.data;
+        console.log(message);
+      } else {
+        console.error('Failed to publish repository:', response.data);
+      }
+    } catch (error) {
+      console.error('Error publishing repository:', error);
+    }
+  };
+
+
+  useEffect(() => {
+    refresh(() => refreshFileStructure);
+  }, [refresh]);
 
     return (
-        <div className={styles.middle}>
-            <h2>File Explorer</h2>
-            <ul className={styles.left}>
-            {showGoBox && ( // Conditional rendering of go-box
-              <div className={styles.goBox} id="go-box">
-                <input className={styles.input} type="text" id="repoUrlInput" placeholder="Enter the repository URL" />
-                <button onMouseUp={cloneRepo}>Clone Repository</button>
+        <div className={styles.left}>
+            <h2 className={styles.explorerHeader}>File Explorer</h2>
+            <ul>
+              {showGoBox && ( // Conditional rendering of go-box
+                <div className={styles.goBox} id="go-box">
+                  <input className={styles.input} type="text" id="repoUrlInput" onKeyUp={handleKeyPress} placeholder="Enter the repository URL" />
+                  <button onMouseUp={cloneRepo}>Clone Repository</button>
+                </div>
+              )}
+              <div className={styles.explorer}>
+                <FileTree files={fileStructure} />
               </div>
-            )}
-            <FileTree files={fileStructure} />
             </ul>
+            <div className={styles.newLine}>
+              <button id="stageBtn" onMouseUp={stageAllFiles}>Stage All</button>
+              <button id="commitBtn" onMouseUp={initiateCommit}>Commit</button>
+              <button id="exitRepoBtn" onMouseUp={publishRepository}>Publish Repo</button>
+            </div>
+            
+            {showCommitInput && (
+                  <div className={styles.newLine}>
+                    <input
+                      type="text"
+                      className={styles.input}
+                      value={commitMsg}
+                      onChange={handleCommitMessageChange}
+                      placeholder="Enter commit message"
+                    />
+                    <button onMouseUp={commitChanges}>✓</button>
+                    <button onMouseUp={cancelCommit} className={styles.deleteButton}>✕</button>
+                  </div>
+                )}
         </div>
     );
 };
