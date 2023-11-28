@@ -1,11 +1,11 @@
-.errorTitle {
+.errorTitle{
     width: 100%;
     background: linear-gradient(rgb(139, 0, 0), #ff1111 10% 90%, rgb(142, 0, 0));
     float: left;
     animation: glitch 1s linear infinite;
 }
 
-.errorMessage {
+.errorMessage{
     font-size: 20px;
     font-weight: bold;
     text-align: center;
@@ -14,7 +14,7 @@
     border: none;
 }
 
-.messageBox {
+.messageBox{
     background: rgba(255, 255, 255, 0.80);
     width: calc(100%-20px);
     border: solid 1px #ff1111;
@@ -22,12 +22,12 @@
     color: black;
 }
 
-.msg {
+.msg{
     margin: 10px;
     font-weight: 600;
 }
 
-.errorBox {
+.errorBox{
     width: 450px;
     display: flex;
     flex-direction: column;
@@ -53,5 +53,5 @@
       transform: translate(0,0) skew(0deg);
       text-shadow:.5px .5px .5px rgb(255, 255, 255);
     }
-  }
+}
   

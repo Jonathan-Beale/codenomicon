@@ -54,16 +54,6 @@ const Header = ({ toggleMatrixRain }) => {
         setOpenaiKey('');
     }
 
-    // Logout button functionality
-    const navigate = useNavigate();
-    const [cookies, removeCookie] = useCookies([]);
-    const Logout = () => {
-        if (cookies.token){
-            removeCookie("token");
-            navigate("/login");
-        }
-    };
-
     return (
         <div className={styles.header}>
             <div className={styles.text}>

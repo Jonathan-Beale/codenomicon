@@ -40,10 +40,6 @@ app.use(express.json());
 app.post("/signup", async (req, res) => {
     try {
         const {email, password} = req.body;
-        // const existingUser = await User.findOne({email});
-        // if (existingUser){
-        //     return res.json({message: "User already exists."});
-        // }
         const user = await User.create({email, password});
         const token = createToken(user._id);
         res.cookie("token", token, {
@@ -110,6 +106,7 @@ mongoose
   .then(() => console.log("MongoDB is connected."))
   .catch((err) => console.error(err));
 
+// Redis setup
 const client = redis.createClient({
   password: 't23MLHAllrwCXnC9YjSoiewNjSdfOeJP',
   socket: {
@@ -555,8 +552,6 @@ app.post('/answer', requireAuth, async (req, res) => {
       OaiKey=user.oaiKey
     );
 
-    // console.log(sessionID);
-
     // Structure the current turn's data
     const turnData = JSON.stringify({
       query: decodeURIComponent(userQuery),
@@ -584,7 +579,6 @@ app.post('/answer', requireAuth, async (req, res) => {
 
 
 async function getAIResponse(conversation, systemPrompt, userQuery, fileContent, model, OaiKey) {
-  // console.log(userQuery);
   // Extract and parse the first two elements of the conversation
   console.log("\n\nCONVERSATION: \n", conversation)
   const firstElement = JSON.parse(conversation[0] || '{}');
@@ -618,11 +612,6 @@ async function getAIResponse(conversation, systemPrompt, userQuery, fileContent,
   });
 
   return completion.choices[0].message;
-
-  // return     {
-  //   "role": "assistant",
-  //   "content": "Of course! I'd be happy to assist you with that. To fix your function, you need to change the multiplication operation from `x*2` to `x**2`. This will calculate the square of the given number.\n\nHere's the updated code for your squared function:\n\n```python\ndef squared(x):\n    return x**2\n```\n\nNow, whenever you call this function with a number as an argument, it will return the square of that number. Let me know if there's anything else I can help you with!"
-  // }
 }
 
 
@@ -666,7 +655,6 @@ app.post('/load-history', requireAuth, async (req, res) => {
   try {
     // Read the JSON file at the local path
     const fileContent = await fs.readFile(`./USER_${userId}/codenomicon-chat-hist.json`, 'utf-8');
-    // console.log(fileContent)
 
     // Parse the JSON content into an array
     const history = JSON.parse(fileContent);
