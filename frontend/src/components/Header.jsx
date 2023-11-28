@@ -71,13 +71,10 @@ const Header = ({ toggleMatrixRain }) => {
             </div>
             <div className={styles.buttons}>
                 <div className={styles.button} type="button">
-                    <Link to="/home" style={{ textDecoration:'none'}}>HOME</Link>
+                    <Link to="/" style={{ textDecoration:'none'}}>HOME</Link>
                 </div>
                 <div className={styles.button} type="button">
                     <Link to="/about" style={{ textDecoration:'none'}}>ABOUT</Link>
-                </div>
-                <div className={styles.button} onClick={Logout} type="button">
-                    <Link to="/login" style={{ textDecoration:'none'}}>LOG IN/OUT</Link>
                 </div>
                 <Popup trigger={<div className={styles.button} type="button" id="settingsBtn">
                     <Link to="" style={{ textDecoration:'none'}} onClick={(event) => event.preventDefault()}>SETTINGS</Link></div>}>
