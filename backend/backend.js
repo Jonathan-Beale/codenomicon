@@ -469,12 +469,11 @@ app.post('/file-contents', requireAuth, async (req, res) => {
 
   let filePath = fileName;
 
-  // if(!fileName === "welcome.md") {
-    let userDir = `USER_${userId}`
-    // if(!fileName.includes(userDir)) {
-      filePath = path.join(`${userDir}/`, fileName);
-    // }
-  // }
+  // Check if the fileName is not 'welcome.md' and doesn't already include the userDir
+  if (fileName !== 'welcome.md' && !fileName.includes(`USER_${userId}`)) {
+    // If not, add it to the filePath
+    filePath = `USER_${userId}/${fileName}`;
+  }
 
   console.log(filePath)
   try {
