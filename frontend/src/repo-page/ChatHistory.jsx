@@ -6,7 +6,6 @@ import React, { useState, useRef, useEffect } from 'react';
 const backendUrl = "http://localhost:4000"
 
 
-
 function ChatHistory({ openFile }) {
   const [chatHistory, setChatHistory] = useState([]);
   const chatHistoryRef = useRef(null);

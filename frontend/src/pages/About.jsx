@@ -45,14 +45,7 @@ const About = () => {
                     <img src={jonimage} alt="Logo" className={styles.contributorsImage}/>
                     <div className={styles.contributorsText}>
                         <h3>Jon Beale</h3>
-                        <h5>Project Manager, Back End</h5>
-                    </div>
-                </div>
-                <div className={styles.contributors}>
-                    <img src={blakeimage} alt="Logo" className={styles.contributorsImage}/>
-                    <div className={styles.contributorsText}>
-                        <h3>Blake Baez</h3>
-                        <h5>Dev Ops</h5>
+                        <h5>Project Manager, Main Back End</h5>
                     </div>
                 </div>
                 <div className={styles.contributors}>

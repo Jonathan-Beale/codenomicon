@@ -5,8 +5,6 @@ import ChatHistory from "./repo-page/ChatHistory";
 import styles from "./css/RepoPage.module.css";
 import axios from 'axios';
 
-// import * as monaco from 'monaco-editor';
-
 // Protecting repo page
 const RepoPage = () => {
 
@@ -33,24 +31,7 @@ const RepoPage = () => {
             // Otherwise, select the first file in the updated fileTabs array
             return initialTabs.length > 0 ? initialTabs[0] : null;
         });
-
-        // const verifyCookie = async () => {
-        //   if (!cookies.token){
-        //     navigate("/login");
-        //   }
-        //   try {
-        //   const response = await axios.post(
-        //       `http://localhost:4000/`,
-        //     {}
-        //   );
-        //   } catch (error){
-        //     console.log(error);
-        //   };
-        //   console.log(response.data);
-        // };
-        // verifyCookie();
       } , []);
-      // , [cookies, navigate]);
 
 
     const handleFileSelect = (file) => {
@@ -95,46 +76,3 @@ const RepoPage = () => {
 };
 
 export default RepoPage;
-
-// function RepoPage() {
-//   const [files, setFiles] = useState([{ name: 'Welcome', content: 'Clone a repository to view its files.' }]);
-
-//   const handleRepoCloned = (readmeContent) => {
-//     setFiles([{ name: 'README.md', content: readmeContent }]);
-//   };
-
-//   const updateFileContent = (fileIndex, newContent) => {
-//     const updatedFiles = files.map((file, index) => {
-//       if (index === fileIndex) {
-//         return { ...file, content: newContent };
-//       }
-//       return file;
-//     });
-//     setFiles(updatedFiles);
-//   };
-  
-//   const [repoData, setRepoData] = useState([]);
-//   const [selectedFile, setSelectedFile] = useState(null);
-
-//   useEffect(() => {
-//       // Fetch repository data here and update state
-//       // For demonstration, using static data
-//       setRepoData(["file1.txt", "file2.js", "directory1/file3.md"]);
-//   }, []);
-
-//   const handleFileSelect = (file) => {
-//       setSelectedFile(file);
-//   };
-
-//   return (
-//     <>
-//       <div className={styles.repoWrapper}>
-//           <FileExplorer files={repoData} onFileSelect={handleFileSelect} />
-//           {selectedFile && <FileEditor file={selectedFile} />}
-//           <ChatHistory/>
-//       </div>
-//     </>
-//   );
-// }
-
-// export default RepoPage

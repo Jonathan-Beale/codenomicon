@@ -4,7 +4,6 @@ const MatrixBackground = ({ show }) => {
 
     let color_schemes = ["#09b800"];
     let canvasRef = useRef(null);
-        // existing code
       
         useEffect(() => {
           let canvas = canvasRef.current;
