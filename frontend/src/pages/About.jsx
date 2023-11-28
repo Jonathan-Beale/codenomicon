@@ -36,7 +36,8 @@ const About = () => {
                     <p>- JavaScript (Client and server-side)</p>
                     <p>- Node.js</p>
                     <p>- Express.js</p>
-                    <p>- Monaco Editor</p>
+                    <p>- Simple Git</p>
+                    <p>- OpenAI API</p>
                     <p>- React/HTML/CSS</p></div>
                 <div className={styles.credit}>Created By:</div>
             </div>
@@ -48,13 +49,13 @@ const About = () => {
                         <h5>Project Manager, Back End</h5>
                     </div>
                 </div>
-                <div className={styles.contributors}>
+                {/* <div className={styles.contributors}>
                     <img src={blakeimage} alt="Logo" className={styles.contributorsImage}/>
                     <div className={styles.contributorsText}>
                         <h3>Blake Baez</h3>
                         <h5>Dev Ops</h5>
                     </div>
-                </div>
+                </div> */}
                 <div className={styles.contributors}>
                     <img src={sydneyimage} alt="Logo" className={styles.contributorsImage}/>
                     <div className={styles.contributorsText}>

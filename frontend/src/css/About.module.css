@@ -88,7 +88,7 @@ span{
 
 .contributorsContainer{
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     grid-gap: calc(30px + 1vw);
     margin: auto;
     width: 95%;
