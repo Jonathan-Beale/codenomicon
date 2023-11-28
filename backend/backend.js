@@ -152,24 +152,25 @@ app.post('/clone', requireAuth, async (req, res) => {
   }
 
   const folderName = `USER_${userId}`;
-  let folderPath = path.join(__dirname, folderName);
-
+  const folderPath = path.join(__dirname, folderName);
 
   try {
-    // Check if the folder exists before creating it
-    await fs.access(folderPath);
+    // Check if the folder exists and delete it if it does
+    await fs.rmdir(folderPath, { recursive: true });
   } catch (error) {
-    // If the folder does not exist, create it
-    await fs.mkdir(folderPath, { recursive: true });
+    // If the folder doesn't exist or is successfully deleted, no action is needed
   }
 
   try {
-    // Create the directory if it does not exist
-    git = simpleGit(folderPath)
-    
+    // Create the directory
+    await fs.mkdir(folderPath, { recursive: true });
+
+    // Clone the repository
+    git = simpleGit(folderPath);
     await git.clone(repoUrl, folderPath);
-    const readmePath = path.join(folderPath, 'README.md');
     
+    const readmePath = path.join(folderPath, 'README.md');
+
     // Check if the README exists before attempting to read it
     try {
       await fs.access(readmePath);
@@ -186,7 +187,6 @@ app.post('/clone', requireAuth, async (req, res) => {
     console.error('Error:', error);
     return res.status(500).send('Failed to clone the repository');
   }
-
 });
 
 // GIT STAGE ALL
