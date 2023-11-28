@@ -166,8 +166,9 @@ button:active{
     border: solid 1px #7fffe5;
     box-shadow: 0px 0px 16px #00ffcc7c;
     color: white;
-    padding: 20px 50px 40px 50px;
+    padding: 50px;
     margin: auto;
+    height: 40%;
     margin-top: 15%;
 }
 
