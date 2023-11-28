@@ -7,7 +7,7 @@ const backendUrl = "http://localhost:4000"
 
 
 
-function ChatHistory() {
+function ChatHistory({ openFile }) {
   const [chatHistory, setChatHistory] = useState([]);
   const chatHistoryRef = useRef(null);
 
@@ -17,12 +17,20 @@ function ChatHistory() {
     }
   };
 
-  function getEditorContent() {
-    return "def square(x):\n  return x**2"
-  }
-  function getSessionID() {
-    return "test"
-  }
+
+  const getEditorContent = async () => {
+            
+    try {
+        const response = await axios.post(`${backendUrl}/file-contents`, {  fileName: openFile }, 
+        { withCredentials: true });
+        return response.data;
+    } catch (error) {
+        // Handle errors here
+        console.error('Error fetching file content:', error);
+        // Set some default error content or handle the error as needed
+        setContent('Error loading file content');
+    }
+};
 
   const formatMessage = (message) => {
     // Regular expression to find code blocks
@@ -46,23 +54,17 @@ function ChatHistory() {
   };
 
   const getAIAnswer = async () => {
-    const sessionID = getSessionID()
-    const editorContent = getEditorContent()
+    const editorContent = await getEditorContent()
     const userQuery = document.getElementById("userQuery").textContent
     // Clear input and update chat history
     document.getElementById("userQuery").textContent = '';
     updateChatHistory(userQuery, 'user');
     try {
-      const response = await axios.get(`${backendUrl}/answer`, {
-        params: {
-          sessionID: sessionID,
+      const response = await axios.post(`${backendUrl}/answer`, {
           userQuery: userQuery,
           editorContent: editorContent,
-          model: "gpt-3.5-turbo",
-          OaiKey: "KEY HERE PLEASE REPLACE",
-          systemPrompt: "Say something silly to the user.",
-        },
-      });
+      }, { withCredentials: true }
+      );
   
       // Check the response for success or failure
       if (response.status === 200) {
@@ -112,8 +114,10 @@ function ChatHistory() {
 
   const loadHistory = async () => {
     try {
-      const response = await axios.post(`${backendUrl}/file-contents`, {  filePath: 'Test/codenomicon-chat-hist.json' });
-      await axios.post(`${backendUrl}/load-history`, { session: "test", filePath: 'Test/codenomicon-chat-hist.json' })
+      const response = await axios.post(`${backendUrl}/file-contents`, {  fileName: 'codenomicon-chat-hist.json' }, 
+      { withCredentials: true });
+      await axios.post(`${backendUrl}/load-history`, { fileName: 'codenomicon-chat-hist.json' }, 
+      { withCredentials: true })
 
       // Check the response for success or failure
       if (response.status === 200) {

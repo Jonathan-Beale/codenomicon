@@ -3,17 +3,43 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 const backendUrl = 'http://localhost:4000';
 
+// Function to get file type based on extension
+const getFileType = (fileName) => {
+  const extension = fileName.split('.').pop().toLowerCase();
+  const fileTypeMap = {
+    json: 'JSON',
+    txt: 'Text',
+    md: 'Markdown',
+    py: 'Python'
+    // Add more extensions and their corresponding types as needed
+  };
+  return fileTypeMap[extension] || 'Unknown';
+};
+
 const FileEditor = ({ openFile, closeFile, openTabs, onFileSelect, refreshFileStructure }) => {
     const [content, setContent] = useState('');
+    const [fileType, setFileType] = useState('Unknown'); // Initialize with 'Unknown'
 
     useEffect(() => {
         // Function to fetch or generate file content
         const loadFileContent = async (file) => {
-            
             try {
                 const response = await axios.post(`${backendUrl}/file-contents`, {  fileName: file }, 
                 { withCredentials: true });
-                setContent(response.data);
+            
+                let loadedContent = response.data;
+    
+                // Check if the loaded content is not a string (e.g., an object)
+                if (typeof loadedContent !== 'string') {
+                    // Convert non-string content to a JSON string
+                    loadedContent = JSON.stringify(loadedContent, null, 2); // You can adjust the second argument for pretty formatting
+                }
+    
+                setContent(loadedContent);
+
+                // Set the file type based on the extension
+                const fileType = getFileType(file);
+                setFileType(fileType);
             } catch (error) {
                 // Handle errors here
                 console.error('Error fetching file content:', error);
@@ -83,14 +109,15 @@ const FileEditor = ({ openFile, closeFile, openTabs, onFileSelect, refreshFileSt
                 {openTabs.map(file => (
                     <div className={styles.tab}>
                         <li key={file} onClick={() => onFileSelect(file)} className={styles.tabText}>
-                        {file}
-                    </li>
-                    <button 
-                        className={styles.closeTab} 
-                        onClick={(event) => handleCloseTab(file, event)}
-                    >
-                        X
-                    </button>
+                            {file.split('\\').pop()} {/* Display only the text after the last '/' */}
+                            <span className={styles.fileType}></span> {/* Display the file type */}
+                        </li>
+                        <button 
+                            className={styles.closeTab} 
+                            onClick={(event) => handleCloseTab(file, event)}
+                        >
+                            X
+                        </button>
                     </div>
                 ))}
             </ul>
@@ -108,6 +135,7 @@ const FileEditor = ({ openFile, closeFile, openTabs, onFileSelect, refreshFileSt
 };
 
 export default FileEditor;
+
 
 // const FileEditor = ({ files, updateFileContent }) => {
 //   const [activeFileIndex, setActiveFileIndex] = useState(0);

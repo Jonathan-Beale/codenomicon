@@ -469,10 +469,12 @@ app.post('/file-contents', requireAuth, async (req, res) => {
 
   let filePath = fileName;
 
-  let userDir = `USER_${userId}`
-  if(!fileName.includes(userDir)) {
-    filePath = path.join(`${userDir}/`, fileName);
-  }
+  // if(!fileName === "welcome.md") {
+    let userDir = `USER_${userId}`
+    // if(!fileName.includes(userDir)) {
+      filePath = path.join(`${userDir}/`, fileName);
+    // }
+  // }
 
   console.log(filePath)
   try {
@@ -534,23 +536,24 @@ app.post('/list-files', requireAuth, async (req, res) => {
 
 
 // AI ANSWER -> {response: response}
-app.get('/answer', async (req, res) => {
-  const { sessionID, userQuery, editorContent, model, OaiKey, systemPrompt } = req.query;
+app.post('/answer', requireAuth, async (req, res) => {
+  const userId = req.user.id;
+  const user = req.user;
+  const { userQuery, editorContent } = req.body;
   // 
-  const conversationKey = `conversation:${sessionID}`;
+  const conversationKey = `conversation:${userId}`;
 
   try {
     // Retrieve the conversation from Redis
     const conversation = await client.lRange(conversationKey, 0, -1);
-
     // Include the system prompt and previous queries when calling getAIResponse
     const response = await getAIResponse(
       conversation,
-      systemPrompt,
+      systemPrompt="",
       userQuery,
       editorContent,
-      model,
-      OaiKey
+      model=user.modelType,
+      OaiKey=user.oaiKey
     );
 
     // console.log(sessionID);
@@ -583,7 +586,6 @@ app.get('/answer', async (req, res) => {
 
 async function getAIResponse(conversation, systemPrompt, userQuery, fileContent, model, OaiKey) {
   // console.log(userQuery);
-
   // Extract and parse the first two elements of the conversation
   console.log("\n\nCONVERSATION: \n", conversation)
   const firstElement = JSON.parse(conversation[0] || '{}');
@@ -684,6 +686,70 @@ app.post('/load-history', requireAuth, async (req, res) => {
     res.status(500).send('Error loading history from file');
   }
 });
+
+
+//      SETTINGS ENDPOINTS      //
+app.post('/set-github-token', requireAuth, async (req, res) => {
+  try {
+    // Get the user object from req.user, which is set by the requireAuth middleware
+    const user = req.user;
+
+    // Extract the GitHub token from the request body
+    const { githubToken } = req.body;
+
+    // Update the user's GitHub token in the database
+    user.githubToken = githubToken;
+    await user.save();
+
+    // Respond with a success message or the updated user object
+    res.status(200).json({ message: 'GitHub token updated successfully' });
+  } catch (error) {
+    console.error('Error setting GitHub token:', error);
+    res.status(500).json({ message: 'Failed to set GitHub token' });
+  }
+});
+
+app.post('/set-openai-token', requireAuth, async (req, res) => {
+  try {
+    // Get the user object from req.user, which is set by the requireAuth middleware
+    const user = req.user;
+
+    // Extract the GitHub token from the request body
+    const { oaiKey } = req.body;
+
+    // Update the user's GitHub token in the database
+    user.oaiKey = oaiKey;
+    await user.save();
+
+    // Respond with a success message or the updated user object
+    res.status(200).json({ message: 'GitHub token updated successfully' });
+  } catch (error) {
+    console.error('Error setting GitHub token:', error);
+    res.status(500).json({ message: 'Failed to set GitHub token' });
+  }
+});
+
+app.post('/set-model', requireAuth, async (req, res) => {
+  try {
+    // Get the user object from req.user, which is set by the requireAuth middleware
+    const user = req.user;
+
+    // Extract the GitHub token from the request body
+    const { modelType } = req.body;
+
+    // Update the user's GitHub token in the database
+    user.modelType = modelType;
+    await user.save();
+
+    // Respond with a success message or the updated user object
+    res.status(200).json({ message: 'GitHub token updated successfully' });
+  } catch (error) {
+    console.error('Error setting GitHub token:', error);
+    res.status(500).json({ message: 'Failed to set GitHub token' });
+  }
+});
+
+
 
 
 

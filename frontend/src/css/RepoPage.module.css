@@ -53,10 +53,8 @@ body{
 }
 
 .left {
-    overflow: auto;
     align-items: center;
     justify-content: center;
-    max-width: 450px;
     min-width: 300px;
     min-height: 600px;
     border: solid 1px #7fffa1;

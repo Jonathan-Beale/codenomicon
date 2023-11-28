@@ -11,10 +11,25 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, "Password required."],
     },
+    modelType: {
+        type: String,
+        required: [false, "Model type required."],
+    },
+    oaiKey: {
+        type: String,
+        required: [false, "OAI key required."],
+    },
+    githubToken: {
+        type: String,
+        required: [false, "GitHub token required."],
+    },
 });
 
 userSchema.pre("save", async function () {
-    this.password = await bcrypt.hash(this.password, 12);
+    if (this.isModified("password")) {
+        this.password = await bcrypt.hash(this.password, 12);
+    }
+    
 });
 
 module.exports = mongoose.model("User", userSchema);

@@ -89,7 +89,7 @@ const RepoPage = () => {
         <div className={styles.repoWrapper}>
             <FileExplorer onFileSelect={handleFileSelect}  refresh={setRefreshExplorer}/>
             {selectedFile && <FileEditor openFile={selectedFile} closeFile={closeFile} openTabs={fileTabs} onFileSelect={handleFileSelect} refreshFileStructure={refreshExplorer} />}
-            <ChatHistory/>
+            <ChatHistory openFile={selectedFile}/>
         </div>
     );
 };

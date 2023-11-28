@@ -191,6 +191,11 @@ button:active{
     margin: 15px 0;
 }
 
+.inputWrapper {
+    display: flex;
+    flex-direction: row;
+}
+
 input{
     width: 100%;
     height: 100%;

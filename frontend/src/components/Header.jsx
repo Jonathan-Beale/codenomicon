@@ -1,25 +1,57 @@
-import React from "react";
+import React, { useState } from "react";
 import Popup from 'reactjs-popup';
 import styles from './Header.module.css';
 import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
+import axios from 'axios';
+const backendUrl = 'http://localhost:4000';
 
 const Header = ({ toggleMatrixRain }) => {
+    let model
+
+    // State to track input values
+    const [openaiKey, setOpenaiKey] = useState('');
+    const [githubToken, setGithubToken] = useState('');
+
+    // Function to handle input changes and enable/disable checkmark buttons
+    const handleOpenaiKeyChange = (event) => {
+        setOpenaiKey(event.target.value);
+    };
+
+    const handleGithubTokenChange = (event) => {
+        setGithubToken(event.target.value);
+    };
+
     // Show selection in custom dropdown
-    function handleClick(value){
+    async function handleClick(value){
         if (value == 1){
-            document.getElementById("dropdownButton").innerHTML = "gpt-3.5-turbo";
+            model = "gpt-3.5-turbo"
         }
         else if (value == 2){
-            document.getElementById("dropdownButton").innerHTML = "gpt-3.5-turbo-16k";
+            model = "gpt-3.5-turbo-16k";
         }
         else if (value == 3){
-            document.getElementById("dropdownButton").innerHTML = "gpt-4";
+            model = "gpt-4";
         }
         else if (value == 4){
-            document.getElementById("dropdownButton").innerHTML = "gpt-4-32k";
+            model = "gpt-4-32k";
         }
+        document.getElementById("dropdownButton").innerHTML = model;
+
+        await axios.post(`${backendUrl}/set-model`, { modelType: model }, { withCredentials: true })
+    }
+
+    async function updateGithubToken() {
+        await axios.post(`${backendUrl}/set-github-token`, { githubToken: githubToken }, { withCredentials: true })
+        
+        setGithubToken('');
+    }
+
+    async function updateOAIToken() {
+        await axios.post(`${backendUrl}/set-openai-token`, { oaiKey: openaiKey }, { withCredentials: true })
+        
+        setOpenaiKey('');
     }
 
     // Logout button functionality
@@ -56,8 +88,28 @@ const Header = ({ toggleMatrixRain }) => {
                                     <button className={styles.x} onClick={() => close()}>X</button>
                                     <br/>
                                     <h1>SETTINGS:</h1>
-                                    <input type="text" className={styles.input} placeholder="Enter your OpenAI key"/>
-                                    <input type="text" className={styles.input} placeholder="Enter your GitHub token"/>
+                                    <div className={styles.inputWrapper}>
+                                        <input
+                                            type="text"
+                                            id="OAIToken"
+                                            className={styles.input}
+                                            placeholder="Enter your OpenAI key"
+                                            value={openaiKey}
+                                            onChange={handleOpenaiKeyChange}
+                                        />
+                                        {openaiKey && <button onMouseUp={updateOAIToken}>✓</button>}
+                                    </div>
+                                    <div className={styles.inputWrapper}>
+                                        <input
+                                            type="text"
+                                            id="GithubToken"
+                                            className={styles.input}
+                                            placeholder="Enter your GitHub token"
+                                            value={githubToken}
+                                            onChange={handleGithubTokenChange}
+                                        />
+                                        {githubToken && <button onMouseUp={updateGithubToken}>✓</button>}
+                                    </div>
                                     <h3>Select a model:</h3>
                                     <div className={styles.dropdown}>
                                         <button id="dropdownButton" className={styles.dropdownButton}></button>
