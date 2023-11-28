@@ -42,7 +42,10 @@
 
 .left {
     align-items: bottom;
-    justify-content: space-between;
+    justify-content: center;
+    min-width: 300px;
+    min-height: 600px;
+    width: 25%;
     border: solid 1px #7fffa1;
     box-shadow: 0px 0px 16px #00ff3779;
     margin-left: 1vw;
@@ -52,13 +55,20 @@
     align-items: center;
     justify-content: center;
     justify-items: center;
+    max-width: 750px;
+    width: 55%;
+    min-width: 400px;
+    height: 700px;
+    overflow: auto;
+    margin: auto;
 }
 
 .right {
     align-items: center;
     justify-content: center;
     max-width: 450px;
-    min-width: 300px;
+    min-width: 250px;
+    width: 20%;
     margin-right: 1vw;
 }
 
@@ -210,14 +220,15 @@ button:active{
     width: 99%;
     max-width: 99%;
     height: 99%;
-    overflow: wrap;
+    overflow: auto;
 }
 
 .editor {
     border: solid 1px #7fffa1;
     box-shadow: 0px 0px 16px #00ff3779;
     padding: 10px;
-    min-width: 20vw;
+    max-width: 700px;
+    width: 100%;
     min-height: 20vh;
     color:rgb(0, 255, 94);
     background-color: rgb(18, 0, 34);
@@ -271,7 +282,7 @@ button:active{
     border: none;
     height: 70vh;
     max-width: 450px;
-    min-width: 300px;
+    min-width: 250px;
     justify-content: space-between;
     margin: 2px;
 }
