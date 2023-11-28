@@ -48,7 +48,7 @@ const About = () => {
                         <h3>Jon Beale</h3>
                         <h5>Project Manager, Main Back End</h5>
                     </div>
-                </div> */}
+                </div>
                 <div className={styles.contributors}>
                     <img src={sydneyimage} alt="Logo" className={styles.contributorsImage}/>
                     <div className={styles.contributorsText}>
