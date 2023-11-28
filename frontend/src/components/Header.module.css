@@ -160,7 +160,8 @@ button:active{
 
 .wrapper{
     animation: fadeIn 1s linear;
-    width: 400px;
+    min-width: 400px;
+    width: 50vw;
     background: rgba(0, 0, 0);
     border: solid 1px #7fffe5;
     box-shadow: 0px 0px 16px #00ffcc7c;
@@ -207,6 +208,12 @@ input{
     font-weight: bold;
 }
 
+.settingsInput {
+    width: 70%;
+    height: 50px;
+    background: white;
+}
+
 ::placeholder {
     color: black;
     font-weight: bold;
@@ -229,6 +236,29 @@ input{
     z-index: 0;
 }
 
+.settingsLabel {
+    padding: 5px;
+    
+}
+
+.checkBtn {
+    font-size: 18px;
+    height: 50px;
+    min-width: 50px;
+    color: white;
+    background: rgba(0, 0, 0, 0.176);
+    backdrop-filter: blur(2px);
+    border: solid 1px #7fffa1;
+    box-shadow: 0px 0px 16px #00ff3779;
+    padding: 5px;
+    cursor: url(../pointer.png), pointer;
+    font-weight: 400;
+    transition: 0.3s;
+    align-content: center;
+    text-shadow: .1vh .1vh 0 rgb(6, 68, 0), .1vh -.1vh 0 rgb(6, 68, 0), -.1vh -.1vh 0 rgb(6, 68, 0), -.1vh .1vh 0 rgb(6, 68, 0);
+    font-weight: 600;
+}
+
 .submitButton:hover{
     transition: 0.3s;
     color: var(--highlight-color-1);
@@ -245,14 +275,14 @@ input{
 
 .x{
     float: right;
-    background-color: rgb(47, 255, 123);
+    color: rgb(47, 255, 123);
     padding: 2px;
     margin: 2px;
     border-radius: 10px;
     cursor: url(../pointer.png), pointer;
-    color: black;
-    font-weight: 600;
+    font-size: 40px;
     text-shadow: none;
+    width: 50px;
 }
 
 .x:hover {
@@ -260,7 +290,7 @@ input{
 }
 
 .dropdown{
-    width: 100%;
+    width: 70%;
     display: inline-block;
     cursor: url(../pointer.png), pointer;
 }
@@ -281,7 +311,7 @@ input{
     display: none;
     position: absolute;
     background: white;
-    width: 310px;
+    width: 100%;
     position: relative;
     z-index: 1;
 }
