@@ -4,7 +4,7 @@
     left:0%;
     box-sizing: border-box;
     width: 100%;
-    min-width: 880px;
+    min-width: 840px;
     display: flex;
     padding: .75em;
     background-color: rgba(0, 0, 0, 0.386);
@@ -23,7 +23,7 @@
     left:0%;
     box-sizing: border-box;
     width: 100%;
-    min-width: 880px;
+    min-width: 840px;
     display: flex;
     padding: .75em;
     background-color: rgba(0, 0, 0);
