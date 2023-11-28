@@ -76,28 +76,31 @@ const Header = ({ toggleMatrixRain }) => {
                                     <br/>
                                     <h1>SETTINGS:</h1>
                                     <div className={styles.inputWrapper}>
+                                        <h2 className={styles.settingsLabel}>OpenAI Key:</h2>
                                         <input
                                             type="text"
                                             id="OAIToken"
-                                            className={styles.input}
+                                            className={styles.settingsInput}
                                             placeholder="Enter your OpenAI key"
                                             value={openaiKey}
                                             onChange={handleOpenaiKeyChange}
                                         />
-                                        {openaiKey && <button onMouseUp={updateOAIToken}>✓</button>}
+                                        {openaiKey && <button onMouseUp={updateOAIToken} className={styles.checkBtn}>✓</button>}
                                     </div>
                                     <div className={styles.inputWrapper}>
+                                        <h2 className={styles.settingsLabel}>Github Key:</h2>
                                         <input
                                             type="text"
                                             id="GithubToken"
-                                            className={styles.input}
+                                            className={styles.settingsInput}
                                             placeholder="Enter your GitHub token"
                                             value={githubToken}
                                             onChange={handleGithubTokenChange}
                                         />
-                                        {githubToken && <button onMouseUp={updateGithubToken}>✓</button>}
+                                        {githubToken && <button onMouseUp={updateGithubToken} className={styles.checkBtn}>✓</button>}
                                     </div>
-                                    <h3>Select a model:</h3>
+                                    <div className={styles.inputWrapper}>
+                                    <h2 className={styles.settingsLabel}>Chat Model:</h2>
                                     <div className={styles.dropdown}>
                                         <button id="dropdownButton" className={styles.dropdownButton}></button>
                                         <div className={styles.dropdownOptions}>
@@ -107,9 +110,10 @@ const Header = ({ toggleMatrixRain }) => {
                                             <button className={styles.option} id="gpt-4-32k" onClick={() => handleClick(4)}>gpt-4-32k</button>
                                         </div>
                                     </div>
-                                    <button type="submit" className={styles.submitButton} onClick={() => close()}>
+                                    </div>
+                                    {/* <button type="submit" className={styles.submitButton} onMouseUp={() => {updateGithubToken; updateOAIToken; close()}}>
                                     SUBMIT
-                                    </button>
+                                    </button> */}
                                 </div>
                             </div>
                             )

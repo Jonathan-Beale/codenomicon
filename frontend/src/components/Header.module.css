@@ -43,7 +43,7 @@
     100% {color: #09b800}
 }
 
-.buttons{
+.buttons {
     position: absolute;
     right: 3%;
     top: 21px;
@@ -101,16 +101,16 @@ button:active{
     margin-left: 30px;
 }
 
-.switch p{
+.switch p {
     font-size: 20px;
     color: #7fffa1;
 }
 
-.switch input{
+.switch input {
     display: none;
-}
+  }
 
-.slider{
+  .slider {
     margin: 10px;
     position: absolute;
     border: 2px solid #4CAF50;
@@ -118,9 +118,9 @@ button:active{
     height: 10px;
     width: 100px;
     cursor: url(../pointer.png), pointer;
-}
+  }
 
-.slider::before{
+  .slider::before {
     position: absolute;
     content: "";
     left: 4px;
@@ -129,16 +129,16 @@ button:active{
     transition: .4s; /* Smooth transition effect */
     height: 10px;
     width: 26px;
-}
+  }
 
-input:checked + .slider{
+  input:checked + .slider {
     border: 2px solid red; /* Green background color when switch is on */
-}
+  }
   
-/* Move the slider button to the right when the switch is on */
-input:checked + .slider::before{
+  /* Move the slider button to the right when the switch is on */
+  input:checked + .slider::before {
     transform: translateX(61px);
-}
+  }
 
 .overlay{
     width: 100%;
@@ -151,7 +151,7 @@ input:checked + .slider::before{
     animation: fadeIn 1.5s linear;
 }
 
-@keyframes fadeIn{
+@keyframes fadeIn {
     0% {opacity: 0;
         transform: translate(0, 10px);}
     100% {opacity: 1;
@@ -160,13 +160,15 @@ input:checked + .slider::before{
 
 .wrapper{
     animation: fadeIn 1s linear;
-    width: 400px;
+    min-width: 400px;
+    width: 50vw;
     background: rgba(0, 0, 0);
     border: solid 1px #7fffe5;
     box-shadow: 0px 0px 16px #00ffcc7c;
     color: white;
-    padding: 20px 50px 40px 50px;
+    padding: 50px;
     margin: auto;
+    height: 40%;
     margin-top: 15%;
 }
 
@@ -191,7 +193,7 @@ input:checked + .slider::before{
     margin: 15px 0;
 }
 
-.inputWrapper{
+.inputWrapper {
     display: flex;
     flex-direction: row;
 }
@@ -207,7 +209,13 @@ input{
     font-weight: bold;
 }
 
-::placeholder{
+.settingsInput {
+    width: 70%;
+    height: 50px;
+    background: white;
+}
+
+::placeholder {
     color: black;
     font-weight: bold;
     opacity: 0.7;
@@ -229,6 +237,29 @@ input{
     z-index: 0;
 }
 
+.settingsLabel {
+    padding: 5px;
+    
+}
+
+.checkBtn {
+    font-size: 18px;
+    height: 50px;
+    min-width: 50px;
+    color: white;
+    background: rgba(0, 0, 0, 0.176);
+    backdrop-filter: blur(2px);
+    border: solid 1px #7fffa1;
+    box-shadow: 0px 0px 16px #00ff3779;
+    padding: 5px;
+    cursor: url(../pointer.png), pointer;
+    font-weight: 400;
+    transition: 0.3s;
+    align-content: center;
+    text-shadow: .1vh .1vh 0 rgb(6, 68, 0), .1vh -.1vh 0 rgb(6, 68, 0), -.1vh -.1vh 0 rgb(6, 68, 0), -.1vh .1vh 0 rgb(6, 68, 0);
+    font-weight: 600;
+}
+
 .submitButton:hover{
     transition: 0.3s;
     color: var(--highlight-color-1);
@@ -245,22 +276,22 @@ input{
 
 .x{
     float: right;
-    background-color: rgb(47, 255, 123);
+    color: rgb(47, 255, 123);
     padding: 2px;
     margin: 2px;
     border-radius: 10px;
     cursor: url(../pointer.png), pointer;
-    color: black;
-    font-weight: 600;
+    font-size: 40px;
     text-shadow: none;
+    width: 50px;
 }
 
-.x:hover{
+.x:hover {
     color: red;
 }
 
 .dropdown{
-    width: 100%;
+    width: 70%;
     display: inline-block;
     cursor: url(../pointer.png), pointer;
 }
@@ -281,7 +312,7 @@ input{
     display: none;
     position: absolute;
     background: white;
-    width: 310px;
+    width: 100%;
     position: relative;
     z-index: 1;
 }
